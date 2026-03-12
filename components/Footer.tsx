@@ -183,6 +183,9 @@ export function Footer() {
               </Link>
             </p>
           </div>
+          <p className="text-center text-white/30 text-xs mt-4">
+            Made with <span className="text-red-400">♥</span> by Abdul Rehman
+          </p>
         </div>
       </div>
     </footer>
