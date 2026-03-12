@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --falcon-sage: #7A9B76;
+  --falcon-sage-light: #9BB597;
+  --falcon-sage-dark: #5A7B56;
+  --falcon-cream: #F8F6F0;
+  --falcon-warm: #F5EDE4;
+  --falcon-sand: #E8E0D5;
+  --falcon-earth: #8B7355;
+  --falcon-sky: #A8D4E6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased text-falcon-earth bg-falcon-cream;
+}
+
+/* Touch-friendly tap targets — min 44px for accessibility */
+@layer utilities {
+  .tap-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+@layer base {
+  :focus-visible {
+    @apply outline-none ring-2 ring-falcon-sage ring-offset-2;
+  }
+
+  * {
+    @apply box-border;
+  }
+}
+
+/* Smooth section transitions */
+@layer utilities {
+  .section-fade {
+    animation: sectionFadeIn 0.7s ease-out both;
+  }
+}
+
+/* WhatsApp button pulse on first render */
+@layer utilities {
+  .pulse-once {
+    animation: pulseOnce 1.2s ease-out 1;
+  }
+}
+
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseOnce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--falcon-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--falcon-sage);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--falcon-sage-dark);
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
