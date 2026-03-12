@@ -5,7 +5,7 @@ const programs = [
     title: 'Nursery',
     age: '2.5 – 3.5 years',
     description:
-      'Our Nursery program introduces young children to the Montessori environment in Rawalpindi. Focus is on practical life skills, sensorial exploration, social skills, and language development in a warm, nurturing setting.',
+      'Introduction to the Montessori environment. Focus on practical life skills, sensorial exploration, social skills, and language development in a warm, nurturing setting.',
     features: ['Practical life activities', 'Sensorial materials', 'Language introduction', 'Social-emotional development'],
     icon: '🌱',
     color: 'bg-falcon-sky/20 border-falcon-sky/40',
@@ -15,7 +15,7 @@ const programs = [
     title: 'Montessori Level',
     age: '3 – 6 years',
     description:
-      'The full Montessori curriculum with prepared environments and self-directed learning. Covers practical life, sensorial, language, mathematics, and cultural studies. The cornerstone of early childhood education in Rawalpindi.',
+      'The full Montessori curriculum with prepared environments and self-directed learning. Covers practical life, sensorial, language, mathematics, and cultural studies.',
     features: ['Full Montessori materials', 'Math & language work', 'Cultural studies', 'Child-led learning'],
     icon: '📚',
     color: 'bg-falcon-sage/10 border-falcon-sage/30',
@@ -25,7 +25,7 @@ const programs = [
     title: 'KG (Kindergarten)',
     age: '4 – 6 years',
     description:
-      'KG bridges Montessori to formal schooling. We reinforce Montessori foundations while introducing structured activities and early academics, preparing children confidently for primary school.',
+      'Bridges Montessori to formal schooling. Reinforces Montessori foundations while introducing structured activities and early academics that prepare children for primary school.',
     features: ['Reading & writing', 'Number concepts', 'Science exploration', 'School readiness'],
     icon: '🎓',
     color: 'bg-falcon-warm border-falcon-sand',
@@ -50,20 +50,19 @@ export function Programs() {
       aria-labelledby="programs-heading"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">
-            Montessori Programs
+            Our Programs
           </p>
           <h2
             id="programs-heading"
             className="font-display font-bold text-3xl sm:text-4xl text-falcon-sageDark mb-4"
           >
-            Our Early Childhood Programs
+            Montessori Programs for Every Stage
           </h2>
           <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            Age-appropriate Montessori and preschool programs in Rawalpindi, designed to nurture
-            every child&apos;s natural curiosity, independence, and joy of learning.
+            Age-appropriate programs designed to nurture every child&apos;s natural curiosity,
+            independence, and joy of learning.
           </p>
         </div>
 
@@ -74,12 +73,8 @@ export function Programs() {
               key={title}
               className={`rounded-2xl p-6 sm:p-8 border ${color} hover:shadow-md transition-all bg-white`}
             >
-              <div className="text-4xl mb-4" aria-hidden>
-                {icon}
-              </div>
-              <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-1">
-                {title}
-              </h3>
+              <div className="text-4xl mb-4" aria-hidden>{icon}</div>
+              <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-1">{title}</h3>
               <span className={`inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-3 ${badgeColor}`}>
                 {age}
               </span>
@@ -103,7 +98,7 @@ export function Programs() {
         {/* Activities strip */}
         <div className="bg-white rounded-2xl border border-falcon-sand/40 p-6 sm:p-8 shadow-sm">
           <h3 className="font-display font-bold text-xl text-falcon-sageDark text-center mb-6">
-            Daily Activities at Falcons Education System
+            Daily Activities
           </h3>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
             {activities.map(({ icon, label }) => (

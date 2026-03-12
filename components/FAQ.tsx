@@ -12,7 +12,7 @@ const faqs = [
   {
     question: 'Where is Falcons Education System located in Rawalpindi?',
     answer:
-      'We are located at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Pakistan 44000. We serve families in Sonari, Satellite Town, Bakra Mandi area, and neighboring neighborhoods.',
+      'We are located at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Pakistan 44000.',
   },
   {
     question: 'Are admissions currently open?',
@@ -40,7 +40,7 @@ const faqs = [
       'Research shows that 2.5 to 3 years is an ideal time to start Montessori education. At this age, children are in a sensitive period for language, order, and sensorial exploration. However, children benefit from Montessori at any age between 2.5 and 6 years.',
   },
   {
-    question: 'How is Falcons Education System different from regular preschools in Rawalpindi?',
+    question: 'How is Falcons Education System different from regular preschools?',
     answer:
       'We follow the authentic Montessori method with purpose-built classroom materials, child-led learning, and highly trained teachers — as opposed to rote memorization or teacher-led instruction. We focus on the whole child: cognitive, social, emotional, and physical development.',
   },
@@ -67,7 +67,7 @@ export function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-falcon-earth text-lg">
-            Quick answers to common questions from parents in Rawalpindi about our Montessori school.
+            Quick answers to common questions from parents about our Montessori school.
           </p>
         </div>
 

@@ -44,9 +44,7 @@ export function Footer() {
               <span>{SITE_CONFIG.name}</span>
             </Link>
             <p className="text-white/80 text-sm leading-relaxed mb-4">
-              The best Montessori preschool on <strong className="text-white">Kamalabad Road,
-              Rawalpindi</strong>. Nurturing young minds in Sonari, Bakra Mandi, Satellite Town,
-              and all of Rawalpindi since {SITE_CONFIG.founded}.
+              Nurturing young minds with Montessori excellence since {SITE_CONFIG.founded}.
             </p>
 
             {/* Social links */}
@@ -164,24 +162,12 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar — keyword-rich */}
         <div className="mt-10 pt-8 border-t border-white/20 space-y-3">
-          {/* Service area tags */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            {SITE_CONFIG.serviceAreas.map((area) => (
-              <span key={area} className="text-white/40 text-xs">
-                Montessori {area}
-              </span>
-            ))}
-          </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-white/60">
             <p>© {currentYear} {SITE_CONFIG.name}. All rights reserved.</p>
-            <p>
-              Best Montessori Preschool in Rawalpindi •{' '}
-              <Link href="#admissions" className="hover:text-white transition-colors underline underline-offset-2">
-                Admissions Open 2025
-              </Link>
-            </p>
+            <Link href="#admissions" className="hover:text-white transition-colors underline underline-offset-2">
+              Admissions Open 2025
+            </Link>
           </div>
           <p className="text-center text-white/30 text-xs mt-4">
             Made with <span className="text-red-400">♥</span> by Abdul Rehman

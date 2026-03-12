@@ -23,8 +23,8 @@ const quicksand = Quicksand({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: 'Falcons Education System | Best Montessori School Kamalabad Road Rawalpindi',
-    template: '%s | Falcons Education System Rawalpindi',
+    default: 'Falcons Education System | Montessori Preschool in Rawalpindi',
+    template: '%s | Falcons Education System',
   },
   description: SITE_CONFIG.description,
   keywords: SEO_KEYWORDS,
@@ -38,14 +38,14 @@ export const metadata: Metadata = {
     locale: 'en_PK',
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
-    title: 'Falcons Education System | Montessori Preschool Kamalabad Road Rawalpindi',
+    title: 'Falcons Education System | Montessori Preschool in Rawalpindi',
     description: SITE_CONFIG.description,
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Falcons Education System — Montessori Preschool on Kamalabad Road, Rawalpindi',
+        alt: 'Falcons Education System — Montessori Preschool in Rawalpindi',
       },
     ],
   },
@@ -72,9 +72,9 @@ export const metadata: Metadata = {
     'geo.placename': 'Rawalpindi, Punjab, Pakistan',
     'geo.position': `${SITE_CONFIG.coordinates.lat};${SITE_CONFIG.coordinates.lng}`,
     'ICBM': `${SITE_CONFIG.coordinates.lat}, ${SITE_CONFIG.coordinates.lng}`,
-    'DC.title': 'Falcons Education System — Montessori Preschool Rawalpindi',
-    'DC.subject': 'Montessori School, Preschool, Early Childhood Education, Rawalpindi',
-    'DC.coverage': 'Kamalabad Road, Sonari, Rawalpindi, Punjab, Pakistan',
+    'DC.title': 'Falcons Education System',
+    'DC.subject': 'Montessori School, Preschool, Early Childhood Education',
+    'DC.coverage': 'Rawalpindi, Punjab, Pakistan',
   },
 
   category: 'education',

@@ -10,14 +10,14 @@ const testimonials = [
     name: 'Ahmad R.',
     role: 'Father of a KG student',
     quote:
-      'We searched for a good Montessori school in Rawalpindi for months. Falcons Education System exceeded our expectations. The environment is clean, safe, and the staff genuinely care about each child.',
+      'Falcons Education System exceeded our expectations. The environment is clean, safe, and the staff genuinely care about each child. We are so glad we found this school.',
     rating: 5,
   },
   {
     name: 'Nadia M.',
     role: 'Mother of a Montessori Level student',
     quote:
-      'The school is conveniently located near our home in Kamalabad. Our son has made incredible progress in reading and math using the Montessori materials. Highly recommend to all parents in the area!',
+      'Our son has made incredible progress in reading and math using the Montessori materials. The teachers are wonderful and truly care. Highly recommend to all parents!',
     rating: 5,
   },
 ];
@@ -53,7 +53,7 @@ export function Testimonials() {
             What Parents Say About Us
           </h2>
           <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Families in Rawalpindi trust Falcons Education System with their children&apos;s most
+            Families trust Falcons Education System with their children&apos;s most
             important early years.
           </p>
         </div>
@@ -79,7 +79,7 @@ export function Testimonials() {
         {/* CTA inside testimonials */}
         <div className="mt-14 text-center">
           <p className="text-white/80 text-lg mb-6">
-            Join our growing family of happy students and parents in Rawalpindi.
+            Join our growing family of happy students and parents.
           </p>
           <a
             href="#admissions"

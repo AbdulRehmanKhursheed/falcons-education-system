@@ -71,7 +71,7 @@ export function SocialLinks() {
           </h2>
           <p className="text-falcon-earth text-lg max-w-xl mx-auto">
             Stay up to date with school news, classroom activities, admissions announcements,
-            and events from our Rawalpindi Montessori school.
+            and events.
           </p>
         </div>
 

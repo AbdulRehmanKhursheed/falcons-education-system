@@ -6,42 +6,42 @@ const whyChooseUs = [
     icon: '🎯',
     title: 'Authentic Montessori Method',
     description:
-      'We follow the globally proven Montessori method — letting each child in Rawalpindi learn at their own pace through hands-on, self-directed exploration.',
+      'We follow the globally proven Montessori method — each child learns at their own pace through hands-on, self-directed exploration.',
   },
   {
     icon: '👩‍🏫',
     title: 'Qualified, Caring Teachers',
     description:
-      'Our educators are trained in Montessori philosophy and dedicated to every child\'s emotional, social, and intellectual growth in our Kamalabad Road school.',
+      "Our educators are trained in Montessori philosophy and dedicated to every child's emotional, social, and intellectual growth.",
   },
   {
     icon: '🏡',
     title: 'Safe, Prepared Environment',
     description:
-      'Thoughtfully designed Montessori classrooms with age-appropriate materials that invite curiosity, independence, and confident exploration.',
+      'Thoughtfully designed classrooms with age-appropriate Montessori materials that invite curiosity, independence, and confident exploration.',
   },
   {
     icon: '🌍',
     title: 'Holistic Child Development',
     description:
-      'From practical life skills to mathematics and Urdu / English language — we develop the whole child: mind, body, creativity, and character.',
+      'From practical life skills to mathematics and language — we develop the whole child: mind, body, creativity, and character.',
   },
   {
-    icon: '📍',
-    title: 'Convenient Rawalpindi Location',
+    icon: '🤝',
+    title: 'Small Class Sizes',
     description:
-      'Located on Kamalabad Road, Sonari, Rawalpindi — easily reachable from Bakra Mandi, Satellite Town, Sadiqabad, Chaklala, and surrounding areas.',
+      'Every child gets the individual attention they deserve. Our small class sizes allow teachers to truly know and nurture each student.',
   },
   {
     icon: '💬',
     title: 'Open Parent Communication',
     description:
-      'Parents are our partners. We offer regular updates, open visits, and WhatsApp communication so you are always connected to your child\'s progress.',
+      "Parents are our partners. Regular updates, open visits, and WhatsApp communication keep you connected to your child's progress.",
   },
 ];
 
 const stats = [
-  { value: '2024', label: 'Est. in Rawalpindi' },
+  { value: '2024', label: 'Founded' },
   { value: '3', label: 'Programs' },
   { value: '2.5–6', label: 'Age Range (yrs)' },
   { value: '100%', label: 'Dedicated Care' },
@@ -66,29 +66,23 @@ export function About() {
               id="about-heading"
               className="font-display font-bold text-3xl sm:text-4xl text-falcon-sageDark mb-6"
             >
-              Rawalpindi&apos;s Trusted Montessori School — Kamalabad Road
+              Where Learning Begins with Joy
             </h2>
             <p className="text-falcon-earth text-lg leading-relaxed mb-4">
-              <strong>Falcons Education System</strong> opened in <strong>August 2024</strong> on{' '}
-              <strong>Kamalabad Road, Sonari, Rawalpindi</strong> with a clear mission: to bring
-              authentic Montessori early childhood education to families in our neighbourhood —
+              <strong>Falcons Education System</strong> opened in August 2024 with a clear
+              mission: to bring authentic Montessori early childhood education to our community —
               rooted in love, respect, and child-led discovery.
             </p>
             <p className="text-falcon-earth text-lg leading-relaxed mb-4">
-              We serve families across{' '}
-              <strong>
-                Sonari, Bakra Mandi, Satellite Town, Sadiqabad, Kamalabad, Dhok Ratta, Chaklala,
-                and wider Rawalpindi
-              </strong>
-              . Our prepared classrooms, qualified teachers, and Montessori-certified curriculum
+              Our prepared classrooms, qualified teachers, and Montessori-certified curriculum
               help every child develop independence, confidence, and a genuine love of learning.
+              We believe every child is unique and deserves the freedom to explore at their own
+              pace.
             </p>
             <p className="text-falcon-earth text-lg leading-relaxed mb-8">
-              Parents searching for a{' '}
-              <em>preschool near Kamalabad Road</em>, a{' '}
-              <em>Montessori school near Bakra Mandi</em>, or the{' '}
-              <em>best playgroup in Rawalpindi</em> need look no further. Falcons Education System
-              offers a world-class Montessori experience right in your community.
+              From practical life activities and sensorial exploration to mathematics and language
+              arts — we lay a strong foundation that prepares children not just for school, but
+              for life.
             </p>
 
             {/* Stats */}
@@ -104,7 +98,6 @@ export function About() {
               ))}
             </div>
 
-            {/* Internal link to admissions */}
             <Link
               href="#admissions"
               className="inline-flex items-center gap-2 px-6 py-3 bg-falcon-sage text-white rounded-xl font-bold hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
@@ -128,30 +121,12 @@ export function About() {
                 </p>
               </div>
             </div>
-            {/* Floating badge */}
             <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 border border-falcon-sand hidden sm:block">
               <p className="font-display font-bold text-falcon-sageDark text-sm">
                 📍 {SITE_CONFIG.name}
               </p>
-              <p className="text-xs text-falcon-earth">Kamalabad Road, Rawalpindi</p>
+              <p className="text-xs text-falcon-earth">{SITE_CONFIG.address.city}, Pakistan</p>
             </div>
-          </div>
-        </div>
-
-        {/* Service areas strip */}
-        <div className="bg-falcon-cream rounded-2xl border border-falcon-sand p-5 sm:p-6 mb-16">
-          <p className="text-center text-sm font-semibold text-falcon-sageDark uppercase tracking-wider mb-4">
-            Serving Families Across Rawalpindi
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {SITE_CONFIG.serviceAreas.map((area) => (
-              <span
-                key={area}
-                className="px-3 py-1.5 bg-white border border-falcon-sand rounded-full text-sm text-falcon-earth font-medium shadow-sm"
-              >
-                📍 {area}
-              </span>
-            ))}
           </div>
         </div>
 
@@ -159,11 +134,11 @@ export function About() {
         <div>
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-falcon-sageDark mb-4">
-              Why Choose Falcons Education System in Rawalpindi?
+              Why Choose Falcons Education System?
             </h2>
             <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-              We combine authentic Montessori education with a warm, family-friendly atmosphere —
-              right here on <strong>Kamalabad Road, Rawalpindi</strong>.
+              We combine authentic Montessori education with a warm, family-friendly atmosphere
+              where every child feels valued.
             </p>
           </div>
 
