@@ -1,24 +1,27 @@
 /**
- * JSON-LD Structured Data for Falcons Education System
- * Combines Preschool, EducationalOrganization, and LocalBusiness for maximum SEO
+ * JSON-LD Structured Data — Falcons Education System
+ * Types: Preschool + EducationalOrganization + LocalBusiness
+ * Targets local search: Rawalpindi, Kamalabad Road, Sonari, Bakra Mandi
  */
+
+const BASE_URL = 'https://falconseducationsystem.com';
 
 export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': ['Preschool', 'EducationalOrganization', 'LocalBusiness'],
-  '@id': 'https://falconseducationsystem.com/#organization',
+  '@id': `${BASE_URL}/#organization`,
   name: 'Falcons Education System',
-  alternateName: 'Falcons Montessori School',
+  alternateName: ['Falcons Montessori School', 'Falcons Education Rawalpindi'],
   description:
-    'Falcons Education System is a Montessori preschool in Rawalpindi, Pakistan. We offer child-centered early childhood education with prepared environments, qualified teachers, and the Montessori method. Admissions open for Nursery, KG, and Montessori levels.',
-  url: 'https://falconseducationsystem.com',
+    'Falcons Education System is a Montessori preschool located on Kamalabad Road, Sonari, Rawalpindi, Pakistan. We provide authentic Montessori early childhood education (Nursery, Montessori Level, KG) in a prepared environment. Serving families in Sonari, Bakra Mandi, Satellite Town, Kamalabad, Sadiqabad, and surrounding areas of Rawalpindi.',
+  url: BASE_URL,
   logo: {
     '@type': 'ImageObject',
-    url: 'https://falconseducationsystem.com/logo.png',
+    url: `${BASE_URL}/logo.png`,
     width: 512,
     height: 512,
   },
-  image: 'https://falconseducationsystem.com/og-image.jpg',
+  image: `${BASE_URL}/og-image.jpg`,
   foundingDate: '2024-08-01',
   address: {
     '@type': 'PostalAddress',
@@ -33,6 +36,7 @@ export const organizationSchema = {
     latitude: 33.57489,
     longitude: 73.03198,
   },
+  hasMap: 'https://www.google.com/maps/search/?api=1&query=Street+14+Sonari+Bank+Kamalabad+Road+Rawalpindi+Pakistan',
   telephone: '+92-XXX-XXXXXXX',
   email: 'info@falconseducationsystem.com',
   sameAs: [
@@ -45,54 +49,78 @@ export const organizationSchema = {
     opens: '08:00',
     closes: '14:00',
   },
-  areaServed: {
-    '@type': 'City',
-    name: 'Rawalpindi',
-    containedInPlace: {
-      '@type': 'AdministrativeArea',
-      name: 'Punjab',
-      containedInPlace: {
-        '@type': 'Country',
-        name: 'Pakistan',
-      },
-    },
-  },
+  areaServed: [
+    { '@type': 'Place', name: 'Kamalabad Road, Rawalpindi' },
+    { '@type': 'Place', name: 'Sonari, Rawalpindi' },
+    { '@type': 'Place', name: 'Bakra Mandi, Rawalpindi' },
+    { '@type': 'Place', name: 'Satellite Town, Rawalpindi' },
+    { '@type': 'Place', name: 'Sadiqabad, Rawalpindi' },
+    { '@type': 'Place', name: 'Chaklala, Rawalpindi' },
+    { '@type': 'City', name: 'Rawalpindi' },
+  ],
   keywords:
-    'Montessori school Rawalpindi, best Montessori school Rawalpindi, Montessori preschool Rawalpindi, early childhood education Rawalpindi, Falcons Education System, Montessori admission open, child-centered learning, Kamalabad school, Sonari school',
-  knowsAbout: ['Montessori education', 'Early childhood education', 'Child development'],
+    'Montessori school Rawalpindi, best Montessori school Rawalpindi, Montessori preschool Rawalpindi, Montessori school Kamalabad Road, preschool near Bakra Mandi Rawalpindi, nursery school Sonari Rawalpindi, playgroup Rawalpindi, kindergarten Rawalpindi, Falcons Education System, early childhood education Rawalpindi, Montessori admission 2025 Rawalpindi',
+  knowsAbout: [
+    'Montessori education',
+    'Early childhood education',
+    'Child development',
+    'Nursery education Pakistan',
+    'KG education Rawalpindi',
+    'Playgroup learning',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Montessori Programs',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Nursery Program',
+          description: 'Montessori Nursery for children aged 2.5 to 3.5 years in Rawalpindi',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Montessori Level',
+          description: 'Full Montessori curriculum for children aged 3 to 6 years in Rawalpindi',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'KG / Kindergarten',
+          description: 'Kindergarten program for children aged 4 to 6 years in Rawalpindi',
+        },
+      },
+    ],
+  },
 };
 
 export const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  '@id': 'https://falconseducationsystem.com/#website',
-  url: 'https://falconseducationsystem.com',
-  name: 'Falcons Education System',
-  description: 'Montessori preschool in Rawalpindi - Admissions open for Nursery, KG, and Montessori levels.',
-  publisher: {
-    '@id': 'https://falconseducationsystem.com/#organization',
-  },
+  '@id': `${BASE_URL}/#website`,
+  url: BASE_URL,
+  name: 'Falcons Education System — Montessori School Rawalpindi',
+  description:
+    'Official website of Falcons Education System, the Montessori preschool on Kamalabad Road, Rawalpindi. Admissions open for Nursery, Montessori Level, and KG.',
+  publisher: { '@id': `${BASE_URL}/#organization` },
   inLanguage: 'en-PK',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://falconseducationsystem.com/?s={search_term_string}',
-    },
-    'query-input': 'required name=search_term_string',
-  },
 };
 
 export const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    {
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Home',
-      item: 'https://falconseducationsystem.com',
-    },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+    { '@type': 'ListItem', position: 2, name: 'About Us', item: `${BASE_URL}/#about` },
+    { '@type': 'ListItem', position: 3, name: 'Programs', item: `${BASE_URL}/#programs` },
+    { '@type': 'ListItem', position: 4, name: 'Admissions', item: `${BASE_URL}/#admissions` },
+    { '@type': 'ListItem', position: 5, name: 'Contact', item: `${BASE_URL}/#contact` },
   ],
 };
 
@@ -105,31 +133,47 @@ export const faqSchema = {
       name: 'What age groups does Falcons Education System serve?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Falcons Education System offers Montessori education for early childhood, typically ages 2.5 to 6 years, including Nursery and KG levels.',
+        text: 'Falcons Education System serves children aged 2.5 to 6 years through three programs: Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), and KG/Kindergarten (4–6 yrs) in Rawalpindi.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Where is Falcons Education System located?',
+      name: 'Where is Falcons Education System located in Rawalpindi?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We are located at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Pakistan 44000.',
+        text: 'Falcons Education System is located at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 44000. We are easily accessible from Kamalabad, Sonari, Satellite Town, Sadiqabad, and surrounding areas.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Are admissions open at Falcons Education System?',
+      name: 'Are admissions open at Falcons Education System Rawalpindi?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes! Admissions are open for Montessori, Nursery, and KG levels. Contact us via WhatsApp, phone, or visit our campus for a tour.',
+        text: 'Yes! Admissions are open for 2025 at Falcons Education System, Rawalpindi. We are accepting students for Montessori, Nursery, and KG programs. Seats are limited — contact us via WhatsApp, phone, or visit our campus on Kamalabad Road for a free tour.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What is Montessori education?',
+      name: 'What is Montessori education and why choose it in Rawalpindi?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Montessori education is a child-centered approach that emphasizes hands-on learning, self-directed activity, and collaborative play. Children learn at their own pace in a prepared environment with specially designed materials.',
+        text: 'Montessori education is a child-centered method developed by Dr. Maria Montessori. It uses hands-on materials and self-directed activity so children learn at their own pace. Falcons Education System brings authentic Montessori education to Rawalpindi, offering the same global standards that parents in Kamalabad Road and surrounding areas deserve.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the best age to start Montessori or preschool?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The ideal age to start Montessori is between 2.5 and 3 years. At this age children are in a sensitive period for language and exploration. Our Nursery program at Falcons Education System, Rawalpindi welcomes children from 2.5 years.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Which areas of Rawalpindi does Falcons Education System serve?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'We primarily serve families in Kamalabad Road, Sonari, Bakra Mandi, Satellite Town, Sadiqabad, Dhok Kala Khan, Chaklala, and the wider Rawalpindi area. Our school is conveniently located on Kamalabad Road, Rawalpindi.',
       },
     },
   ],

@@ -23,8 +23,8 @@ const quicksand = Quicksand({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: 'Falcons Education System | Montessori School Rawalpindi | Admissions Open',
-    template: '%s | Falcons Education System',
+    default: 'Falcons Education System | Best Montessori School Kamalabad Road Rawalpindi',
+    template: '%s | Falcons Education System Rawalpindi',
   },
   description: SITE_CONFIG.description,
   keywords: SEO_KEYWORDS,
@@ -32,36 +32,51 @@ export const metadata: Metadata = {
   creator: 'Falcons Education System',
   publisher: 'Falcons Education System',
   formatDetection: { email: false, address: false, telephone: false },
+
   openGraph: {
     type: 'website',
     locale: 'en_PK',
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
-    title: 'Falcons Education System | Montessori Preschool Rawalpindi',
+    title: 'Falcons Education System | Montessori Preschool Kamalabad Road Rawalpindi',
     description: SITE_CONFIG.description,
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Falcons Education System - Montessori School in Rawalpindi',
+        alt: 'Falcons Education System — Montessori Preschool on Kamalabad Road, Rawalpindi',
       },
     ],
   },
+
   twitter: {
     card: 'summary_large_image',
     title: 'Falcons Education System | Montessori School Rawalpindi',
     description: SITE_CONFIG.description,
   },
+
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
+    googleBot: { index: true, follow: true, 'max-snippet': -1 },
   },
-  alternates: { canonical: SITE_CONFIG.url },
+
+  alternates: {
+    canonical: SITE_CONFIG.url,
+  },
+
+  // Geo meta tags for local search ranking
+  other: {
+    'geo.region': 'PK-PB',
+    'geo.placename': 'Rawalpindi, Punjab, Pakistan',
+    'geo.position': `${SITE_CONFIG.coordinates.lat};${SITE_CONFIG.coordinates.lng}`,
+    'ICBM': `${SITE_CONFIG.coordinates.lat}, ${SITE_CONFIG.coordinates.lng}`,
+    'DC.title': 'Falcons Education System — Montessori Preschool Rawalpindi',
+    'DC.subject': 'Montessori School, Preschool, Early Childhood Education, Rawalpindi',
+    'DC.coverage': 'Kamalabad Road, Sonari, Rawalpindi, Punjab, Pakistan',
+  },
+
   category: 'education',
 };
 
@@ -77,12 +92,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = [
-    organizationSchema,
-    websiteSchema,
-    breadcrumbSchema,
-    faqSchema,
-  ];
+  const jsonLd = [organizationSchema, websiteSchema, breadcrumbSchema, faqSchema];
 
   return (
     <html lang="en-PK" className={`${nunito.variable} ${quicksand.variable}`}>

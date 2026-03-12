@@ -6,6 +6,7 @@ import { Testimonials } from '@/components/Testimonials';
 import { Admissions } from '@/components/Admissions';
 import { Contact } from '@/components/Contact';
 import { FAQ } from '@/components/FAQ';
+import { SocialLinks } from '@/components/SocialLinks';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <Testimonials />
       <Admissions />
       <Contact />
+      <SocialLinks />
       <FAQ />
     </>
   );
