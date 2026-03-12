@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
 
@@ -10,65 +11,121 @@ const navLinks = [
   { href: '#gallery', label: 'Gallery' },
   { href: '#admissions', label: 'Admissions' },
   { href: '#contact', label: 'Contact' },
+  { href: '#faq', label: 'FAQ' },
 ];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Elevate header shadow on scroll
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  // Close menu on outside click / touch
+  useEffect(() => {
+    if (!mobileOpen) return;
+    function handleOutside(e: MouseEvent | TouchEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMobileOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+    };
+  }, [mobileOpen]);
+
+  // Close menu on Escape key
+  useEffect(() => {
+    if (!mobileOpen) return;
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setMobileOpen(false);
+    }
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [mobileOpen]);
+
+  const ctaHref = SITE_CONFIG.whatsapp || (SITE_CONFIG.phone ? `tel:${SITE_CONFIG.phone}` : '#contact');
+  const ctaTarget = SITE_CONFIG.whatsapp ? '_blank' : undefined;
+  const ctaRel = SITE_CONFIG.whatsapp ? 'noopener noreferrer' : undefined;
 
   return (
-    <header className="sticky top-0 z-50 bg-falcon-cream/95 backdrop-blur-sm border-b border-falcon-sand/50 shadow-sm">
+    <header
+      ref={menuRef}
+      className={`sticky top-0 z-50 bg-falcon-cream/95 backdrop-blur-sm border-b border-falcon-sand/50 transition-shadow duration-200 ${
+        scrolled ? 'shadow-md' : 'shadow-sm'
+      }`}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+        <div className="flex items-center justify-between h-14 sm:h-20">
+
+          {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 font-display font-bold text-falcon-sageDark text-lg sm:text-xl hover:text-falcon-sage transition-colors tap-target"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2.5 font-display font-bold text-falcon-sageDark hover:text-falcon-sage transition-colors min-w-0"
+            aria-label="Falcons Education System — home"
           >
-            <span className="text-2xl" aria-hidden>🦅</span>
-            <span>{SITE_CONFIG.name}</span>
+            <Image
+              src="/logo.png"
+              alt="Falcons Education System logo"
+              width={40}
+              height={40}
+              className="shrink-0 object-contain"
+              priority
+            />
+            {/* Full name on sm+, abbreviated on xs */}
+            <span className="hidden xs:block sm:block text-base sm:text-xl leading-tight">
+              {SITE_CONFIG.name}
+            </span>
+            <span className="block xs:hidden text-base leading-tight">
+              Falcons Education
+            </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1" aria-label="Main navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 rounded-lg text-falcon-earth hover:bg-falcon-sage/10 hover:text-falcon-sageDark font-medium transition-colors tap-target"
+                className="px-3 py-2 rounded-lg text-sm text-falcon-earth hover:bg-falcon-sage/10 hover:text-falcon-sageDark font-medium transition-colors"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* CTA - Desktop */}
+          {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <a
-              href={SITE_CONFIG.whatsapp || `tel:${SITE_CONFIG.phone}` || '#contact'}
-              target={SITE_CONFIG.whatsapp ? '_blank' : undefined}
-              rel={SITE_CONFIG.whatsapp ? 'noopener noreferrer' : undefined}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-falcon-sage text-white rounded-full font-semibold hover:bg-falcon-sageDark transition-colors shadow-md tap-target"
+              href={ctaHref}
+              target={ctaTarget}
+              rel={ctaRel}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-falcon-sage text-white rounded-full text-sm font-bold hover:bg-falcon-sageDark transition-colors shadow-md"
             >
-              <span>📱</span>
+              <span aria-hidden>📱</span>
               <span>Enquire Now</span>
             </a>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile: hamburger */}
           <button
             type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-3 rounded-lg text-falcon-earth hover:bg-falcon-sand/50 tap-target"
+            onClick={() => setMobileOpen((v) => !v)}
+            className="md:hidden flex items-center justify-center w-11 h-11 rounded-xl text-falcon-earth hover:bg-falcon-sand/50 active:bg-falcon-sand transition-colors"
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               {mobileOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -77,36 +134,54 @@ export function Header() {
             </svg>
           </button>
         </div>
+      </div>
 
-        {/* Mobile menu */}
-        <div
-          id="mobile-menu"
-          className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}
-          aria-hidden={!mobileOpen}
-        >
-          <nav className="py-4 space-y-1 border-t border-falcon-sand/50" aria-label="Mobile navigation">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-4 py-3 rounded-lg text-falcon-earth hover:bg-falcon-sage/10 font-medium tap-target"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <a
-              href={SITE_CONFIG.whatsapp || `tel:${SITE_CONFIG.phone}` || '#contact'}
-              target={SITE_CONFIG.whatsapp ? '_blank' : undefined}
-              rel={SITE_CONFIG.whatsapp ? 'noopener noreferrer' : undefined}
+      {/* Mobile drawer */}
+      <div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+        className={`md:hidden absolute top-full left-0 right-0 bg-falcon-cream/98 backdrop-blur-sm border-b border-falcon-sand/60 shadow-xl transition-all duration-300 origin-top ${
+          mobileOpen
+            ? 'opacity-100 scale-y-100 pointer-events-auto'
+            : 'opacity-0 scale-y-95 pointer-events-none'
+        }`}
+      >
+        <nav className="max-w-6xl mx-auto px-4 py-3 space-y-0.5" aria-label="Mobile navigation">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2 mx-4 mt-4 px-5 py-3 bg-falcon-sage text-white rounded-full font-semibold justify-center tap-target"
+              className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-falcon-earth hover:bg-falcon-sage/10 hover:text-falcon-sageDark font-medium transition-colors text-base active:bg-falcon-sage/20"
             >
-              <span>📱</span>
-              <span>Enquire Now</span>
+              {link.label}
+            </Link>
+          ))}
+
+          {/* Inline CTA inside mobile menu */}
+          <div className="pt-2 pb-1 grid grid-cols-2 gap-3">
+            <a
+              href={ctaHref}
+              target={ctaTarget}
+              rel={ctaRel}
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 py-3.5 bg-falcon-sage text-white rounded-xl font-bold text-sm hover:bg-falcon-sageDark transition-colors shadow-sm active:scale-95"
+            >
+              <span aria-hidden>📱</span>
+              <span>Enquire</span>
             </a>
-          </nav>
-        </div>
+            <Link
+              href="#admissions"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 py-3.5 bg-falcon-sageDark text-white rounded-xl font-bold text-sm hover:opacity-90 transition-colors shadow-sm active:scale-95"
+            >
+              <span aria-hidden>🎓</span>
+              <span>Apply Now</span>
+            </Link>
+          </div>
+        </nav>
       </div>
     </header>
   );

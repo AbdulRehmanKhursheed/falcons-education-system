@@ -3,32 +3,45 @@
 @tailwind utilities;
 
 :root {
-  --falcon-sage: #7A9B76;
-  --falcon-sage-light: #9BB597;
-  --falcon-sage-dark: #5A7B56;
-  --falcon-cream: #F8F6F0;
-  --falcon-warm: #F5EDE4;
-  --falcon-sand: #E8E0D5;
-  --falcon-earth: #8B7355;
-  --falcon-sky: #A8D4E6;
+  --falcon-sage:       #00a3fe;   /* primary blue */
+  --falcon-sage-light: #5bc4ff;   /* light blue */
+  --falcon-sage-dark:  #003f72;   /* dark navy */
+  --falcon-cream:      #f0f8ff;   /* alice blue backgrounds */
+  --falcon-warm:       #e6f4ff;   /* soft blue-white sections */
+  --falcon-sand:       #b8ddf7;   /* borders / dividers */
+  --falcon-earth:      #1a4a72;   /* body text */
+  --falcon-sky:        #d0eeff;   /* decorative blobs */
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-  @apply antialiased text-falcon-earth bg-falcon-cream;
+  @apply antialiased text-falcon-earth bg-white;
+  overflow-x: hidden;
 }
 
-/* Touch-friendly tap targets — min 44px for accessibility */
+/* On mobile, reserve space for the sticky action bar (64px) */
+@media (max-width: 639px) {
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Touch-friendly tap targets — minimum 44×44px (Apple HIG / WCAG 2.5.5) */
 @layer utilities {
   .tap-target {
     @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
   }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 
-/* Focus styles for keyboard navigation */
+/* Focus styles */
 @layer base {
   :focus-visible {
     @apply outline-none ring-2 ring-falcon-sage ring-offset-2;
@@ -37,19 +50,31 @@ body {
   * {
     @apply box-border;
   }
-}
 
-/* Smooth section transitions */
-@layer utilities {
-  .section-fade {
-    animation: sectionFadeIn 0.7s ease-out both;
+  /* Prevent iOS Safari from zooming on input focus — font-size must be >= 16px */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  @screen sm {
+    input,
+    textarea,
+    select {
+      font-size: inherit;
+    }
+  }
+
+  p, li, address {
+    @apply leading-relaxed;
   }
 }
 
-/* WhatsApp button pulse on first render */
+/* Section entrance animation */
 @layer utilities {
-  .pulse-once {
-    animation: pulseOnce 1.2s ease-out 1;
+  .section-fade {
+    animation: sectionFadeIn 0.7s ease-out both;
   }
 }
 
@@ -64,32 +89,20 @@ body {
   }
 }
 
-@keyframes pulseOnce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--falcon-cream);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--falcon-sage);
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--falcon-sage-dark);
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
+/* Custom scrollbar — desktop only */
+@media (pointer: fine) {
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--falcon-cream); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--falcon-sage);
+    border-radius: 999px;
   }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--falcon-sage-dark);
+  }
+}
+
+/* Print */
+@media print {
+  .no-print { display: none !important; }
 }

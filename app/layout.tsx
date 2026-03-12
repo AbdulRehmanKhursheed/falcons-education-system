@@ -6,6 +6,7 @@ import { SITE_CONFIG, SEO_KEYWORDS } from '@/lib/constants';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
+import { MobileActionBar } from '@/components/MobileActionBar';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -68,7 +69,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#7A9B76',
+  themeColor: '#00a3fe',
 };
 
 export default function RootLayout({
@@ -99,6 +100,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <MobileActionBar />
       </body>
     </html>
   );

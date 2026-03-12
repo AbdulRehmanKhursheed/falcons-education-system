@@ -12,7 +12,12 @@ export const organizationSchema = {
   description:
     'Falcons Education System is a Montessori preschool in Rawalpindi, Pakistan. We offer child-centered early childhood education with prepared environments, qualified teachers, and the Montessori method. Admissions open for Nursery, KG, and Montessori levels.',
   url: 'https://falconseducationsystem.com',
-  logo: 'https://falconseducationsystem.com/logo.png',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://falconseducationsystem.com/logo.png',
+    width: 512,
+    height: 512,
+  },
   image: 'https://falconseducationsystem.com/og-image.jpg',
   foundingDate: '2024-08-01',
   address: {

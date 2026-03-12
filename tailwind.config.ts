@@ -8,17 +8,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '375px',
+      },
       colors: {
         falcon: {
-          sage: '#7A9B76',
-          sageLight: '#9BB597',
-          sageDark: '#5A7B56',
-          cream: '#F8F6F0',
-          warm: '#F5EDE4',
-          sand: '#E8E0D5',
-          earth: '#8B7355',
-          sky: '#A8D4E6',
-          skyDark: '#7BB8D0',
+          sage:      '#00a3fe',   // primary blue (logo blue)
+          sageLight: '#5bc4ff',   // lighter blue for soft accents
+          sageDark:  '#003f72',   // dark navy — headings, active states
+          cream:     '#f0f8ff',   // alice-blue — light section backgrounds
+          warm:      '#e6f4ff',   // softer light blue — alternating sections
+          sand:      '#b8ddf7',   // light blue for borders and dividers
+          earth:     '#1a4a72',   // dark navy — body text
+          sky:       '#d0eeff',   // very light blue — decorative blobs
+          skyDark:   '#9dd4f5',   // slightly deeper decorative
         },
       },
       fontFamily: {

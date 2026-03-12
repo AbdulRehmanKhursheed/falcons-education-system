@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
 
@@ -26,8 +27,14 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2 font-display font-bold text-xl mb-4 hover:text-falcon-sageLight transition-colors">
-              <span aria-hidden>🦅</span>
+            <Link href="/" className="inline-flex items-center gap-3 font-display font-bold text-xl mb-4 hover:text-falcon-sageLight transition-colors">
+              <Image
+                src="/logo.png"
+                alt="Falcons Education System logo"
+                width={44}
+                height={44}
+                className="shrink-0 object-contain rounded-sm bg-white/10 p-0.5"
+              />
               <span>{SITE_CONFIG.name}</span>
             </Link>
             <p className="text-white/80 text-sm leading-relaxed mb-4">
