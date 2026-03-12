@@ -53,7 +53,7 @@ export function Testimonials() {
             What Parents Say About Us
           </h2>
           <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Families in Rawalpindi trust Falcons Education System with their children's most
+            Families in Rawalpindi trust Falcons Education System with their children&apos;s most
             important early years.
           </p>
         </div>
