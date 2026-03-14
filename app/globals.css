@@ -1,17 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --falcon-sage:       #00a3fe;   /* primary blue */
-  --falcon-sage-light: #5bc4ff;   /* light blue */
-  --falcon-sage-dark:  #003f72;   /* dark navy */
-  --falcon-cream:      #f0f8ff;   /* alice blue backgrounds */
-  --falcon-warm:       #e6f4ff;   /* soft blue-white sections */
-  --falcon-sand:       #b8ddf7;   /* borders / dividers */
-  --falcon-earth:      #1a4a72;   /* body text */
-  --falcon-sky:        #d0eeff;   /* decorative blobs */
+/* ── Theme ─────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Colors */
+  --color-falcon-sage:      #00a3fe;
+  --color-falcon-sageLight: #5bc4ff;
+  --color-falcon-sageDark:  #003f72;
+  --color-falcon-cream:     #f0f8ff;
+  --color-falcon-warm:      #e6f4ff;
+  --color-falcon-sand:      #b8ddf7;
+  --color-falcon-earth:     #1a4a72;
+  --color-falcon-sky:       #d0eeff;
+  --color-falcon-skyDark:   #9dd4f5;
+
+  /* Fonts */
+  --font-display: var(--font-nunito), system-ui, sans-serif;
+  --font-body:    var(--font-quicksand), system-ui, sans-serif;
+
+  /* Breakpoints */
+  --breakpoint-xs: 375px;
+
+  /* Animations */
+  --animate-fade-in:  fade-in 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.6s ease-out forwards;
 }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
@@ -20,62 +45,60 @@ html {
 
 body {
   @apply antialiased text-falcon-earth bg-white;
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 
-/* On mobile, reserve space for the sticky action bar (64px) */
 @media (max-width: 639px) {
   body {
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
 }
 
-/* Touch-friendly tap targets — minimum 44×44px (Apple HIG / WCAG 2.5.5) */
-@layer utilities {
-  .tap-target {
-    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
-  }
-
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
+:focus-visible {
+  @apply outline-none ring-2 ring-falcon-sage ring-offset-2;
 }
 
-/* Focus styles */
-@layer base {
-  :focus-visible {
-    @apply outline-none ring-2 ring-falcon-sage ring-offset-2;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  * {
-    @apply box-border;
-  }
+input,
+textarea,
+select {
+  font-size: 16px;
+}
 
-  /* Prevent iOS Safari from zooming on input focus — font-size must be >= 16px */
+@media (width >= 640px) {
   input,
   textarea,
   select {
-    font-size: 16px;
-  }
-
-  @screen sm {
-    input,
-    textarea,
-    select {
-      font-size: inherit;
-    }
-  }
-
-  p, li, address {
-    @apply leading-relaxed;
+    font-size: inherit;
   }
 }
 
-/* Section entrance animation */
-@layer utilities {
-  .section-fade {
-    animation: sectionFadeIn 0.7s ease-out both;
-  }
+p, li, address {
+  @apply leading-relaxed;
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+
+@utility tap-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@utility section-fade {
+  animation: sectionFadeIn 0.7s ease-out both;
 }
 
 @keyframes sectionFadeIn {
@@ -89,20 +112,22 @@ body {
   }
 }
 
-/* Custom scrollbar — desktop only */
+/* ── Scrollbar (desktop only) ──────────────────────────────────────────── */
+
 @media (pointer: fine) {
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--falcon-cream); }
+  ::-webkit-scrollbar-track { background: var(--color-falcon-cream); }
   ::-webkit-scrollbar-thumb {
-    background: var(--falcon-sage);
+    background: var(--color-falcon-sage);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--falcon-sage-dark);
+    background: var(--color-falcon-sageDark);
   }
 }
 
-/* Print */
+/* ── Print ─────────────────────────────────────────────────────────────── */
+
 @media print {
   .no-print { display: none !important; }
 }
