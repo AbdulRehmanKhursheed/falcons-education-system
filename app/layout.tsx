@@ -23,7 +23,7 @@ const quicksand = Quicksand({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: 'Falcons Education System | Montessori Preschool in Rawalpindi',
+    default: 'Falcons Education System | School Nursery to Class 6 — Rawalpindi',
     template: '%s | Falcons Education System',
   },
   description: SITE_CONFIG.description,
@@ -38,21 +38,21 @@ export const metadata: Metadata = {
     locale: 'en_PK',
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
-    title: 'Falcons Education System | Montessori Preschool in Rawalpindi',
+    title: 'Falcons Education System | School Nursery to Class 6 — Rawalpindi',
     description: SITE_CONFIG.description,
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Falcons Education System — School Education & Evening Coaching in Rawalpindi',
+        alt: 'Falcons Education System — School Nursery to Class 6 & Evening Coaching in Rawalpindi',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Falcons Education System | Montessori School Rawalpindi',
+    title: 'Falcons Education System | School Nursery to Class 6 Rawalpindi',
     description: SITE_CONFIG.description,
   },
 

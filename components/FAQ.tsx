@@ -7,17 +7,22 @@ const faqs = [
   {
     question: 'What programs does Falcons Education System offer?',
     answer:
-      'We offer Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG/Kindergarten (4–6 yrs), Evening Coaching Academy (3:30–7:30 PM, Mon–Fri), Saturday Coaching (9 AM–1 PM), and Computer Courses for kids.',
+      'We offer a complete school education from Nursery to Class 6: Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG (4–6 yrs), Class 1, Class 2, Class 3, Class 4, Class 5, and Class 6. We also run an Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.',
+  },
+  {
+    question: 'Up to which class does Falcons Education System teach?',
+    answer:
+      'Falcons Education System provides school education from Nursery all the way to Class 6. Our primary school follows the national curriculum, covering English, Urdu, Mathematics, Science, Islamic Studies, and General Knowledge.',
   },
   {
     question: 'Where is Falcons Education System located in Rawalpindi?',
     answer:
-      'We are located at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Pakistan 44000.',
+      'We are located at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Pakistan 46000.',
   },
   {
     question: 'Are admissions currently open?',
     answer:
-      'Yes! Admissions are open for all programs for 2026 — Nursery, Montessori Level, KG, Evening Coaching, Saturday Coaching, and Computer Courses. Seats are limited. Call or WhatsApp us at 0311-9911288 or visit our campus for a free tour.',
+      'Yes! Admissions are open for 2026 — for all classes from Nursery to Class 6, Evening Coaching, Saturday Coaching, and Computer Courses. Seats are limited. Call or WhatsApp us at 0311-9911288 or visit our campus for a free tour.',
   },
   {
     question: 'What are the school and coaching timings?',

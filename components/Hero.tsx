@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
 
 const highlights = [
-  { icon: '🌱', text: 'Montessori Method' },
+  { icon: '🌱', text: 'Nursery & Montessori' },
+  { icon: '📚', text: 'Class 1 to Class 6' },
   { icon: '🌙', text: 'Evening Coaching' },
   { icon: '💻', text: 'Computer Courses' },
   { icon: '📝', text: 'Saturday Classes' },
@@ -47,7 +48,7 @@ export function Hero() {
           </p>
 
           <p className="text-falcon-earth/80 max-w-2xl mx-auto mb-3 text-base sm:text-lg">
-            Quality school education from Nursery to KG — plus Evening Coaching Classes,
+            Quality school education from Nursery through Class 6 — plus Evening Coaching Classes,
             Saturday Coaching, and Computer Courses for children in Rawalpindi.
           </p>
 

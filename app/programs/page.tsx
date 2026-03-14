@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Programs & Courses — Montessori, Coaching & Evening Academy',
+  title: 'Programs & Courses — School Nursery to Class 6, Coaching & Evening Academy',
   description:
-    'Explore all programs at Falcons Education System Rawalpindi: Montessori Nursery, KG, Saturday Coaching, and Evening Academy. Ages 2.5+. Admissions open 2026.',
+    'Explore all programs at Falcons Education System Rawalpindi: school from Nursery to Class 6, Saturday Coaching, Evening Coaching Academy, and Computer Courses. Admissions open 2026.',
   alternates: { canonical: `${SITE_CONFIG.url}/programs` },
   openGraph: {
     title: 'Programs & Courses — Falcons Education System Rawalpindi',
     description:
-      'Montessori Nursery, KG, Saturday Coaching, Evening Academy — Kamalabad Road, Rawalpindi. Admissions open.',
+      'School Nursery to Class 6, Saturday Coaching, Evening Academy, Computer Courses — Kamalabad Road, Rawalpindi. Admissions open.',
     url: `${SITE_CONFIG.url}/programs`,
   },
 };
@@ -63,6 +63,54 @@ const montessoriPrograms = [
   },
 ];
 
+const primaryPrograms = [
+  {
+    id: 'class-1-2',
+    title: 'Class 1 & 2',
+    age: '5 – 7 years',
+    icon: '✏️',
+    overview: 'Building strong foundations in core subjects through engaging, structured lessons.',
+    details: [
+      'English: phonics, reading fluency, creative writing',
+      'Urdu: reading, writing, and comprehension',
+      'Mathematics: number recognition, addition, subtraction, basic concepts',
+      'Islamic Studies & General Knowledge',
+      'Science: basic concepts through fun experiments',
+    ],
+    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+  },
+  {
+    id: 'class-3-4',
+    title: 'Class 3 & 4',
+    age: '7 – 9 years',
+    icon: '🔬',
+    overview: 'Expanding knowledge and developing critical thinking through challenging, age-appropriate content.',
+    details: [
+      'English: comprehension, composition, grammar',
+      'Urdu: advanced reading, writing, and literature',
+      'Mathematics: fractions, geometry, problem-solving',
+      'Science: plants, animals, materials, the environment',
+      'Social Studies: Pakistan, world geography, history',
+    ],
+    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+  },
+  {
+    id: 'class-5-6',
+    title: 'Class 5 & 6',
+    age: '9 – 12 years',
+    icon: '🏆',
+    overview: 'Preparing students for secondary education with a comprehensive, exam-focused curriculum.',
+    details: [
+      'Advanced English and Urdu language skills',
+      'Mathematics: algebra, geometry, data handling',
+      'Science: physics, chemistry, biology fundamentals',
+      'Computer Studies: basic hardware, software, MS Office',
+      'Exam preparation, practice tests, and study skills',
+    ],
+    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+  },
+];
+
 const additionalPrograms = [
   {
     id: 'saturday-coaching',
@@ -106,11 +154,11 @@ export default function ProgramsPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">Our Programs</p>
           <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Programs & Courses for Every Child
+            Programs & Courses — Nursery to Class 6
           </h1>
           <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            From Montessori early learning to weekend coaching and evening classes — we offer complete
-            educational support for children in Rawalpindi.
+            Complete school education from Nursery to Class 6, plus evening coaching, Saturday
+            classes, and Computer Courses — all under one roof in Rawalpindi.
           </p>
         </div>
       </section>
@@ -119,11 +167,11 @@ export default function ProgramsPage() {
       <section className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-4 text-center">
-            Montessori Early Learning
+            Early Years &amp; Montessori Education
           </h2>
           <p className="text-falcon-earth text-center max-w-2xl mx-auto mb-12">
-            Authentic Montessori programs for children aged 2.5 to 6 years — designed to nurture curiosity,
-            independence, and a lifelong love of learning.
+            Authentic Montessori programs for children aged 2.5 to 6 years — designed to nurture
+            curiosity, independence, and a lifelong love of learning.
           </p>
 
           <div className="space-y-12">
@@ -166,15 +214,66 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* Additional Programs */}
+      {/* Primary School Classes 1–6 */}
       <section className="py-16 bg-falcon-cream">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-4 text-center">
-            Coaching & Academic Support
+            Primary School — Class 1 to Class 6
           </h2>
           <p className="text-falcon-earth text-center max-w-2xl mx-auto mb-12">
-            Beyond early learning — we support school-going children with expert coaching,
-            tutoring, and after-school programs.
+            A structured, national curriculum primary school — giving children a strong academic
+            foundation from Class 1 all the way through Class 6.
+          </p>
+
+          <div className="space-y-12">
+            {primaryPrograms.map(({ id, title, age, icon, overview, details, schedule }) => (
+              <article key={id} id={id} className="bg-white rounded-3xl p-8 border border-falcon-sand">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-4xl" aria-hidden>{icon}</span>
+                  <div>
+                    <h3 className="font-display font-bold text-2xl text-falcon-sageDark">{title}</h3>
+                    <span className="text-falcon-sage font-semibold text-sm">Ages {age}</span>
+                  </div>
+                </div>
+                <p className="text-falcon-earth mb-6 text-lg">{overview}</p>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-bold text-falcon-sageDark mb-3">Subjects Covered</h4>
+                    <ul className="space-y-2">
+                      {details.map((d) => (
+                        <li key={d} className="flex items-start gap-2 text-sm text-falcon-earth">
+                          <span className="text-falcon-sage mt-1">✓</span>
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="bg-falcon-cream rounded-xl p-5 border border-falcon-sand">
+                    <h4 className="font-bold text-falcon-sageDark mb-2">Schedule</h4>
+                    <p className="text-falcon-earth text-sm mb-4">{schedule}</p>
+                    <Link
+                      href="/admissions"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-falcon-sage text-white rounded-xl font-bold text-sm hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
+                    >
+                      <span aria-hidden>📋</span> Apply Now
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Programs */}
+      <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-4 text-center">
+            Evening Coaching &amp; Academic Support
+          </h2>
+          <p className="text-falcon-earth text-center max-w-2xl mx-auto mb-12">
+            Beyond school hours — we support children with expert evening coaching, weekend
+            tutoring, and computer courses.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8">

@@ -154,7 +154,7 @@ export function Footer() {
               <p className="font-semibold text-white">Falcons Education System</p>
               <p>Street No 14, Sonari Bank</p>
               <p>Kamalabad Road, Near Bakra Mandi</p>
-              <p>Rawalpindi, Punjab 44000</p>
+              <p>Rawalpindi, Punjab 46000</p>
               <p>Pakistan</p>
             </address>
             <a

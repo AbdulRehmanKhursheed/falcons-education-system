@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const programs = [
+const earlyYearsPrograms = [
   {
     id: 'nursery',
     title: 'Nursery',
@@ -36,6 +36,42 @@ const programs = [
   },
 ];
 
+const primaryClasses = [
+  {
+    id: 'class-1-2',
+    title: 'Class 1 & 2',
+    age: '5 – 7 years',
+    description:
+      'Building strong foundations in English, Urdu, Mathematics, and General Knowledge. Interactive lessons develop reading, writing, and numeracy skills through engaging activities.',
+    features: ['English reading & writing', 'Urdu & Islamic Studies', 'Basic Mathematics', 'GK & Science basics'],
+    icon: '✏️',
+    color: 'bg-purple-50 border-purple-100',
+    badgeColor: 'bg-purple-100 text-purple-800',
+  },
+  {
+    id: 'class-3-4',
+    title: 'Class 3 & 4',
+    age: '7 – 9 years',
+    description:
+      'Expanding knowledge in core subjects with a focus on critical thinking and problem-solving. Students develop confidence in academics through structured and engaging lessons.',
+    features: ['Comprehension & composition', 'Math (fractions, geometry)', 'Science & Social Studies', 'Urdu & Islamic Studies'],
+    icon: '🔬',
+    color: 'bg-blue-50 border-blue-100',
+    badgeColor: 'bg-blue-100 text-blue-800',
+  },
+  {
+    id: 'class-5-6',
+    title: 'Class 5 & 6',
+    age: '9 – 12 years',
+    description:
+      'Preparing students for secondary education with a comprehensive curriculum. Emphasis on analytical thinking, exam preparation, and academic excellence across all subjects.',
+    features: ['Advanced English & Urdu', 'Mathematics & Science', 'Social Studies & Computer', 'Exam preparation & tests'],
+    icon: '🏆',
+    color: 'bg-green-50 border-green-100',
+    badgeColor: 'bg-green-100 text-green-800',
+  },
+];
+
 const coachingPrograms = [
   {
     id: 'evening-academy',
@@ -44,7 +80,6 @@ const coachingPrograms = [
     icon: '🌙',
     badge: 'NEW',
     schedule: '3:30 PM – 7:30 PM | Mon – Fri',
-    openSaturday: true,
     description:
       'After-school evening coaching classes to help students improve academic performance and build strong learning skills.',
     features: [
@@ -62,7 +97,6 @@ const coachingPrograms = [
     icon: '📝',
     badge: 'NEW',
     schedule: '9:00 AM – 1:00 PM | Every Saturday',
-    openSaturday: false,
     description:
       'Weekend coaching and tutoring for school-going children — core subject support, exam prep, and guided study sessions.',
     features: [
@@ -79,7 +113,6 @@ const coachingPrograms = [
     icon: '💻',
     badge: 'NEW',
     schedule: 'Flexible timing — enquire for details',
-    openSaturday: false,
     description:
       'Basic computer courses for young students to learn essential digital skills and become confident in today\'s technology-driven world.',
     features: [
@@ -100,6 +133,16 @@ const activities = [
   { icon: '🏃', label: 'Physical Activity' },
 ];
 
+function CheckIcon() {
+  return (
+    <span className="w-4 h-4 rounded-full bg-falcon-sage/20 flex items-center justify-center shrink-0">
+      <svg className="w-2.5 h-2.5 text-falcon-sage" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
+        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+      </svg>
+    </span>
+  );
+}
+
 export function Programs() {
   return (
     <section
@@ -119,17 +162,17 @@ export function Programs() {
             School Education &amp; Coaching Classes
           </h2>
           <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            Complete educational support for your child — from Montessori early learning
-            to evening coaching, Saturday classes, and computer courses.
+            Complete educational support for your child — from Montessori early learning all the
+            way to Class 6, plus evening coaching, Saturday classes, and computer courses.
           </p>
         </div>
 
-        {/* Montessori Programs */}
+        {/* Early Years / Montessori */}
         <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-6 text-center">
-          Montessori School Education
+          Early Years &amp; Montessori Education
         </h3>
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {programs.map(({ id, title, age, description, features, icon, color, badgeColor }) => (
+          {earlyYearsPrograms.map(({ id, title, age, description, features, icon, color, badgeColor }) => (
             <article
               key={id}
               id={id}
@@ -144,11 +187,42 @@ export function Programs() {
               <ul className="space-y-1.5">
                 {features.map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-falcon-earth">
-                    <span className="w-4 h-4 rounded-full bg-falcon-sage/20 flex items-center justify-center shrink-0">
-                      <svg className="w-2.5 h-2.5 text-falcon-sage" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </span>
+                    <CheckIcon />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+
+        {/* Primary Classes 1–6 */}
+        <div className="mb-4 text-center">
+          <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-2">
+            Primary School — Class 1 to Class 6
+          </h3>
+          <p className="text-falcon-earth text-sm max-w-xl mx-auto">
+            A structured and nurturing primary school curriculum following the national syllabus,
+            helping every student build a strong academic foundation.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8 mb-16 mt-6">
+          {primaryClasses.map(({ id, title, age, description, features, icon, color, badgeColor }) => (
+            <article
+              key={id}
+              id={id}
+              className={`rounded-2xl p-6 sm:p-8 border ${color} hover:shadow-md transition-all bg-white`}
+            >
+              <div className="text-4xl mb-4" aria-hidden>{icon}</div>
+              <h4 className="font-display font-bold text-xl text-falcon-sageDark mb-1">{title}</h4>
+              <span className={`inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-3 ${badgeColor}`}>
+                {age}
+              </span>
+              <p className="text-falcon-earth leading-relaxed mb-5 text-sm">{description}</p>
+              <ul className="space-y-1.5">
+                {features.map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-falcon-earth">
+                    <CheckIcon />
                     {f}
                   </li>
                 ))}
@@ -183,11 +257,7 @@ export function Programs() {
               <ul className="space-y-1.5">
                 {features.map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-falcon-earth">
-                    <span className="w-4 h-4 rounded-full bg-falcon-sage/20 flex items-center justify-center shrink-0">
-                      <svg className="w-2.5 h-2.5 text-falcon-sage" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </span>
+                    <CheckIcon />
                     {f}
                   </li>
                 ))}

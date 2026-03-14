@@ -29,8 +29,12 @@ const programOptions = [
   { value: 'nursery', label: 'Nursery (Age 2.5 – 3.5 years)' },
   { value: 'montessori', label: 'Montessori Level (Age 3 – 6 years)' },
   { value: 'kg', label: 'KG – Kindergarten (Age 4 – 6 years)' },
+  { value: 'class-1-2', label: 'Class 1 & 2 (Age 5 – 7 years)' },
+  { value: 'class-3-4', label: 'Class 3 & 4 (Age 7 – 9 years)' },
+  { value: 'class-5-6', label: 'Class 5 & 6 (Age 9 – 12 years)' },
   { value: 'saturday-coaching', label: 'Saturday Coaching' },
-  { value: 'evening-academy', label: 'Evening Academy' },
+  { value: 'evening-academy', label: 'Evening Coaching Academy' },
+  { value: 'computer-courses', label: 'Computer Courses for Kids' },
 ];
 
 interface FormData {
@@ -117,8 +121,8 @@ export function Admissions() {
             Apply for Admission
           </h2>
           <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            Enroll your child in our Montessori, Nursery, or KG program. Limited seats — apply
-            early to secure your spot.
+            Enroll your child from Nursery through Class 6, or join our coaching programs. Limited
+            seats — apply early to secure your spot.
           </p>
         </div>
 

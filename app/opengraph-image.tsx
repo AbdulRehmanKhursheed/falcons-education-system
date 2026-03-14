@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const alt =
-  "Falcons Education System — School Education & Evening Coaching in Rawalpindi";
+  "Falcons Education System — School Nursery to Class 6 & Evening Coaching in Rawalpindi";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -94,7 +94,7 @@ export default function OgImage() {
           fontWeight: 400,
         }}
       >
-        School Education &amp; Evening Coaching in Rawalpindi
+        School Nursery to Class 6 &amp; Evening Coaching — Rawalpindi
       </div>
 
       {/* Program pills */}
@@ -108,10 +108,10 @@ export default function OgImage() {
         }}
       >
         {[
-          "Nursery",
+          "Nursery to Class 6",
           "Montessori",
-          "KG",
           "Evening Coaching",
+          "Saturday Coaching",
           "Computer Courses",
         ].map((p) => (
           <div

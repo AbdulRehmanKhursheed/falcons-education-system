@@ -6,11 +6,11 @@ const BASE_URL = 'https://falconseducationsystem.com';
 
 export const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': ['Preschool', 'EducationalOrganization', 'LocalBusiness'],
+  '@type': ['School', 'EducationalOrganization', 'LocalBusiness'],
   '@id': `${BASE_URL}/#organization`,
   name: 'Falcons Education System',
   description:
-    'Falcons Education System provides quality school education and evening coaching classes in Rawalpindi. Programs include Montessori Nursery, KG, Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses.',
+    'Falcons Education System is a school in Rawalpindi offering education from Nursery to Class 6, plus Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.',
   url: BASE_URL,
   logo: {
     '@type': 'ImageObject',
@@ -25,7 +25,7 @@ export const organizationSchema = {
     streetAddress: 'Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi',
     addressLocality: 'Rawalpindi',
     addressRegion: 'Punjab',
-    postalCode: '44000',
+    postalCode: '46000',
     addressCountry: 'PK',
   },
   geo: {
@@ -101,6 +101,30 @@ export const organizationSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Course',
+          name: 'Primary School Class 1 & 2',
+          description: 'Primary school for children aged 5 to 7 years following the national curriculum',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Primary School Class 3 & 4',
+          description: 'Primary school for children aged 7 to 9 years — English, Math, Science, Urdu',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Primary School Class 5 & 6',
+          description: 'Upper primary for children aged 9 to 12 years — full subject curriculum and exam preparation',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
           name: 'Evening Coaching Academy',
           description: 'Evening coaching classes Monday–Friday, 3:30 PM to 7:30 PM, for school-going children',
         },
@@ -132,7 +156,7 @@ export const websiteSchema = {
   url: BASE_URL,
   name: 'Falcons Education System',
   description:
-    'Official website of Falcons Education System — school education and evening coaching in Rawalpindi. Admissions open for 2026.',
+    'Official website of Falcons Education System — school education from Nursery to Class 6 and evening coaching in Rawalpindi. Admissions open for 2026.',
   publisher: { '@id': `${BASE_URL}/#organization` },
   inLanguage: 'en-PK',
 };
@@ -160,7 +184,15 @@ export const faqSchema = {
       name: 'What programs does Falcons Education System offer?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We offer Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG (4–6 yrs), Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.',
+        text: 'We offer Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG (4–6 yrs), Primary School Class 1 through Class 6, Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Up to which class does Falcons Education System teach?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Falcons Education System provides school education from Nursery all the way up to Class 6. We also offer evening coaching, Saturday coaching, and computer courses.',
       },
     },
     {
@@ -168,7 +200,7 @@ export const faqSchema = {
       name: 'Where is Falcons Education System located?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 44000.',
+        text: 'Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 46000.',
       },
     },
     {

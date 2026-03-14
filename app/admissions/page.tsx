@@ -5,24 +5,24 @@ import { Testimonials } from '@/components/Testimonials';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Admissions Open 2026 — Apply Now | Montessori School Rawalpindi',
+  title: 'Admissions Open 2026 — School Nursery to Class 6 | Falcons Education System Rawalpindi',
   description:
-    'Apply for admission at Falcons Education System Rawalpindi. Nursery, Montessori, KG, Saturday Coaching & Evening Academy. Limited seats for 2026. Apply today!',
+    'Apply for admission at Falcons Education System Rawalpindi. School from Nursery to Class 6, Saturday Coaching & Evening Academy. Limited seats for 2026. Apply today!',
   alternates: { canonical: `${SITE_CONFIG.url}/admissions` },
   openGraph: {
     title: 'Admissions Open 2026 — Falcons Education System Rawalpindi',
     description:
-      'Enroll your child in Rawalpindi\'s trusted Montessori school. Nursery, KG, coaching & evening classes. Limited seats!',
+      'Enroll your child in school from Nursery to Class 6, plus coaching & evening classes at Falcons Education System, Rawalpindi. Limited seats!',
     url: `${SITE_CONFIG.url}/admissions`,
   },
 };
 
 const reasons = [
-  { icon: '🌱', text: 'Authentic Montessori curriculum with certified materials' },
+  { icon: '🌱', text: 'Montessori early learning — Nursery, Montessori Level, KG' },
+  { icon: '📚', text: 'Primary school from Class 1 to Class 6 following national curriculum' },
   { icon: '👩‍🏫', text: 'Trained, caring teachers who know every child by name' },
-  { icon: '🏡', text: 'Safe, clean, prepared classrooms designed for exploration' },
-  { icon: '📚', text: '5 programs: Nursery, Montessori, KG, Saturday Coaching, Evening Academy' },
-  { icon: '💬', text: 'Open parent communication via WhatsApp and walk-in visits' },
+  { icon: '🏡', text: 'Safe, clean classrooms designed for learning and exploration' },
+  { icon: '🌙', text: 'Evening Coaching Academy & Saturday Coaching for extra support' },
   { icon: '📍', text: 'Conveniently located on Kamalabad Road, Rawalpindi' },
 ];
 
@@ -40,8 +40,9 @@ export default function AdmissionsPage() {
             Apply for Admission at Falcons Education System
           </h1>
           <p className="text-falcon-earth text-lg max-w-2xl mx-auto mb-8">
-            Give your child the best educational foundation in Rawalpindi. Our Montessori preschool,
-            Saturday coaching, and evening academy are designed to help every child thrive.
+            Give your child the best educational foundation in Rawalpindi. Our school runs from
+            Nursery through Class 6, with Saturday coaching and an evening academy to help every
+            child thrive.
           </p>
           <a
             href="#admissions"
@@ -81,8 +82,12 @@ export default function AdmissionsPage() {
               { name: 'Nursery', age: 'Age 2.5–3.5', icon: '🌱' },
               { name: 'Montessori Level', age: 'Age 3–6', icon: '📚' },
               { name: 'KG (Kindergarten)', age: 'Age 4–6', icon: '🎓' },
+              { name: 'Class 1 & 2', age: 'Age 5–7', icon: '✏️' },
+              { name: 'Class 3 & 4', age: 'Age 7–9', icon: '🔬' },
+              { name: 'Class 5 & 6', age: 'Age 9–12', icon: '🏆' },
               { name: 'Saturday Coaching', age: 'School-going', icon: '📝' },
               { name: 'Evening Academy', age: 'School-going', icon: '🌙' },
+              { name: 'Computer Courses', age: 'Young students', icon: '💻' },
             ].map(({ name, age, icon }) => (
               <div key={name} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-falcon-sand">
                 <span className="text-2xl" aria-hidden>{icon}</span>
