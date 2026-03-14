@@ -82,7 +82,7 @@ export function Testimonials() {
             Join our growing family of happy students and parents.
           </p>
           <a
-            href="#admissions"
+            href="/admissions"
             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg hover:bg-falcon-cream transition-all shadow-lg tap-target"
           >
             <span aria-hidden>🎓</span>

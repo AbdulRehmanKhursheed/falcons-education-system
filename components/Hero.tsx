@@ -32,7 +32,7 @@ export function Hero() {
         <div className="flex justify-center mb-8">
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-falcon-sage text-white rounded-full text-sm font-bold shadow-md animate-pulse">
             <span aria-hidden>🎉</span>
-            <span>Admissions Open 2025 — Limited Seats Available!</span>
+            <span>Admissions Open 2026 — Limited Seats Available!</span>
           </div>
         </div>
 
@@ -74,7 +74,7 @@ export function Hero() {
               <span>Schedule a Free Visit</span>
             </a>
             <Link
-              href="#admissions"
+              href="/admissions"
               className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg border-2 border-falcon-sage/40 hover:border-falcon-sage hover:bg-falcon-cream transition-all tap-target"
             >
               <span>Apply for Admission</span>

@@ -29,6 +29,8 @@ const programOptions = [
   { value: 'nursery', label: 'Nursery (Age 2.5 – 3.5 years)' },
   { value: 'montessori', label: 'Montessori Level (Age 3 – 6 years)' },
   { value: 'kg', label: 'KG – Kindergarten (Age 4 – 6 years)' },
+  { value: 'saturday-coaching', label: 'Saturday Coaching' },
+  { value: 'evening-academy', label: 'Evening Academy' },
 ];
 
 interface FormData {
@@ -106,7 +108,7 @@ export function Admissions() {
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-falcon-sage/20 text-falcon-sageDark rounded-full text-sm font-semibold mb-4">
             <span aria-hidden>🎉</span>
-            <span>Admissions Open for 2025</span>
+            <span>Admissions Open for 2026</span>
           </div>
           <h2
             id="admissions-heading"

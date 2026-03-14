@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: 'Falcons Education System',
   tagline: 'Nurturing Young Minds with Montessori Excellence',
   description:
-    'Falcons Education System is a Montessori preschool in Rawalpindi offering Nursery, Montessori Level, and KG programs for children aged 2.5 to 6 years. Admissions open.',
+    'Falcons Education System is a Montessori preschool and coaching academy in Rawalpindi offering Nursery, Montessori, KG, Saturday Coaching, and Evening Academy programs for children. Admissions open 2026.',
   url: 'https://falconseducationsystem.com',
   address: {
     street: 'Street No 14, Sonari Bank, Kamalabad Road',
@@ -20,9 +20,10 @@ export const SITE_CONFIG = {
   social: {
     instagram: 'https://www.instagram.com/falconseducationsystem/',
     facebook: 'https://www.facebook.com/falconseducationsystem/',
+    tiktok: 'https://www.tiktok.com/@falconseducationsystem',
   },
-  whatsapp: '', // e.g. https://wa.me/923001234567
-  phone: '',    // e.g. +92 51 XXXXXXX
+  whatsapp: '', // TODO: Add WhatsApp link, e.g. https://wa.me/923001234567
+  phone: '',    // TODO: Add phone number, e.g. +92 51 XXXXXXX
   email: 'info@falconseducationsystem.com',
   founded: 'August 2024',
   mapEmbedUrl:
@@ -44,7 +45,15 @@ export const SEO_KEYWORDS = [
   'Falcons Education System Rawalpindi',
   'early childhood education Rawalpindi',
   'Montessori admission Rawalpindi',
+  'preschool admission Rawalpindi',
+  'coaching center Rawalpindi',
+  'evening academy Rawalpindi',
+  'Saturday coaching Rawalpindi',
+  'tuition center Rawalpindi',
+  'best school near Kamalabad Road',
+  'preschool near Bakra Mandi Rawalpindi',
+  'evening classes for kids Rawalpindi',
+  'weekend coaching Rawalpindi',
   'Montessori method',
   'child-centered learning',
-  'preschool admission Rawalpindi',
 ];

@@ -7,7 +7,7 @@ const faqs = [
   {
     question: 'What age groups does Falcons Education System serve?',
     answer:
-      'Falcons Education System offers early childhood education for children aged 2.5 to 6 years, through three programs: Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), and KG/Kindergarten (4–6 yrs).',
+      'Falcons Education System offers early childhood education for children aged 2.5 to 6 years through Nursery, Montessori Level, and KG. We also offer Saturday Coaching and an Evening Academy for school-going children.',
   },
   {
     question: 'Where is Falcons Education System located in Rawalpindi?',
@@ -17,7 +17,7 @@ const faqs = [
   {
     question: 'Are admissions currently open?',
     answer:
-      'Yes! Admissions are open for Montessori, Nursery, and KG levels for the 2025 academic year. Seats are limited — we recommend applying early. Contact us via WhatsApp, phone, or visit our campus for a free tour.',
+      'Yes! Admissions are open for all programs for 2026 — Nursery, Montessori Level, KG, Saturday Coaching, and Evening Academy. Seats are limited. Contact us via WhatsApp, phone, or visit our campus for a free tour.',
   },
   {
     question: 'What is the Montessori method and why is it beneficial?',
@@ -27,7 +27,7 @@ const faqs = [
   {
     question: 'What are the school timings at Falcons Education System?',
     answer:
-      'Our school operates Monday through Friday, 8:00 AM – 2:00 PM. For specific program timings, please contact us directly as they may vary slightly by level.',
+      'Regular school: Monday–Friday, 8:00 AM – 2:00 PM. Saturday Coaching: Saturdays, 9:00 AM – 1:00 PM. Evening Academy: Monday–Friday, afternoon/evening sessions. Contact us for specific program timings.',
   },
   {
     question: 'How can I schedule a campus visit or apply?',

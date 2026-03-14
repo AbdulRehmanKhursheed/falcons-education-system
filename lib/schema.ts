@@ -10,7 +10,7 @@ export const organizationSchema = {
   '@id': `${BASE_URL}/#organization`,
   name: 'Falcons Education System',
   description:
-    'Falcons Education System is a Montessori preschool in Rawalpindi, Pakistan. We provide authentic Montessori early childhood education — Nursery, Montessori Level, and KG — for children aged 2.5 to 6 years.',
+    'Falcons Education System is a Montessori preschool and coaching academy in Rawalpindi, Pakistan. We provide Nursery, Montessori Level, KG, Saturday Coaching, and Evening Academy programs.',
   url: BASE_URL,
   logo: {
     '@type': 'ImageObject',
@@ -39,13 +39,23 @@ export const organizationSchema = {
   sameAs: [
     'https://www.instagram.com/falconseducationsystem/',
     'https://www.facebook.com/falconseducationsystem/',
+    'https://www.tiktok.com/@falconseducationsystem',
   ],
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '08:00',
-    closes: '14:00',
-  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:00',
+      closes: '14:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '09:00',
+      closes: '13:00',
+      description: 'Saturday Coaching classes',
+    },
+  ],
   areaServed: {
     '@type': 'City',
     name: 'Rawalpindi',
@@ -53,7 +63,7 @@ export const organizationSchema = {
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Montessori Programs',
+    name: 'Programs & Courses',
     itemListElement: [
       {
         '@type': 'Offer',
@@ -79,6 +89,22 @@ export const organizationSchema = {
           description: 'Kindergarten program for children aged 4 to 6 years',
         },
       },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Saturday Coaching',
+          description: 'Weekend coaching and tutoring classes for school-going children on Saturdays',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Evening Academy',
+          description: 'After-school evening classes for academic support, homework help, and skill building',
+        },
+      },
     ],
   },
 };
@@ -90,7 +116,7 @@ export const websiteSchema = {
   url: BASE_URL,
   name: 'Falcons Education System',
   description:
-    'Official website of Falcons Education System, a Montessori preschool in Rawalpindi. Admissions open for Nursery, Montessori Level, and KG.',
+    'Official website of Falcons Education System, a Montessori preschool and coaching academy in Rawalpindi. Admissions open for 2026.',
   publisher: { '@id': `${BASE_URL}/#organization` },
   inLanguage: 'en-PK',
 };
@@ -100,10 +126,12 @@ export const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-    { '@type': 'ListItem', position: 2, name: 'About Us', item: `${BASE_URL}/#about` },
-    { '@type': 'ListItem', position: 3, name: 'Programs', item: `${BASE_URL}/#programs` },
-    { '@type': 'ListItem', position: 4, name: 'Admissions', item: `${BASE_URL}/#admissions` },
-    { '@type': 'ListItem', position: 5, name: 'Contact', item: `${BASE_URL}/#contact` },
+    { '@type': 'ListItem', position: 2, name: 'About Us', item: `${BASE_URL}/about` },
+    { '@type': 'ListItem', position: 3, name: 'Programs', item: `${BASE_URL}/programs` },
+    { '@type': 'ListItem', position: 4, name: 'Admissions', item: `${BASE_URL}/admissions` },
+    { '@type': 'ListItem', position: 5, name: 'Contact', item: `${BASE_URL}/contact` },
+    { '@type': 'ListItem', position: 6, name: 'Blog', item: `${BASE_URL}/blog` },
+    { '@type': 'ListItem', position: 7, name: 'Careers', item: `${BASE_URL}/careers` },
   ],
 };
 
@@ -116,7 +144,7 @@ export const faqSchema = {
       name: 'What age groups does Falcons Education System serve?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We serve children aged 2.5 to 6 years through three programs: Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), and KG/Kindergarten (4–6 yrs).',
+        text: 'We serve children aged 2.5 to 6 years through Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), and KG/Kindergarten (4–6 yrs). We also offer Saturday Coaching and Evening Academy for school-going children.',
       },
     },
     {
@@ -132,7 +160,7 @@ export const faqSchema = {
       name: 'Are admissions currently open?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes! Admissions are open for 2025. We are accepting students for Nursery, Montessori Level, and KG. Contact us via WhatsApp, phone, or visit our campus for a free tour.',
+        text: 'Yes! Admissions are open for 2026. We are accepting students for Nursery, Montessori Level, KG, Saturday Coaching, and Evening Academy. Contact us via WhatsApp, phone, or visit our campus for a free tour.',
       },
     },
     {
@@ -149,6 +177,22 @@ export const faqSchema = {
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'The ideal age to start Montessori is between 2.5 and 3 years, when children are in a sensitive period for language and exploration. Our Nursery program welcomes children from 2.5 years.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is Saturday Coaching at Falcons Education System?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our Saturday Coaching program offers weekend tutoring and academic support for school-going children. Classes run every Saturday from 9:00 AM to 1:00 PM, covering core subjects and exam preparation.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the Evening Academy?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The Evening Academy provides after-school classes for students who need homework help, extra academic support, or skill-building activities. Sessions run Monday through Friday in the evening.',
       },
     },
   ],

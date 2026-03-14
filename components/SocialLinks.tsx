@@ -27,6 +27,18 @@ const socialCards = [
     ),
   },
   {
+    platform: 'TikTok',
+    handle: '@falconseducationsystem',
+    href: SITE_CONFIG.social.tiktok,
+    description: 'Watch fun classroom moments and school highlights on TikTok.',
+    bgColor: 'bg-black',
+    icon: (
+      <svg className="w-7 h-7" fill="white" viewBox="0 0 24 24" aria-hidden>
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.88-2.88 2.89 2.89 0 012.88-2.88c.28 0 .54.04.79.11V9.02a6.27 6.27 0 00-.79-.05c-3.45 0-6.25 2.8-6.25 6.25s2.8 6.25 6.25 6.25 6.25-2.8 6.25-6.25V9.76a8.16 8.16 0 004.77 1.52V7.86a4.84 4.84 0 01-1.92-.17z" />
+      </svg>
+    ),
+  },
+  {
     platform: 'Google Maps',
     handle: 'Kamalabad Road, Rawalpindi',
     href: SITE_CONFIG.mapDirectUrl,
@@ -41,12 +53,14 @@ const socialCards = [
 ];
 
 const quickLinks = [
-  { href: '#about',       label: 'About Us',          icon: '🏫' },
-  { href: '#programs',    label: 'Our Programs',       icon: '📚' },
-  { href: '#gallery',     label: 'Gallery',            icon: '🖼️' },
-  { href: '#admissions',  label: 'Apply / Admissions', icon: '📋' },
-  { href: '#contact',     label: 'Visit Us',           icon: '📍' },
-  { href: '#faq',         label: 'FAQ',                icon: '❓' },
+  { href: '/about',       label: 'About Us',          icon: '🏫' },
+  { href: '/programs',    label: 'Our Programs',       icon: '📚' },
+  { href: '/gallery',     label: 'Gallery',            icon: '🖼️' },
+  { href: '/admissions',  label: 'Apply / Admissions', icon: '📋' },
+  { href: '/contact',     label: 'Visit Us',           icon: '📍' },
+  { href: '/faq',         label: 'FAQ',                icon: '❓' },
+  { href: '/blog',        label: 'Blog',               icon: '📰' },
+  { href: '/careers',     label: 'Careers',            icon: '💼' },
 ];
 
 export function SocialLinks() {
@@ -76,7 +90,7 @@ export function SocialLinks() {
         </div>
 
         {/* Social cards */}
-        <div className="grid sm:grid-cols-3 gap-6 mb-14">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
           {socialCards.map(({ platform, handle, href, description, bgColor, icon }) => (
             <a
               key={platform}

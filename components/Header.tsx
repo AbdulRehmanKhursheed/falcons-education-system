@@ -6,12 +6,13 @@ import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
 
 const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#programs', label: 'Programs' },
-  { href: '#gallery', label: 'Gallery' },
-  { href: '#admissions', label: 'Admissions' },
-  { href: '#contact', label: 'Contact' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
+  { href: '/programs', label: 'Programs' },
+  { href: '/admissions', label: 'Admissions' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' },
+  { href: '/careers', label: 'Careers' },
 ];
 
 export function Header() {
@@ -19,14 +20,12 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Elevate header shadow on scroll
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', handler, { passive: true });
     return () => window.removeEventListener('scroll', handler);
   }, []);
 
-  // Close menu on outside click / touch
   useEffect(() => {
     if (!mobileOpen) return;
     function handleOutside(e: MouseEvent | TouchEvent) {
@@ -42,7 +41,6 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  // Close menu on Escape key
   useEffect(() => {
     if (!mobileOpen) return;
     function handleKey(e: KeyboardEvent) {
@@ -52,7 +50,7 @@ export function Header() {
     return () => document.removeEventListener('keydown', handleKey);
   }, [mobileOpen]);
 
-  const ctaHref = SITE_CONFIG.whatsapp || (SITE_CONFIG.phone ? `tel:${SITE_CONFIG.phone}` : '#contact');
+  const ctaHref = SITE_CONFIG.whatsapp || (SITE_CONFIG.phone ? `tel:${SITE_CONFIG.phone}` : '/admissions');
   const ctaTarget = SITE_CONFIG.whatsapp ? '_blank' : undefined;
   const ctaRel = SITE_CONFIG.whatsapp ? 'noopener noreferrer' : undefined;
 
@@ -66,7 +64,6 @@ export function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-20">
 
-          {/* Logo */}
           <Link
             href="/"
             onClick={() => setMobileOpen(false)}
@@ -81,7 +78,6 @@ export function Header() {
               className="shrink-0 object-contain"
               priority
             />
-            {/* Full name on sm+, abbreviated on xs */}
             <span className="hidden xs:block sm:block text-base sm:text-xl leading-tight">
               {SITE_CONFIG.name}
             </span>
@@ -90,7 +86,6 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-0.5 lg:gap-1" aria-label="Main navigation">
             {navLinks.map((link) => (
               <Link
@@ -103,7 +98,6 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <a
               href={ctaHref}
@@ -116,7 +110,6 @@ export function Header() {
             </a>
           </div>
 
-          {/* Mobile: hamburger */}
           <button
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
@@ -136,7 +129,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
       <div
         id="mobile-menu"
         role="dialog"
@@ -160,7 +152,6 @@ export function Header() {
             </Link>
           ))}
 
-          {/* Inline CTA inside mobile menu */}
           <div className="pt-2 pb-1 grid grid-cols-2 gap-3">
             <a
               href={ctaHref}
@@ -173,7 +164,7 @@ export function Header() {
               <span>Enquire</span>
             </a>
             <Link
-              href="#admissions"
+              href="/admissions"
               onClick={() => setMobileOpen(false)}
               className="flex items-center justify-center gap-2 py-3.5 bg-falcon-sageDark text-white rounded-xl font-bold text-sm hover:opacity-90 transition-colors shadow-sm active:scale-95"
             >

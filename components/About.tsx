@@ -99,7 +99,7 @@ export function About() {
             </div>
 
             <Link
-              href="#admissions"
+              href="/admissions"
               className="inline-flex items-center gap-2 px-6 py-3 bg-falcon-sage text-white rounded-xl font-bold hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
             >
               <span aria-hidden>🎓</span>

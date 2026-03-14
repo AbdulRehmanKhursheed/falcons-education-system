@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Montessori Teacher",
+    "type": "Full-time",
+    "description": "We are looking for a passionate, trained Montessori teacher to lead our Nursery or Montessori Level classroom.",
+    "requirements": [
+      "Montessori diploma or Early Childhood Education qualification",
+      "Experience working with children aged 2.5–6 years",
+      "Warm, patient, and child-centered approach",
+      "Good communication skills with parents"
+    ],
+    "active": true
+  },
+  {
+    "title": "Saturday Coaching Tutor",
+    "type": "Part-time (Saturdays)",
+    "description": "Experienced tutors needed for our Saturday Coaching program. Strong subject knowledge in English, Math, Science, or Urdu required.",
+    "requirements": [
+      "Bachelor's degree (Education or relevant subject preferred)",
+      "Teaching or tutoring experience with school-age children",
+      "Ability to explain concepts clearly and patiently",
+      "Available every Saturday 9:00 AM – 1:00 PM"
+    ],
+    "active": true
+  },
+  {
+    "title": "Evening Academy Instructor",
+    "type": "Part-time (Evenings)",
+    "description": "Join our Evening Academy team to provide homework support, academic reinforcement, and creative activities for after-school students.",
+    "requirements": [
+      "Intermediate or Bachelor's degree",
+      "Good with children and patient demeanor",
+      "Comfortable helping with homework across subjects",
+      "Available Monday–Friday, afternoon/evening hours"
+    ],
+    "active": true
+  },
+  {
+    "title": "Administrative Assistant",
+    "type": "Full-time",
+    "description": "Support the school's daily operations — admissions inquiries, parent communication, record keeping, and social media coordination.",
+    "requirements": [
+      "Computer literate (MS Office, WhatsApp, social media)",
+      "Excellent Urdu and English communication",
+      "Organized and detail-oriented",
+      "Friendly and professional with parents and visitors"
+    ],
+    "active": false
+  }
+]
