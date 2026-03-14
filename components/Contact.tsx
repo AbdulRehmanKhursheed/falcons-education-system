@@ -69,15 +69,20 @@ export function Contact() {
               </address>
 
               <div className="space-y-3">
-                {SITE_CONFIG.phone && (
-                  <a
-                    href={`tel:${SITE_CONFIG.phone}`}
-                    className="flex items-center gap-3 text-falcon-earth hover:text-falcon-sage transition-colors tap-target text-sm"
-                  >
-                    <span className="text-xl" aria-hidden>📞</span>
-                    <span>{SITE_CONFIG.phone}</span>
-                  </a>
-                )}
+                <a
+                  href={`tel:${SITE_CONFIG.phone}`}
+                  className="flex items-center gap-3 text-falcon-earth hover:text-falcon-sage transition-colors tap-target text-sm"
+                >
+                  <span className="text-xl" aria-hidden>📞</span>
+                  <span>{SITE_CONFIG.phone} (Call / WhatsApp)</span>
+                </a>
+                <a
+                  href={`tel:${SITE_CONFIG.phonePTCL}`}
+                  className="flex items-center gap-3 text-falcon-earth hover:text-falcon-sage transition-colors tap-target text-sm"
+                >
+                  <span className="text-xl" aria-hidden>☎️</span>
+                  <span>{SITE_CONFIG.phonePTCL} (PTCL)</span>
+                </a>
                 {SITE_CONFIG.whatsapp && (
                   <a
                     href={SITE_CONFIG.whatsapp}

@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 const faqs = [
   {
-    question: 'What age groups does Falcons Education System serve?',
+    question: 'What programs does Falcons Education System offer?',
     answer:
-      'Falcons Education System offers early childhood education for children aged 2.5 to 6 years through Nursery, Montessori Level, and KG. We also offer Saturday Coaching and an Evening Academy for school-going children.',
+      'We offer Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG/Kindergarten (4–6 yrs), Evening Coaching Academy (3:30–7:30 PM, Mon–Fri), Saturday Coaching (9 AM–1 PM), and Computer Courses for kids.',
   },
   {
     question: 'Where is Falcons Education System located in Rawalpindi?',
@@ -17,32 +17,37 @@ const faqs = [
   {
     question: 'Are admissions currently open?',
     answer:
-      'Yes! Admissions are open for all programs for 2026 — Nursery, Montessori Level, KG, Saturday Coaching, and Evening Academy. Seats are limited. Contact us via WhatsApp, phone, or visit our campus for a free tour.',
+      'Yes! Admissions are open for all programs for 2026 — Nursery, Montessori Level, KG, Evening Coaching, Saturday Coaching, and Computer Courses. Seats are limited. Call or WhatsApp us at 0311-9911288 or visit our campus for a free tour.',
   },
   {
-    question: 'What is the Montessori method and why is it beneficial?',
+    question: 'What are the school and coaching timings?',
     answer:
-      'Montessori education is a child-centered approach developed by Dr. Maria Montessori. It emphasizes hands-on learning, self-directed activity, and collaborative play. Children learn at their own pace using specially designed materials in a prepared environment — developing independence, concentration, and a genuine love for learning.',
+      'Regular school: Monday–Friday, 8:00 AM – 2:00 PM. Evening Coaching Academy: Monday–Friday, 3:30 PM – 7:30 PM. Saturday Coaching: Every Saturday, 9:00 AM – 1:00 PM.',
   },
   {
-    question: 'What are the school timings at Falcons Education System?',
+    question: 'What is the Evening Coaching Academy?',
     answer:
-      'Regular school: Monday–Friday, 8:00 AM – 2:00 PM. Saturday Coaching: Saturdays, 9:00 AM – 1:00 PM. Evening Academy: Monday–Friday, afternoon/evening sessions. Contact us for specific program timings.',
+      'Our Evening Coaching Academy runs Monday–Friday from 3:30 PM to 7:30 PM. It helps school-going children improve their subject understanding, prepare for exams, strengthen basic concepts, and build confidence in their studies. We are also open on Saturdays.',
   },
   {
-    question: 'How can I schedule a campus visit or apply?',
+    question: 'What computer courses do you offer for kids?',
     answer:
-      'You can reach us via WhatsApp, phone, or email to schedule a free visit. You can also fill out our online inquiry form on this page and we\'ll get back to you within one school day. Walk-in visits are also welcome during school hours.',
+      'We offer basic computer courses for young students covering: Basic Computer Knowledge, Typing Skills, Microsoft Word Basics, and Internet Basics. These skills help children become confident in today\'s digital world. Enquire at 0311-9911288 for timing details.',
+  },
+  {
+    question: 'What is Montessori education?',
+    answer:
+      'Montessori education is a child-centered method developed by Dr. Maria Montessori. It uses hands-on materials and self-directed activity so children learn at their own pace in a prepared environment — developing independence, confidence, and a genuine love of learning.',
   },
   {
     question: 'What is the best age to start Montessori or preschool?',
     answer:
-      'Research shows that 2.5 to 3 years is an ideal time to start Montessori education. At this age, children are in a sensitive period for language, order, and sensorial exploration. However, children benefit from Montessori at any age between 2.5 and 6 years.',
+      'The ideal age to start Montessori is between 2.5 and 3 years. Our Nursery program welcomes children from 2.5 years. At this age, children are in a sensitive period for language, order, and sensorial exploration.',
   },
   {
-    question: 'How is Falcons Education System different from regular preschools?',
+    question: 'How can I contact Falcons Education System?',
     answer:
-      'We follow the authentic Montessori method with purpose-built classroom materials, child-led learning, and highly trained teachers — as opposed to rote memorization or teacher-led instruction. We focus on the whole child: cognitive, social, emotional, and physical development.',
+      'Call or WhatsApp: 0311-9911288. PTCL landline: 051-6129955. You can also visit our campus at Kamalabad Road, Rawalpindi during school hours. Walk-in visits are welcome.',
   },
 ];
 
@@ -67,7 +72,7 @@ export function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-falcon-earth text-lg">
-            Quick answers to common questions from parents about our Montessori school.
+            Quick answers about our school, coaching classes, timings, and admissions.
           </p>
         </div>
 
@@ -113,15 +118,24 @@ export function FAQ() {
 
         <div className="mt-10 text-center">
           <p className="text-falcon-earth/70 mb-4">
-            Have more questions? We&apos;re happy to help.
+            Have more questions? Call or WhatsApp us directly.
           </p>
-          <Link
-            href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-falcon-sage text-white rounded-xl font-semibold hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
-          >
-            <span aria-hidden>💬</span>
-            <span>Contact Us</span>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="tel:+923119911288"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-falcon-sage text-white rounded-xl font-semibold hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
+            >
+              <span aria-hidden>📞</span>
+              <span>0311-9911288</span>
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-falcon-sage/30 text-falcon-sageDark rounded-xl font-semibold hover:bg-falcon-sage/5 transition-colors tap-target"
+            >
+              <span aria-hidden>💬</span>
+              <span>Contact Us</span>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

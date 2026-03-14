@@ -10,7 +10,7 @@ export const organizationSchema = {
   '@id': `${BASE_URL}/#organization`,
   name: 'Falcons Education System',
   description:
-    'Falcons Education System is a Montessori preschool and coaching academy in Rawalpindi, Pakistan. We provide Nursery, Montessori Level, KG, Saturday Coaching, and Evening Academy programs.',
+    'Falcons Education System provides quality school education and evening coaching classes in Rawalpindi. Programs include Montessori Nursery, KG, Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses.',
   url: BASE_URL,
   logo: {
     '@type': 'ImageObject',
@@ -18,7 +18,7 @@ export const organizationSchema = {
     width: 512,
     height: 512,
   },
-  image: `${BASE_URL}/og-image.jpg`,
+  image: `${BASE_URL}/opengraph-image`,
   foundingDate: '2024-08-01',
   address: {
     '@type': 'PostalAddress',
@@ -34,7 +34,7 @@ export const organizationSchema = {
     longitude: 73.03198,
   },
   hasMap: 'https://www.google.com/maps/search/?api=1&query=Street+14+Sonari+Bank+Kamalabad+Road+Rawalpindi+Pakistan',
-  telephone: '+92-XXX-XXXXXXX',
+  telephone: '+92-311-9911288',
   email: 'info@falconseducationsystem.com',
   sameAs: [
     'https://www.instagram.com/falconseducationsystem/',
@@ -47,6 +47,14 @@ export const organizationSchema = {
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
       opens: '08:00',
       closes: '14:00',
+      description: 'Regular school hours',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '15:30',
+      closes: '19:30',
+      description: 'Evening Coaching Academy',
     },
     {
       '@type': 'OpeningHoursSpecification',
@@ -93,16 +101,24 @@ export const organizationSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Course',
-          name: 'Saturday Coaching',
-          description: 'Weekend coaching and tutoring classes for school-going children on Saturdays',
+          name: 'Evening Coaching Academy',
+          description: 'Evening coaching classes Monday–Friday, 3:30 PM to 7:30 PM, for school-going children',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Course',
-          name: 'Evening Academy',
-          description: 'After-school evening classes for academic support, homework help, and skill building',
+          name: 'Saturday Coaching',
+          description: 'Weekend coaching and tutoring every Saturday, 9:00 AM to 1:00 PM',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Course',
+          name: 'Computer Courses for Kids',
+          description: 'Basic computer skills: typing, MS Word, internet basics for young students',
         },
       },
     ],
@@ -116,7 +132,7 @@ export const websiteSchema = {
   url: BASE_URL,
   name: 'Falcons Education System',
   description:
-    'Official website of Falcons Education System, a Montessori preschool and coaching academy in Rawalpindi. Admissions open for 2026.',
+    'Official website of Falcons Education System — school education and evening coaching in Rawalpindi. Admissions open for 2026.',
   publisher: { '@id': `${BASE_URL}/#organization` },
   inLanguage: 'en-PK',
 };
@@ -141,10 +157,10 @@ export const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What age groups does Falcons Education System serve?',
+      name: 'What programs does Falcons Education System offer?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We serve children aged 2.5 to 6 years through Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), and KG/Kindergarten (4–6 yrs). We also offer Saturday Coaching and Evening Academy for school-going children.',
+        text: 'We offer Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG (4–6 yrs), Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.',
       },
     },
     {
@@ -152,47 +168,31 @@ export const faqSchema = {
       name: 'Where is Falcons Education System located?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'We are at Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 44000.',
+        text: 'Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 44000.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Are admissions currently open?',
+      name: 'Are admissions open at Falcons Education System?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes! Admissions are open for 2026. We are accepting students for Nursery, Montessori Level, KG, Saturday Coaching, and Evening Academy. Contact us via WhatsApp, phone, or visit our campus for a free tour.',
+        text: 'Yes! Admissions are open for 2026. Call or WhatsApp 0311-9911288 or PTCL 051-6129955.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What is Montessori education?',
+      name: 'What are the evening coaching class timings?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Montessori education is a child-centered method developed by Dr. Maria Montessori. It uses hands-on materials and self-directed activity so children learn at their own pace in a prepared environment.',
+        text: 'Evening Coaching Academy: Monday–Friday, 3:30 PM to 7:30 PM. Also open on Saturdays 9:00 AM to 1:00 PM.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What is the best age to start Montessori?',
+      name: 'What computer courses are available for kids?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The ideal age to start Montessori is between 2.5 and 3 years, when children are in a sensitive period for language and exploration. Our Nursery program welcomes children from 2.5 years.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is Saturday Coaching at Falcons Education System?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Our Saturday Coaching program offers weekend tutoring and academic support for school-going children. Classes run every Saturday from 9:00 AM to 1:00 PM, covering core subjects and exam preparation.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is the Evening Academy?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'The Evening Academy provides after-school classes for students who need homework help, extra academic support, or skill-building activities. Sessions run Monday through Friday in the evening.',
+        text: 'Basic Computer Knowledge, Typing Skills, Microsoft Word Basics, and Internet Basics. Call 0311-9911288 for timing details.',
       },
     },
   ],

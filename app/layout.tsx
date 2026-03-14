@@ -42,10 +42,10 @@ export const metadata: Metadata = {
     description: SITE_CONFIG.description,
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Falcons Education System — Montessori Preschool in Rawalpindi',
+        alt: 'Falcons Education System — School Education & Evening Coaching in Rawalpindi',
       },
     ],
   },

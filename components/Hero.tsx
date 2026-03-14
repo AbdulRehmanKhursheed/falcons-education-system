@@ -3,15 +3,13 @@ import { SITE_CONFIG } from '@/lib/constants';
 
 const highlights = [
   { icon: '🌱', text: 'Montessori Method' },
-  { icon: '👩‍🏫', text: 'Trained, Caring Teachers' },
-  { icon: '🏫', text: 'Safe, Prepared Environment' },
-  { icon: '📚', text: 'Holistic Curriculum' },
+  { icon: '🌙', text: 'Evening Coaching' },
+  { icon: '💻', text: 'Computer Courses' },
+  { icon: '📝', text: 'Saturday Classes' },
 ];
 
 export function Hero() {
-  const ctaHref = SITE_CONFIG.whatsapp || (SITE_CONFIG.phone ? `tel:${SITE_CONFIG.phone}` : '#admissions');
-  const ctaTarget = SITE_CONFIG.whatsapp ? '_blank' : undefined;
-  const ctaRel = SITE_CONFIG.whatsapp ? 'noopener noreferrer' : undefined;
+  const waUrl = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
 
   return (
     <section
@@ -49,37 +47,62 @@ export function Hero() {
           </p>
 
           <p className="text-falcon-earth/80 max-w-2xl mx-auto mb-3 text-base sm:text-lg">
-            A Montessori preschool dedicated to child-centered learning. Enroll your child in
-            Nursery, Montessori Level, or KG and give them the foundation for a lifetime of discovery.
+            Quality school education from Nursery to KG — plus Evening Coaching Classes,
+            Saturday Coaching, and Computer Courses for children in Rawalpindi.
           </p>
 
           <p className="text-sm text-falcon-earth/60 mb-10">
             <Link
-              href="#contact"
+              href="/contact"
               className="hover:text-falcon-sage transition-colors underline underline-offset-2"
             >
               📍 {SITE_CONFIG.address.full}
             </Link>
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <a
-              href={ctaHref}
-              target={ctaTarget}
-              rel={ctaRel}
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-lg hover:shadow-xl tap-target"
-            >
-              <span aria-hidden>📞</span>
-              <span>Schedule a Free Visit</span>
-            </a>
+          {/* 3 Primary CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Link
               href="/admissions"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-lg hover:shadow-xl tap-target"
+            >
+              <span aria-hidden>🎓</span>
+              <span>Admissions Open</span>
+            </Link>
+            <Link
+              href="/programs#evening-academy"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-falcon-sageDark text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-lg tap-target"
+            >
+              <span aria-hidden>🌙</span>
+              <span>Join Coaching Classes</span>
+            </Link>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg border-2 border-falcon-sage/40 hover:border-falcon-sage hover:bg-falcon-cream transition-all tap-target"
             >
-              <span>Apply for Admission</span>
-              <span aria-hidden>→</span>
-            </Link>
+              <span aria-hidden>💬</span>
+              <span>Contact Us</span>
+            </a>
+          </div>
+
+          {/* Phone quick access */}
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
+            <a
+              href={`tel:${SITE_CONFIG.phone}`}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth shadow-sm hover:border-falcon-sage hover:text-falcon-sage transition-colors"
+            >
+              <span aria-hidden>📞</span>
+              <span>{SITE_CONFIG.phone}</span>
+            </a>
+            <a
+              href={`tel:${SITE_CONFIG.phonePTCL}`}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth shadow-sm hover:border-falcon-sage hover:text-falcon-sage transition-colors"
+            >
+              <span aria-hidden>☎️</span>
+              <span>{SITE_CONFIG.phonePTCL}</span>
+            </a>
           </div>
 
           {/* Highlights */}

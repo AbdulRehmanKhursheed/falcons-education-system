@@ -8,7 +8,7 @@ export function MobileActionBar() {
     ? `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`
     : null;
 
-  const callHref = SITE_CONFIG.phone ? `tel:${SITE_CONFIG.phone}` : null;
+  const callHref = `tel:${SITE_CONFIG.phone}`;
 
   return (
     <div
@@ -26,29 +26,16 @@ export function MobileActionBar() {
       <div className="flex items-stretch h-16">
 
         {/* Call */}
-        {callHref ? (
-          <a
-            href={callHref}
-            className="flex-1 flex flex-col items-center justify-center gap-0.5 text-falcon-earth hover:bg-falcon-cream active:bg-falcon-sand transition-colors"
-            aria-label="Call us"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-            <span className="text-[10px] font-semibold uppercase tracking-wide">Call</span>
-          </a>
-        ) : (
-          <a
-            href="#contact"
-            className="flex-1 flex flex-col items-center justify-center gap-0.5 text-falcon-earth hover:bg-falcon-cream active:bg-falcon-sand transition-colors"
-            aria-label="Contact us"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-            <span className="text-[10px] font-semibold uppercase tracking-wide">Contact</span>
-          </a>
-        )}
+        <a
+          href={callHref}
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 text-falcon-earth hover:bg-falcon-cream active:bg-falcon-sand transition-colors"
+          aria-label="Call us"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          <span className="text-[10px] font-semibold uppercase tracking-wide">Call</span>
+        </a>
 
         {/* Divider */}
         <div className="w-px bg-falcon-sand/60 self-stretch my-3" aria-hidden />

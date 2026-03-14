@@ -292,19 +292,23 @@ export function Admissions() {
             <div className="bg-falcon-sageDark text-white rounded-3xl p-6 sm:p-8">
               <h3 className="font-display font-bold text-xl mb-4">Contact Us Directly</h3>
               <p className="text-white/80 mb-6">
-                Prefer to talk? Call us, send a WhatsApp message, or come for a walk-in visit
-                during school hours.
+                Call, WhatsApp, or visit us. Walk-ins welcome during school hours.
               </p>
               <div className="space-y-4">
-                {SITE_CONFIG.phone && (
-                  <a
-                    href={`tel:${SITE_CONFIG.phone}`}
-                    className="flex items-center gap-3 text-white hover:text-falcon-sageLight transition-colors tap-target"
-                  >
-                    <span className="text-2xl" aria-hidden>📞</span>
-                    <span className="font-medium">{SITE_CONFIG.phone}</span>
-                  </a>
-                )}
+                <a
+                  href={`tel:${SITE_CONFIG.phone}`}
+                  className="flex items-center gap-3 text-white hover:text-falcon-sageLight transition-colors tap-target"
+                >
+                  <span className="text-2xl" aria-hidden>📞</span>
+                  <span className="font-medium">{SITE_CONFIG.phone} (Call / WhatsApp)</span>
+                </a>
+                <a
+                  href={`tel:${SITE_CONFIG.phonePTCL}`}
+                  className="flex items-center gap-3 text-white hover:text-falcon-sageLight transition-colors tap-target"
+                >
+                  <span className="text-2xl" aria-hidden>☎️</span>
+                  <span className="font-medium">{SITE_CONFIG.phonePTCL} (PTCL)</span>
+                </a>
                 <a
                   href={ctaHref}
                   target={ctaTarget}
@@ -330,12 +334,16 @@ export function Admissions() {
               </h3>
               <ul className="space-y-2 text-falcon-earth">
                 <li className="flex justify-between">
-                  <span>Monday – Friday</span>
+                  <span>School (Mon – Fri)</span>
                   <span className="font-semibold">8:00 AM – 2:00 PM</span>
                 </li>
-                <li className="flex justify-between text-falcon-earth/60">
-                  <span>Saturday</span>
-                  <span>Closed</span>
+                <li className="flex justify-between">
+                  <span>Evening Coaching (Mon – Fri)</span>
+                  <span className="font-semibold">3:30 PM – 7:30 PM</span>
+                </li>
+                <li className="flex justify-between">
+                  <span>Saturday Coaching</span>
+                  <span className="font-semibold">9:00 AM – 1:00 PM</span>
                 </li>
                 <li className="flex justify-between text-falcon-earth/60">
                   <span>Sunday</span>

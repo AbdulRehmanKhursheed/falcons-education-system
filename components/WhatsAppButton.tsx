@@ -3,9 +3,7 @@
 import { SITE_CONFIG } from '@/lib/constants';
 
 export function WhatsAppButton() {
-  const whatsappUrl = SITE_CONFIG.whatsapp
-    ? `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`
-    : `https://wa.me/?text=Hi%2C+I+want+to+know+about+Falcons+Education+System+admissions.`;
+  const whatsappUrl = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
 
   return (
     /* Hidden on mobile — the MobileActionBar handles WhatsApp there */

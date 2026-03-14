@@ -34,27 +34,60 @@ const programs = [
     color: 'bg-falcon-warm border-falcon-sand',
     badgeColor: 'bg-amber-100 text-amber-800',
   },
+];
+
+const coachingPrograms = [
+  {
+    id: 'evening-academy',
+    title: 'Evening Coaching Academy',
+    target: 'School-going children',
+    icon: '🌙',
+    badge: 'NEW',
+    schedule: '3:30 PM – 7:30 PM | Mon – Fri',
+    openSaturday: true,
+    description:
+      'After-school evening coaching classes to help students improve academic performance and build strong learning skills.',
+    features: [
+      'Improve understanding of all subjects',
+      'Exam preparation and practice tests',
+      'Strengthen basic concepts',
+      'Build confidence in studies',
+      'Supervised homework completion',
+    ],
+  },
   {
     id: 'saturday-coaching',
     title: 'Saturday Coaching',
-    age: 'School-going children',
-    description:
-      'Weekend coaching and tutoring for school-going children. Expert academic support in core subjects, exam preparation, and guided homework help every Saturday.',
-    features: ['Core subject tutoring', 'Exam preparation', 'Homework support', 'Small group attention'],
+    target: 'School-going children',
     icon: '📝',
-    color: 'bg-purple-50 border-purple-200',
-    badgeColor: 'bg-purple-100 text-purple-800',
+    badge: 'NEW',
+    schedule: '9:00 AM – 1:00 PM | Every Saturday',
+    openSaturday: false,
+    description:
+      'Weekend coaching and tutoring for school-going children — core subject support, exam prep, and guided study sessions.',
+    features: [
+      'Core subject tutoring: English, Math, Science, Urdu',
+      'Exam preparation and practice',
+      'Guided homework completion',
+      'Small group, individual attention',
+    ],
   },
   {
-    id: 'evening-academy',
-    title: 'Evening Academy',
-    age: 'School-going children',
+    id: 'computer-courses',
+    title: 'Computer Courses for Kids',
+    target: 'Young students',
+    icon: '💻',
+    badge: 'NEW',
+    schedule: 'Flexible timing — enquire for details',
+    openSaturday: false,
     description:
-      'After-school evening program providing homework help, academic reinforcement, reading practice, and creative activities in a safe, supervised environment.',
-    features: ['Homework completion', 'Subject reinforcement', 'Reading & writing', 'Creative activities'],
-    icon: '🌙',
-    color: 'bg-indigo-50 border-indigo-200',
-    badgeColor: 'bg-indigo-100 text-indigo-800',
+      'Basic computer courses for young students to learn essential digital skills and become confident in today\'s technology-driven world.',
+    features: [
+      'Basic computer knowledge',
+      'Typing skills',
+      'Microsoft Word basics',
+      'Internet basics',
+    ],
   },
 ];
 
@@ -83,20 +116,20 @@ export function Programs() {
             id="programs-heading"
             className="font-display font-bold text-3xl sm:text-4xl text-falcon-sageDark mb-4"
           >
-            Programs & Courses for Every Child
+            School Education &amp; Coaching Classes
           </h2>
           <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            From Montessori early learning to Saturday coaching and evening classes —
-            we support your child at every stage.
+            Complete educational support for your child — from Montessori early learning
+            to evening coaching, Saturday classes, and computer courses.
           </p>
         </div>
 
         {/* Montessori Programs */}
         <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-6 text-center">
-          Montessori Early Learning
+          Montessori School Education
         </h3>
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {programs.slice(0, 3).map(({ id, title, age, description, features, icon, color, badgeColor }) => (
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {programs.map(({ id, title, age, description, features, icon, color, badgeColor }) => (
             <article
               key={id}
               id={id}
@@ -124,27 +157,28 @@ export function Programs() {
           ))}
         </div>
 
-        {/* New Programs: Saturday Coaching + Evening Academy */}
+        {/* Coaching & Extra Programs */}
         <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-6 text-center">
-          Coaching & Academic Support
+          Evening Coaching &amp; Extra Classes
         </h3>
-        <div className="grid md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
-          {programs.slice(3).map(({ id, title, age, description, features, icon, color, badgeColor }) => (
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {coachingPrograms.map(({ id, title, target, icon, badge, schedule, description, features }) => (
             <article
               key={id}
               id={id}
-              className={`rounded-2xl p-6 sm:p-8 border ${color} hover:shadow-md transition-all bg-white`}
+              className="rounded-2xl p-6 sm:p-8 border border-falcon-sand hover:shadow-md transition-all bg-white"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="text-4xl" aria-hidden>{icon}</div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-falcon-sage/10 text-falcon-sage rounded-full text-xs font-bold">
-                  NEW
+                  {badge}
                 </div>
               </div>
               <h4 className="font-display font-bold text-xl text-falcon-sageDark mb-1">{title}</h4>
-              <span className={`inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-3 ${badgeColor}`}>
-                {age}
+              <span className="inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-1 bg-indigo-100 text-indigo-800">
+                {target}
               </span>
+              <p className="text-falcon-sage text-xs font-bold mb-3">🕒 {schedule}</p>
               <p className="text-falcon-earth leading-relaxed mb-5 text-sm">{description}</p>
               <ul className="space-y-1.5">
                 {features.map((f) => (
@@ -179,13 +213,22 @@ export function Programs() {
 
         {/* CTA */}
         <div className="mt-12 text-center">
-          <Link
-            href="/admissions"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-md tap-target"
-          >
-            <span aria-hidden>📋</span>
-            <span>Apply for Admission</span>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/admissions"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-md tap-target"
+            >
+              <span aria-hidden>🎓</span>
+              <span>Apply for Admission</span>
+            </Link>
+            <Link
+              href="/admissions"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-falcon-sageDark text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-md tap-target"
+            >
+              <span aria-hidden>🌙</span>
+              <span>Join Coaching Classes</span>
+            </Link>
+          </div>
           <p className="mt-3 text-sm text-falcon-earth/60">
             Admissions open for all programs — limited seats available for 2026
           </p>

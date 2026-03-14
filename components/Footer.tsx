@@ -140,8 +140,9 @@ export function Footer() {
               <p className="text-white/50 text-xs font-medium uppercase tracking-wider mb-1">
                 School Hours
               </p>
-              <p className="text-white/80 text-sm">Mon – Fri: 8:00 AM – 2:00 PM</p>
-              <p className="text-white/80 text-sm">Saturday: 9:00 AM – 1:00 PM (Coaching)</p>
+              <p className="text-white/80 text-sm">School: Mon–Fri 8:00 AM – 2:00 PM</p>
+              <p className="text-white/80 text-sm">Coaching: Mon–Fri 3:30 PM – 7:30 PM</p>
+              <p className="text-white/80 text-sm">Saturday: 9:00 AM – 1:00 PM</p>
               <p className="text-white/50 text-xs mt-1">Sunday: Closed</p>
             </div>
           </div>
@@ -156,14 +157,18 @@ export function Footer() {
               <p>Rawalpindi, Punjab 44000</p>
               <p>Pakistan</p>
             </address>
-            {SITE_CONFIG.phone && (
-              <a
-                href={`tel:${SITE_CONFIG.phone}`}
-                className="text-white/80 hover:text-white text-sm transition-colors block mb-1"
-              >
-                📞 {SITE_CONFIG.phone}
-              </a>
-            )}
+            <a
+              href={`tel:${SITE_CONFIG.phone}`}
+              className="text-white/80 hover:text-white text-sm transition-colors block mb-1"
+            >
+              📞 {SITE_CONFIG.phone}
+            </a>
+            <a
+              href={`tel:${SITE_CONFIG.phonePTCL}`}
+              className="text-white/80 hover:text-white text-sm transition-colors block mb-1"
+            >
+              ☎️ {SITE_CONFIG.phonePTCL} (PTCL)
+            </a>
             <a
               href={SITE_CONFIG.mapDirectUrl}
               target="_blank"

@@ -12,19 +12,19 @@ const whyChooseUs = [
     icon: '👩‍🏫',
     title: 'Qualified, Caring Teachers',
     description:
-      "Our educators are trained in Montessori philosophy and dedicated to every child's emotional, social, and intellectual growth.",
+      'Our educators are trained, supportive, and dedicated to every child\'s emotional, social, and intellectual growth.',
   },
   {
-    icon: '🏡',
-    title: 'Safe, Prepared Environment',
+    icon: '🌙',
+    title: 'Evening Coaching Classes',
     description:
-      'Thoughtfully designed classrooms with age-appropriate Montessori materials that invite curiosity, independence, and confident exploration.',
+      'We provide evening coaching from 3:30 PM to 7:30 PM, Monday–Friday, to help school-going children improve academically.',
   },
   {
-    icon: '🌍',
-    title: 'Holistic Child Development',
+    icon: '💻',
+    title: 'Computer Courses for Kids',
     description:
-      'From practical life skills to mathematics and language — we develop the whole child: mind, body, creativity, and character.',
+      'Basic computer skills — typing, MS Word, and internet basics — to prepare children for today\'s digital world.',
   },
   {
     icon: '🤝',
@@ -36,13 +36,13 @@ const whyChooseUs = [
     icon: '💬',
     title: 'Open Parent Communication',
     description:
-      "Parents are our partners. Regular updates, open visits, and WhatsApp communication keep you connected to your child's progress.",
+      'Parents are our partners. Call or WhatsApp us at 0311-9911288. Regular updates and open visits keep you connected.',
   },
 ];
 
 const stats = [
   { value: '2024', label: 'Founded' },
-  { value: '3', label: 'Programs' },
+  { value: '6', label: 'Programs' },
   { value: '2.5–6', label: 'Age Range (yrs)' },
   { value: '100%', label: 'Dedicated Care' },
 ];
@@ -69,20 +69,20 @@ export function About() {
               Where Learning Begins with Joy
             </h2>
             <p className="text-falcon-earth text-lg leading-relaxed mb-4">
-              <strong>Falcons Education System</strong> opened in August 2024 with a clear
-              mission: to bring authentic Montessori early childhood education to our community —
-              rooted in love, respect, and child-led discovery.
+              <strong>Falcons Education System</strong> is committed to providing quality
+              education that helps children become confident, independent, and successful.
+              Along with regular school education, we offer <strong>Evening Coaching Classes</strong> to
+              help students improve their academic performance and build strong learning skills.
             </p>
             <p className="text-falcon-earth text-lg leading-relaxed mb-4">
-              Our prepared classrooms, qualified teachers, and Montessori-certified curriculum
-              help every child develop independence, confidence, and a genuine love of learning.
-              We believe every child is unique and deserves the freedom to explore at their own
-              pace.
+              Our mission is to create a supportive learning environment where every child
+              can grow, learn, and achieve their full potential — from Nursery through KG,
+              and with extra support through our coaching academy and computer courses.
             </p>
             <p className="text-falcon-earth text-lg leading-relaxed mb-8">
-              From practical life activities and sensorial exploration to mathematics and language
-              arts — we lay a strong foundation that prepares children not just for school, but
-              for life.
+              Located on <strong>Kamalabad Road, Rawalpindi</strong>, we welcome families
+              from across the community. Call us at <strong>0311-9911288</strong> to schedule
+              a free visit or enquire about admissions.
             </p>
 
             {/* Stats */}
