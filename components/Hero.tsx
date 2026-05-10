@@ -1,176 +1,141 @@
 import Link from 'next/link';
+import { ArrowUpRight, MapPin, Phone, GraduationCap } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { FadeIn } from '@/components/ui/Motion';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 
-const highlights = [
-  { icon: '🌱', text: 'Nursery & Montessori' },
-  { icon: '📚', text: 'Class 1 to Class 6' },
-  { icon: '🌙', text: 'Evening Coaching' },
-  { icon: '💻', text: 'Computer Courses' },
-  { icon: '📝', text: 'Saturday Classes' },
+const brief: Array<{ label: string; value: string }> = [
+  { label: 'Founded',     value: '2024' },
+  { label: 'Ages',        value: '2.5 – 12' },
+  { label: 'Programs',    value: 'Nursery → Class 6' },
+  { label: 'Coaching',    value: 'Evening · Saturday' },
 ];
 
 export function Hero() {
-  const waUrl = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
-
   return (
     <section
-      className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden"
+      className="relative bg-paper grain"
       aria-labelledby="hero-heading"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-falcon-cream to-falcon-warm" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-falcon-sky/60 via-transparent to-transparent" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-20 lg:pt-28 pb-20 lg:pb-32">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-      {/* Decorative blobs */}
-      <div className="absolute top-16 right-8 w-40 h-40 rounded-full bg-falcon-sage/10 blur-3xl" aria-hidden />
-      <div className="absolute bottom-24 left-8 w-48 h-48 rounded-full bg-falcon-sky/30 blur-3xl" aria-hidden />
+          {/* ── Editorial column ─────────────────────────────────────────── */}
+          <div className="lg:col-span-7">
+            <FadeIn>
+              <Eyebrow number="01">Admissions Open · Session 2026</Eyebrow>
+            </FadeIn>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-
-        {/* Admissions banner */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-2 px-5 py-2 bg-falcon-sage text-white rounded-full text-sm font-bold shadow-md animate-pulse">
-            <span aria-hidden>🎉</span>
-            <span>Admissions Open 2026 — Limited Seats Available!</span>
-          </div>
-        </div>
-
-        <div className="text-center">
-          <h1
-            id="hero-heading"
-            className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-falcon-sageDark leading-tight mb-4 animate-fade-in"
-          >
-            {SITE_CONFIG.name}
-          </h1>
-
-          <p className="text-xl sm:text-2xl text-falcon-earth font-semibold mb-3">
-            {SITE_CONFIG.tagline}
-          </p>
-
-          <p className="text-falcon-earth/80 max-w-2xl mx-auto mb-3 text-base sm:text-lg">
-            Quality school education from Nursery through Class 6 — plus Evening Coaching Classes,
-            Saturday Coaching, and Computer Courses for children in Rawalpindi.
-          </p>
-
-          <p className="text-sm text-falcon-earth/60 mb-10">
-            <Link
-              href="/contact"
-              className="hover:text-falcon-sage transition-colors underline underline-offset-2"
-            >
-              📍 {SITE_CONFIG.address.full}
-            </Link>
-          </p>
-
-          {/* 3 Primary CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Link
-              href="/admissions"
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-lg hover:shadow-xl tap-target"
-            >
-              <span aria-hidden>🎓</span>
-              <span>Admissions Open</span>
-            </Link>
-            <Link
-              href="/programs#evening-academy"
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-falcon-sageDark text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-lg tap-target"
-            >
-              <span aria-hidden>🌙</span>
-              <span>Join Coaching Classes</span>
-            </Link>
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg border-2 border-falcon-sage/40 hover:border-falcon-sage hover:bg-falcon-cream transition-all tap-target"
-            >
-              <span aria-hidden>💬</span>
-              <span>Contact Us</span>
-            </a>
-          </div>
-
-          {/* Phone quick access */}
-          <div className="flex flex-wrap gap-3 justify-center mb-10">
-            <a
-              href={`tel:${SITE_CONFIG.phone}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth shadow-sm hover:border-falcon-sage hover:text-falcon-sage transition-colors"
-            >
-              <span aria-hidden>📞</span>
-              <span>{SITE_CONFIG.phone}</span>
-            </a>
-            <a
-              href={`tel:${SITE_CONFIG.phonePTCL}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth shadow-sm hover:border-falcon-sage hover:text-falcon-sage transition-colors"
-            >
-              <span aria-hidden>☎️</span>
-              <span>{SITE_CONFIG.phonePTCL}</span>
-            </a>
-          </div>
-
-          {/* Highlights */}
-          <div className="flex flex-wrap gap-3 justify-center mb-14">
-            {highlights.map(({ icon, text }) => (
-              <div
-                key={text}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-falcon-sand rounded-full text-sm font-medium text-falcon-earth shadow-sm"
+            <FadeIn delay={0.05}>
+              <h1
+                id="hero-heading"
+                className="mt-6 font-display text-[2.75rem] leading-[1.02] sm:text-6xl lg:text-[5.5rem] lg:leading-[0.98] text-ink"
+                style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50' }}
               >
-                <span aria-hidden>{icon}</span>
-                <span>{text}</span>
-              </div>
-            ))}
-          </div>
+                A quieter, more deliberate place to{' '}
+                <span className="italic text-accent" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 100' }}>
+                  begin
+                </span>
+                .
+              </h1>
+            </FadeIn>
 
-          {/* Social links */}
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href={SITE_CONFIG.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth hover:border-falcon-sage hover:text-falcon-sage transition-colors shadow-sm"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-              </svg>
-              Instagram
-            </a>
-            <a
-              href={SITE_CONFIG.social.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth hover:border-falcon-sage hover:text-falcon-sage transition-colors shadow-sm"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-              </svg>
-              Facebook
-            </a>
-            <a
-              href={SITE_CONFIG.mapDirectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-falcon-sand rounded-full text-sm font-semibold text-falcon-earth hover:border-falcon-sage hover:text-falcon-sage transition-colors shadow-sm"
-            >
-              <span aria-hidden>🗺️</span>
-              Google Maps
-            </a>
-          </div>
-        </div>
-
-        {/* Hero image placeholder */}
-        <div className="mt-16 max-w-4xl mx-auto">
-          <div
-            className="relative aspect-video rounded-3xl overflow-hidden bg-falcon-cream border-2 border-dashed border-falcon-sand flex items-center justify-center shadow-lg"
-            aria-label="Hero image — add school photo or video"
-          >
-            <div className="text-center p-8">
-              <span className="text-7xl mb-4 block" aria-hidden>🖼️</span>
-              <p className="text-falcon-earth/70 font-semibold text-lg">Add hero photo or video here</p>
-              <p className="text-sm text-falcon-earth/50 mt-2">
-                Recommended: 16:9 — classroom, school building, or children learning
+            <FadeIn delay={0.12}>
+              <p className="mt-8 max-w-xl text-lg sm:text-xl text-ink-soft leading-[1.55]">
+                Falcons Education System is a Montessori-rooted school in Rawalpindi —
+                nursery through Class 6, with evening coaching and computer courses
+                for school-going children.
               </p>
-            </div>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <Link
+                  href="/admissions"
+                  className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-4 text-[15px] font-semibold text-paper transition-all hover:bg-brand-dark hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                >
+                  Apply for admission
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.25} />
+                </Link>
+
+                <Link
+                  href="/programs"
+                  className="inline-flex items-center gap-1.5 text-[15px] font-medium text-ink underline decoration-line decoration-1 underline-offset-[6px] hover:text-brand hover:decoration-brand transition-colors"
+                >
+                  Explore programs
+                </Link>
+              </div>
+            </FadeIn>
+
+            {/* Meta row — location + phone, set as editorial footnote */}
+            <FadeIn delay={0.28}>
+              <div className="mt-14 flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 text-sm text-ink-muted">
+                <Link href="/contact" className="inline-flex items-center gap-2 hover:text-ink transition-colors">
+                  <MapPin className="h-4 w-4 text-accent" strokeWidth={1.75} />
+                  <span>Kamalabad Road, Rawalpindi</span>
+                </Link>
+                <span className="hidden sm:inline h-3 w-px bg-line" aria-hidden />
+                <a href={`tel:${SITE_CONFIG.phone}`} className="inline-flex items-center gap-2 hover:text-ink transition-colors">
+                  <Phone className="h-4 w-4 text-accent" strokeWidth={1.75} />
+                  <span className="font-mono tracking-tight">{SITE_CONFIG.phone}</span>
+                </a>
+              </div>
+            </FadeIn>
           </div>
+
+          {/* ── Brief card — magazine sidebar ─────────────────────────────── */}
+          <FadeIn delay={0.18} className="lg:col-span-5 lg:pl-4">
+            <aside className="relative">
+              {/* Corner accent — small editorial mark */}
+              <span aria-hidden className="absolute -top-3 -left-3 h-6 w-6 border-t border-l border-accent/60" />
+              <span aria-hidden className="absolute -bottom-3 -right-3 h-6 w-6 border-b border-r border-accent/60" />
+
+              <div className="rounded-lg border border-line bg-paper-warm/60 backdrop-blur-[2px] p-8 sm:p-10 shadow-paper">
+                <div className="flex items-baseline justify-between border-b border-line pb-5">
+                  <p className="font-display text-2xl text-ink" style={{ fontVariationSettings: '"opsz" 24' }}>
+                    The Brief
+                  </p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint">
+                    Issue · 01
+                  </p>
+                </div>
+
+                <dl className="mt-2 divide-y divide-line/70">
+                  {brief.map(({ label, value }) => (
+                    <div key={label} className="flex items-baseline justify-between gap-4 py-4">
+                      <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+                        {label}
+                      </dt>
+                      <dd className="font-display text-lg text-ink text-right" style={{ fontVariationSettings: '"opsz" 24' }}>
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <Link
+                  href="/admissions"
+                  className="mt-2 group inline-flex items-center justify-between w-full rounded-md border border-line bg-paper px-5 py-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-ink hover:border-ink hover:bg-ink hover:text-paper transition-all"
+                >
+                  <span className="inline-flex items-center gap-2.5">
+                    <GraduationCap className="h-4 w-4" strokeWidth={1.75} />
+                    Begin application
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2} />
+                </Link>
+              </div>
+
+              {/* Quiet meta below card */}
+              <p className="mt-5 text-xs text-ink-faint pl-1">
+                Limited seats for 2026 · Visits by appointment
+              </p>
+            </aside>
+          </FadeIn>
         </div>
       </div>
+
+      {/* Hairline bottom rule — editorial section divider */}
+      <div className="border-t border-line" aria-hidden />
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Nunito, Quicksand } from 'next/font/google';
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { organizationSchema, websiteSchema, breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { SITE_CONFIG, SEO_KEYWORDS } from '@/lib/constants';
@@ -8,15 +8,16 @@ import { Footer } from '@/components/Footer';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { MobileActionBar } from '@/components/MobileActionBar';
 
-const nunito = Nunito({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-nunito',
+  variable: '--font-fraunces',
   display: 'swap',
+  axes: ['opsz', 'SOFT'],
 });
 
-const quicksand = Quicksand({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-quicksand',
+  variable: '--font-jakarta',
   display: 'swap',
 });
 
@@ -95,7 +96,7 @@ export default function RootLayout({
   const jsonLd = [organizationSchema, websiteSchema, breadcrumbSchema, faqSchema];
 
   return (
-    <html lang="en-PK" className={`${nunito.variable} ${quicksand.variable}`}>
+    <html lang="en-PK" className={`${fraunces.variable} ${jakarta.variable}`}>
       <head>
         {jsonLd.map((schema, i) => (
           <script
@@ -105,7 +106,7 @@ export default function RootLayout({
           />
         ))}
       </head>
-      <body className="font-body min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-paper text-ink-soft">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

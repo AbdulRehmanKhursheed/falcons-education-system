@@ -1,39 +1,74 @@
 @import "tailwindcss";
 
-/* ── Theme ─────────────────────────────────────────────────────────────── */
+/* ── Design tokens ─────────────────────────────────────────────────────────
+ * Falcons Education System — refined editorial Montessori brand system.
+ * Surfaces: warm cream paper. Text: ink navy. Brand: refined blue.
+ * Accent: muted warm gold (used sparingly).
+ *
+ * Legacy `falcon-*` token names are preserved so unrefactored components
+ * keep rendering — values have been retuned to fit the warmer system.
+ * New refactored components should prefer the semantic tokens below
+ * (ink-*, paper-*, brand-*, accent-*, line-*).
+ * ────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Colors */
-  --color-falcon-sage:      #00a3fe;
-  --color-falcon-sageLight: #5bc4ff;
-  --color-falcon-sageDark:  #003f72;
-  --color-falcon-cream:     #f0f8ff;
-  --color-falcon-warm:      #e6f4ff;
-  --color-falcon-sand:      #b8ddf7;
-  --color-falcon-earth:     #1a4a72;
-  --color-falcon-sky:       #d0eeff;
-  --color-falcon-skyDark:   #9dd4f5;
+  /* — Semantic palette (preferred) — */
+  --color-ink:          #0F1F3A;   /* primary text, dark surfaces */
+  --color-ink-soft:     #2A3F60;   /* body */
+  --color-ink-muted:    #5B6F8D;   /* secondary */
+  --color-ink-faint:    #93A4BD;   /* tertiary, meta */
+  --color-line:         #E5DCC8;   /* warm hairline border */
+  --color-line-soft:    #EFE9DB;   /* very subtle border */
 
-  /* Fonts */
-  --font-display: var(--font-nunito), system-ui, sans-serif;
-  --font-body:    var(--font-quicksand), system-ui, sans-serif;
+  --color-paper:        #FAF7F1;   /* warm cream — primary surface */
+  --color-paper-warm:   #F3EEE3;   /* slightly deeper cream */
+  --color-paper-sand:   #ECE3CE;   /* sand */
+  --color-paper-pure:   #FFFFFF;
 
-  /* Breakpoints */
+  --color-brand:        #163A75;   /* deep royal navy — matches shield */
+  --color-brand-dark:   #0B2756;
+  --color-brand-soft:   #E9EDF6;
+  --color-brand-tint:   #B6C3DC;
+
+  --color-accent:       #C9A03B;   /* rich warm gold — matches laurel */
+  --color-accent-soft:  #E8D599;
+
+  /* — Legacy aliases (retuned values) — */
+  --color-falcon-sage:      #163A75;
+  --color-falcon-sageLight: #3D6CB0;
+  --color-falcon-sageDark:  #0B2756;
+  --color-falcon-cream:     #FAF7F1;
+  --color-falcon-warm:      #F3EEE3;
+  --color-falcon-sand:      #E5DCC8;
+  --color-falcon-earth:     #2A3F60;
+  --color-falcon-sky:       #E9EDF6;
+  --color-falcon-skyDark:   #B6C3DC;
+
+  /* — Typography — */
+  --font-display: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body:    var(--font-jakarta), "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+
+  /* — Breakpoints — */
   --breakpoint-xs: 375px;
 
-  /* Animations */
-  --animate-fade-in:  fade-in 0.6s ease-out forwards;
-  --animate-slide-up: slide-up 0.6s ease-out forwards;
-}
+  /* — Radius — */
+  --radius-xs:  4px;
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-2xl: 28px;
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+  /* — Shadow — soft, paper-like — */
+  --shadow-paper:  0 1px 2px rgba(15, 31, 58, 0.04), 0 2px 8px rgba(15, 31, 58, 0.04);
+  --shadow-card:   0 1px 2px rgba(15, 31, 58, 0.05), 0 8px 24px -8px rgba(15, 31, 58, 0.08);
+  --shadow-float:  0 4px 12px -2px rgba(15, 31, 58, 0.06), 0 16px 40px -8px rgba(15, 31, 58, 0.12);
+  --shadow-rise:   0 24px 60px -20px rgba(15, 31, 58, 0.18);
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  /* — Easing — */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */
@@ -41,11 +76,16 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  @apply antialiased text-falcon-earth bg-white;
   font-family: var(--font-body);
+  background: var(--color-paper);
+  color: var(--color-ink-soft);
+  font-feature-settings: "cv11", "ss01", "ss03";
   overflow-x: hidden;
 }
 
@@ -55,8 +95,32 @@ body {
   }
 }
 
+/* Display headings use Fraunces with optical sizing. */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-feature-settings: "ss01", "ss02", "calt";
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+}
+
+/* Editorial tracking on big display sizes. */
+h1 { letter-spacing: -0.035em; }
+h2 { letter-spacing: -0.025em; }
+
+p, li, address {
+  line-height: 1.65;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: white;
+}
+
 :focus-visible {
-  @apply outline-none ring-2 ring-falcon-sage ring-offset-2;
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 *,
@@ -69,6 +133,7 @@ input,
 textarea,
 select {
   font-size: 16px;
+  font-family: inherit;
 }
 
 @media (width >= 640px) {
@@ -77,10 +142,6 @@ select {
   select {
     font-size: inherit;
   }
-}
-
-p, li, address {
-  @apply leading-relaxed;
 }
 
 /* ── Utilities ─────────────────────────────────────────────────────────── */
@@ -97,32 +158,57 @@ p, li, address {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-@utility section-fade {
-  animation: sectionFadeIn 0.7s ease-out both;
+/* Eyebrow text — small caps, warm gold, used above section headings. */
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
 }
 
-@keyframes sectionFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* Hairline rule used to flank eyebrows / divide editorial blocks. */
+@utility rule {
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  vertical-align: middle;
+}
+
+/* Subtle paper grain — applied to large surfaces for tactile warmth. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+}
+@utility grain {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+      radial-gradient(rgba(15, 31, 58, 0.022) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
   }
 }
 
 /* ── Scrollbar (desktop only) ──────────────────────────────────────────── */
 
 @media (pointer: fine) {
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--color-falcon-cream); }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--color-paper-warm); }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-falcon-sage);
+    background: var(--color-ink-faint);
     border-radius: 999px;
+    border: 2px solid var(--color-paper-warm);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-falcon-sageDark);
+    background: var(--color-ink-muted);
   }
 }
 

@@ -1,145 +1,184 @@
 import Link from 'next/link';
+import {
+  Sprout,
+  BookOpenText,
+  GraduationCap,
+  PencilLine,
+  FlaskConical,
+  Trophy,
+  Moon,
+  CalendarDays,
+  Laptop,
+  ArrowUpRight,
+  Check,
+  type LucideIcon,
+} from 'lucide-react';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 
-const earlyYearsPrograms = [
+type Program = {
+  id: string;
+  title: string;
+  age?: string;
+  badge?: string;
+  schedule?: string;
+  description: string;
+  features: string[];
+  Icon: LucideIcon;
+};
+
+const earlyYearsPrograms: Program[] = [
   {
     id: 'nursery',
     title: 'Nursery',
     age: '2.5 – 3.5 years',
     description:
-      'Introduction to the Montessori environment. Focus on practical life skills, sensorial exploration, social skills, and language development in a warm, nurturing setting.',
-    features: ['Practical life activities', 'Sensorial materials', 'Language introduction', 'Social-emotional development'],
-    icon: '🌱',
-    color: 'bg-falcon-sky/20 border-falcon-sky/40',
-    badgeColor: 'bg-falcon-sky/30 text-falcon-skyDark',
+      'A first introduction to the Montessori environment. Practical life skills, sensorial exploration, and language emerge in a warm, unhurried setting.',
+    features: ['Practical life', 'Sensorial materials', 'Language introduction', 'Social-emotional development'],
+    Icon: Sprout,
   },
   {
     id: 'montessori',
     title: 'Montessori Level',
     age: '3 – 6 years',
     description:
-      'The full Montessori curriculum with prepared environments and self-directed learning. Covers practical life, sensorial, language, mathematics, and cultural studies.',
+      'The full curriculum with prepared environments and self-directed learning. Practical life, sensorial, language, mathematics, and cultural studies.',
     features: ['Full Montessori materials', 'Math & language work', 'Cultural studies', 'Child-led learning'],
-    icon: '📚',
-    color: 'bg-falcon-sage/10 border-falcon-sage/30',
-    badgeColor: 'bg-falcon-sage/20 text-falcon-sageDark',
+    Icon: BookOpenText,
   },
   {
     id: 'kg',
-    title: 'KG (Kindergarten)',
+    title: 'Kindergarten',
     age: '4 – 6 years',
     description:
-      'Bridges Montessori to formal schooling. Reinforces Montessori foundations while introducing structured activities and early academics that prepare children for primary school.',
+      'A bridge between Montessori and formal schooling. Reinforces foundations while introducing structured activities that prepare children for primary.',
     features: ['Reading & writing', 'Number concepts', 'Science exploration', 'School readiness'],
-    icon: '🎓',
-    color: 'bg-falcon-warm border-falcon-sand',
-    badgeColor: 'bg-amber-100 text-amber-800',
+    Icon: GraduationCap,
   },
 ];
 
-const primaryClasses = [
+const primaryClasses: Program[] = [
   {
     id: 'class-1-2',
     title: 'Class 1 & 2',
     age: '5 – 7 years',
     description:
-      'Building strong foundations in English, Urdu, Mathematics, and General Knowledge. Interactive lessons develop reading, writing, and numeracy skills through engaging activities.',
+      'Foundations in English, Urdu, Mathematics, and General Knowledge. Reading, writing, and numeracy develop through structured, engaging lessons.',
     features: ['English reading & writing', 'Urdu & Islamic Studies', 'Basic Mathematics', 'GK & Science basics'],
-    icon: '✏️',
-    color: 'bg-purple-50 border-purple-100',
-    badgeColor: 'bg-purple-100 text-purple-800',
+    Icon: PencilLine,
   },
   {
     id: 'class-3-4',
     title: 'Class 3 & 4',
     age: '7 – 9 years',
     description:
-      'Expanding knowledge in core subjects with a focus on critical thinking and problem-solving. Students develop confidence in academics through structured and engaging lessons.',
+      'Expanding knowledge in core subjects with a focus on critical thinking and problem-solving. Students develop confidence across the curriculum.',
     features: ['Comprehension & composition', 'Math (fractions, geometry)', 'Science & Social Studies', 'Urdu & Islamic Studies'],
-    icon: '🔬',
-    color: 'bg-blue-50 border-blue-100',
-    badgeColor: 'bg-blue-100 text-blue-800',
+    Icon: FlaskConical,
   },
   {
     id: 'class-5-6',
     title: 'Class 5 & 6',
     age: '9 – 12 years',
     description:
-      'Preparing students for secondary education with a comprehensive curriculum. Emphasis on analytical thinking, exam preparation, and academic excellence across all subjects.',
+      'Preparation for secondary education with an emphasis on analytical thinking, exam practice, and academic excellence across all subjects.',
     features: ['Advanced English & Urdu', 'Mathematics & Science', 'Social Studies & Computer', 'Exam preparation & tests'],
-    icon: '🏆',
-    color: 'bg-green-50 border-green-100',
-    badgeColor: 'bg-green-100 text-green-800',
+    Icon: Trophy,
   },
 ];
 
-const coachingPrograms = [
+const coachingPrograms: Program[] = [
   {
     id: 'evening-academy',
     title: 'Evening Coaching Academy',
-    target: 'School-going children',
-    icon: '🌙',
-    badge: 'NEW',
-    schedule: '3:30 PM – 7:30 PM | Mon – Fri',
+    badge: 'New · 2026',
+    schedule: 'Mon – Fri · 15:30 – 19:30',
     description:
-      'After-school evening coaching classes to help students improve academic performance and build strong learning skills.',
+      'After-school coaching for children attending other schools. Builds understanding, supervises homework, and strengthens core concepts.',
     features: [
-      'Improve understanding of all subjects',
+      'Concept-strengthening across subjects',
       'Exam preparation and practice tests',
-      'Strengthen basic concepts',
-      'Build confidence in studies',
       'Supervised homework completion',
+      'Confidence-building',
     ],
+    Icon: Moon,
   },
   {
     id: 'saturday-coaching',
     title: 'Saturday Coaching',
-    target: 'School-going children',
-    icon: '📝',
-    badge: 'NEW',
-    schedule: '9:00 AM – 1:00 PM | Every Saturday',
+    badge: 'New · 2026',
+    schedule: 'Saturday · 09:00 – 13:00',
     description:
-      'Weekend coaching and tutoring for school-going children — core subject support, exam prep, and guided study sessions.',
+      'Weekend coaching for school-going children — core subject support, exam prep, and guided study sessions in a small-group setting.',
     features: [
-      'Core subject tutoring: English, Math, Science, Urdu',
+      'Core subjects · English, Math, Science, Urdu',
       'Exam preparation and practice',
       'Guided homework completion',
       'Small group, individual attention',
     ],
+    Icon: CalendarDays,
   },
   {
     id: 'computer-courses',
     title: 'Computer Courses for Kids',
-    target: 'Young students',
-    icon: '💻',
-    badge: 'NEW',
-    schedule: 'Flexible timing — enquire for details',
+    badge: 'New · 2026',
+    schedule: 'Flexible · enquire for details',
     description:
-      'Basic computer courses for young students to learn essential digital skills and become confident in today\'s technology-driven world.',
+      'A real introduction to digital literacy — the foundational skills children need before they need them.',
     features: [
       'Basic computer knowledge',
-      'Typing skills',
+      'Touch typing',
       'Microsoft Word basics',
-      'Internet basics',
+      'Internet fundamentals',
     ],
+    Icon: Laptop,
   },
 ];
 
-const activities = [
-  { icon: '🎨', label: 'Arts & Crafts' },
-  { icon: '🧩', label: 'Puzzle Work' },
-  { icon: '🌿', label: 'Nature Study' },
-  { icon: '🎵', label: 'Music & Rhymes' },
-  { icon: '📖', label: 'Storytime' },
-  { icon: '🏃', label: 'Physical Activity' },
-];
-
-function CheckIcon() {
+function ProgramCard({ program, dense = false }: { program: Program; dense?: boolean }) {
+  const { id, title, age, badge, schedule, description, features, Icon } = program;
   return (
-    <span className="w-4 h-4 rounded-full bg-falcon-sage/20 flex items-center justify-center shrink-0">
-      <svg className="w-2.5 h-2.5 text-falcon-sage" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
-        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-      </svg>
-    </span>
+    <article
+      id={id}
+      className={`group relative bg-paper hover:bg-paper-warm transition-colors duration-300 ${dense ? 'p-7 lg:p-8' : 'p-8 lg:p-10'}`}
+    >
+      <div className="flex items-start justify-between mb-8">
+        <Icon className="h-7 w-7 text-accent" strokeWidth={1.5} />
+        {badge && (
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-brand bg-brand-soft px-2.5 py-1 rounded-full">
+            {badge}
+          </span>
+        )}
+      </div>
+
+      <h4 className="font-display text-2xl lg:text-[1.6rem] text-ink leading-tight" style={{ fontVariationSettings: '"opsz" 24' }}>
+        {title}
+      </h4>
+
+      {age && (
+        <p className="mt-2 text-[12px] uppercase tracking-[0.16em] font-semibold text-ink-faint">
+          {age}
+        </p>
+      )}
+      {schedule && (
+        <p className="mt-2 font-mono text-[11px] tracking-tight text-ink-muted">
+          {schedule}
+        </p>
+      )}
+
+      <p className="mt-5 text-[14.5px] text-ink-soft leading-[1.65]">
+        {description}
+      </p>
+
+      <ul className="mt-6 space-y-2.5">
+        {features.map((f) => (
+          <li key={f} className="flex items-start gap-2.5 text-[13.5px] text-ink-soft">
+            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" strokeWidth={2.5} />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
   );
 }
 
@@ -147,168 +186,124 @@ export function Programs() {
   return (
     <section
       id="programs"
-      className="py-16 sm:py-24 bg-falcon-cream"
+      className="bg-paper"
       aria-labelledby="programs-heading"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">
-            Our Programs
-          </p>
-          <h2
-            id="programs-heading"
-            className="font-display font-bold text-3xl sm:text-4xl text-falcon-sageDark mb-4"
-          >
-            School Education &amp; Coaching Classes
-          </h2>
-          <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            Complete educational support for your child — from Montessori early learning all the
-            way to Class 6, plus evening coaching, Saturday classes, and computer courses.
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-20 sm:py-28">
 
-        {/* Early Years / Montessori */}
-        <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-6 text-center">
-          Early Years &amp; Montessori Education
-        </h3>
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {earlyYearsPrograms.map(({ id, title, age, description, features, icon, color, badgeColor }) => (
-            <article
-              key={id}
-              id={id}
-              className={`rounded-2xl p-6 sm:p-8 border ${color} hover:shadow-md transition-all bg-white`}
+        {/* ── Section intro ──────────────────────────────────────────── */}
+        <FadeIn className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-20">
+          <div className="lg:col-span-7">
+            <Eyebrow number="04">Programs</Eyebrow>
+            <h2
+              id="programs-heading"
+              className="mt-6 font-display text-4xl sm:text-5xl lg:text-[3.75rem] leading-[1.05] text-ink"
+              style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50' }}
             >
-              <div className="text-4xl mb-4" aria-hidden>{icon}</div>
-              <h4 className="font-display font-bold text-xl text-falcon-sageDark mb-1">{title}</h4>
-              <span className={`inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-3 ${badgeColor}`}>
-                {age}
+              School and coaching, under{' '}
+              <span className="italic text-brand" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 100' }}>
+                one roof
               </span>
-              <p className="text-falcon-earth leading-relaxed mb-5 text-sm">{description}</p>
-              <ul className="space-y-1.5">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-falcon-earth">
-                    <CheckIcon />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-
-        {/* Primary Classes 1–6 */}
-        <div className="mb-4 text-center">
-          <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-2">
-            Primary School — Class 1 to Class 6
-          </h3>
-          <p className="text-falcon-earth text-sm max-w-xl mx-auto">
-            A structured and nurturing primary school curriculum following the national syllabus,
-            helping every student build a strong academic foundation.
+              .
+            </h2>
+          </div>
+          <p className="lg:col-span-5 text-[1.05rem] text-ink-soft leading-[1.65] max-w-md">
+            Three families of programs: Montessori early years for the youngest,
+            primary classes through age 12, and after-school coaching for children
+            attending other schools.
           </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8 mb-16 mt-6">
-          {primaryClasses.map(({ id, title, age, description, features, icon, color, badgeColor }) => (
-            <article
-              key={id}
-              id={id}
-              className={`rounded-2xl p-6 sm:p-8 border ${color} hover:shadow-md transition-all bg-white`}
-            >
-              <div className="text-4xl mb-4" aria-hidden>{icon}</div>
-              <h4 className="font-display font-bold text-xl text-falcon-sageDark mb-1">{title}</h4>
-              <span className={`inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-3 ${badgeColor}`}>
-                {age}
-              </span>
-              <p className="text-falcon-earth leading-relaxed mb-5 text-sm">{description}</p>
-              <ul className="space-y-1.5">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-falcon-earth">
-                    <CheckIcon />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+        </FadeIn>
 
-        {/* Coaching & Extra Programs */}
-        <h3 className="font-display font-bold text-xl text-falcon-sageDark mb-6 text-center">
-          Evening Coaching &amp; Extra Classes
-        </h3>
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {coachingPrograms.map(({ id, title, target, icon, badge, schedule, description, features }) => (
-            <article
-              key={id}
-              id={id}
-              className="rounded-2xl p-6 sm:p-8 border border-falcon-sand hover:shadow-md transition-all bg-white"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="text-4xl" aria-hidden>{icon}</div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-falcon-sage/10 text-falcon-sage rounded-full text-xs font-bold">
-                  {badge}
-                </div>
-              </div>
-              <h4 className="font-display font-bold text-xl text-falcon-sageDark mb-1">{title}</h4>
-              <span className="inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-1 bg-indigo-100 text-indigo-800">
-                {target}
-              </span>
-              <p className="text-falcon-sage text-xs font-bold mb-3">🕒 {schedule}</p>
-              <p className="text-falcon-earth leading-relaxed mb-5 text-sm">{description}</p>
-              <ul className="space-y-1.5">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-falcon-earth">
-                    <CheckIcon />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+        {/* ── Early Years ───────────────────────────────────────────── */}
+        <div className="mb-20">
+          <div className="flex items-baseline justify-between mb-8 pb-5 border-b border-line">
+            <h3 className="font-display text-2xl sm:text-3xl text-ink" style={{ fontVariationSettings: '"opsz" 48' }}>
+              Early Years &amp; Montessori
+            </h3>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint">
+              Ages 2.5 – 6
+            </p>
+          </div>
 
-        {/* Activities strip */}
-        <div className="bg-white rounded-2xl border border-falcon-sand/40 p-6 sm:p-8 shadow-sm">
-          <h3 className="font-display font-bold text-xl text-falcon-sageDark text-center mb-6">
-            Daily Activities
-          </h3>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
-            {activities.map(({ icon, label }) => (
-              <div key={label} className="text-center">
-                <span className="text-3xl block mb-2" aria-hidden>{icon}</span>
-                <p className="text-xs text-falcon-earth font-medium">{label}</p>
-              </div>
+          <Stagger className="grid md:grid-cols-3 gap-px bg-line border border-line">
+            {earlyYearsPrograms.map((p) => (
+              <StaggerItem key={p.id} className="bg-paper">
+                <ProgramCard program={p} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 text-center">
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/admissions"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-md tap-target"
-            >
-              <span aria-hidden>🎓</span>
-              <span>Apply for Admission</span>
-            </Link>
-            <Link
-              href="/admissions"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-falcon-sageDark text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-md tap-target"
-            >
-              <span aria-hidden>🌙</span>
-              <span>Join Coaching Classes</span>
-            </Link>
+        {/* ── Primary ──────────────────────────────────────────────── */}
+        <div className="mb-20">
+          <div className="flex items-baseline justify-between mb-8 pb-5 border-b border-line">
+            <h3 className="font-display text-2xl sm:text-3xl text-ink" style={{ fontVariationSettings: '"opsz" 48' }}>
+              Primary School
+            </h3>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint">
+              Class 1 – 6 · National syllabus
+            </p>
           </div>
-          <p className="mt-3 text-sm text-falcon-earth/60">
-            Admissions open for all programs — limited seats available for 2026
-          </p>
-          <Link
-            href="/programs"
-            className="inline-flex items-center gap-1 mt-4 text-falcon-sage font-semibold text-sm hover:text-falcon-sageDark transition-colors"
-          >
-            View all program details →
-          </Link>
+
+          <Stagger className="grid md:grid-cols-3 gap-px bg-line border border-line">
+            {primaryClasses.map((p) => (
+              <StaggerItem key={p.id} className="bg-paper">
+                <ProgramCard program={p} />
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
+
+        {/* ── Coaching ──────────────────────────────────────────────── */}
+        <div className="mb-20">
+          <div className="flex items-baseline justify-between mb-8 pb-5 border-b border-line">
+            <h3 className="font-display text-2xl sm:text-3xl text-ink" style={{ fontVariationSettings: '"opsz" 48' }}>
+              Evening &amp; Saturday Coaching
+            </h3>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint">
+              For students at other schools
+            </p>
+          </div>
+
+          <Stagger className="grid md:grid-cols-3 gap-px bg-line border border-line">
+            {coachingPrograms.map((p) => (
+              <StaggerItem key={p.id} className="bg-paper">
+                <ProgramCard program={p} dense />
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+
+        {/* ── Footer CTA ───────────────────────────────────────────── */}
+        <FadeIn>
+          <div className="relative mt-24 border-t border-line pt-12">
+            <div className="grid lg:grid-cols-12 gap-8 items-end">
+              <div className="lg:col-span-7">
+                <Eyebrow number="05">Admissions</Eyebrow>
+                <h3 className="mt-5 font-display text-3xl sm:text-4xl text-ink leading-[1.1]" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50' }}>
+                  Limited seats for the{' '}
+                  <span className="italic text-brand">2026</span>{' '}
+                  session.
+                </h3>
+              </div>
+              <div className="lg:col-span-5 lg:text-right flex flex-col sm:flex-row gap-3 lg:justify-end">
+                <Link
+                  href="/admissions"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-4 text-[15px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+                >
+                  Apply for admission
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.25} />
+                </Link>
+                <Link
+                  href="/programs"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-7 py-4 text-[15px] font-semibold text-ink hover:border-ink transition-colors"
+                >
+                  View program details
+                </Link>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
