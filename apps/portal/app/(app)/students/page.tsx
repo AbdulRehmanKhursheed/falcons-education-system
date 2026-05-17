@@ -1,10 +1,21 @@
 import { Plus, Download, Upload } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { StudentsTable } from '@/components/data/StudentsTable';
+import { getStudents } from '@/lib/queries/students';
+import { requireRole } from '@/lib/auth-helpers';
 
 export const metadata = { title: 'Students' };
 
-export default function StudentsPage() {
+export default async function StudentsPage() {
+  await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER']);
+
+  const { rows, total, classrooms } = await getStudents({
+    query: '',
+    classroom: 'All',
+    take: 50,
+    skip: 0,
+  });
+
   return (
     <>
       <PageHeader
@@ -38,7 +49,11 @@ export default function StudentsPage() {
         }
       />
 
-      <StudentsTable />
+      <StudentsTable
+        initialRows={rows}
+        initialTotal={total}
+        classrooms={classrooms}
+      />
     </>
   );
 }

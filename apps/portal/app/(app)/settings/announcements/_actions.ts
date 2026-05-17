@@ -1,0 +1,128 @@
+'use server';
+
+import { revalidatePath } from 'next/cache';
+import { db } from '@/lib/db';
+import { requireRole } from '@/lib/auth-helpers';
+import {
+  announcementSchema,
+  type AnnouncementInput,
+} from '@/lib/schemas/settings';
+import type { ActionResult } from '@/app/(app)/settings/_actions';
+
+function normalize(input: AnnouncementInput) {
+  return {
+    title: input.title,
+    body: input.body,
+    audience: input.audience,
+    classroomId: input.audience === 'CLASSROOM' ? input.classroomId ?? null : null,
+    publishAt: input.publishAt ?? new Date(),
+    expiresAt: input.expiresAt ?? null,
+    pinned: Boolean(input.pinned),
+  };
+}
+
+export async function createAnnouncement(
+  input: AnnouncementInput,
+): Promise<ActionResult> {
+  const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN']);
+
+  const parsed = announcementSchema.safeParse(input);
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    return { ok: false, error: first.message, field: first.path.join('.') };
+  }
+
+  const data = normalize(parsed.data);
+
+  if (data.classroomId) {
+    const classroom = await db.classroom.findUnique({
+      where: { id: data.classroomId },
+      select: { id: true },
+    });
+    if (!classroom) return { ok: false, error: 'Classroom not found', field: 'classroomId' };
+  }
+
+  const created = await db.announcement.create({
+    data: {
+      ...data,
+      postedById: session.user.id,
+    },
+  });
+
+  await db.auditLog.create({
+    data: {
+      actorId: session.user.id,
+      action: 'announcement.create',
+      entityType: 'Announcement',
+      entityId: created.id,
+      diff: { title: created.title, audience: created.audience, pinned: created.pinned },
+    },
+  });
+
+  revalidatePath('/settings/announcements');
+  revalidatePath('/settings');
+  revalidatePath('/dashboard');
+  return { ok: true };
+}
+
+export async function updateAnnouncement(
+  id: string,
+  input: AnnouncementInput,
+): Promise<ActionResult> {
+  const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN']);
+
+  const existing = await db.announcement.findUnique({ where: { id } });
+  if (!existing) return { ok: false, error: 'Announcement not found' };
+
+  const parsed = announcementSchema.safeParse(input);
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    return { ok: false, error: first.message, field: first.path.join('.') };
+  }
+
+  const data = normalize(parsed.data);
+
+  await db.announcement.update({ where: { id }, data });
+
+  await db.auditLog.create({
+    data: {
+      actorId: session.user.id,
+      action: 'announcement.update',
+      entityType: 'Announcement',
+      entityId: id,
+      diff: { title: data.title, audience: data.audience, pinned: data.pinned },
+    },
+  });
+
+  revalidatePath('/settings/announcements');
+  revalidatePath('/settings');
+  revalidatePath('/dashboard');
+  return { ok: true };
+}
+
+export async function deleteAnnouncement(id: string): Promise<ActionResult> {
+  const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN']);
+
+  const existing = await db.announcement.findUnique({
+    where: { id },
+    select: { id: true, title: true },
+  });
+  if (!existing) return { ok: false, error: 'Announcement not found' };
+
+  await db.announcement.delete({ where: { id } });
+
+  await db.auditLog.create({
+    data: {
+      actorId: session.user.id,
+      action: 'announcement.delete',
+      entityType: 'Announcement',
+      entityId: id,
+      diff: { title: existing.title },
+    },
+  });
+
+  revalidatePath('/settings/announcements');
+  revalidatePath('/settings');
+  revalidatePath('/dashboard');
+  return { ok: true };
+}

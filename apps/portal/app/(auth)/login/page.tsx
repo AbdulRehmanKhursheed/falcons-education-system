@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, FormEvent } from 'react';
+import { signIn } from 'next-auth/react';
 import { ArrowUpRight, GraduationCap, KeyRound, Mail, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -15,10 +16,24 @@ export default function LoginPage() {
     setSubmitting(true);
     setError(null);
 
-    // TODO Phase 2 — wire to NextAuth credentials provider.
-    // For now this is UI-only; redirect to dashboard so the layout is reachable.
-    await new Promise((r) => setTimeout(r, 500));
-    window.location.href = '/dashboard';
+    try {
+      const res = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (!res || res.error) {
+        setError('Those credentials did not match. Try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      window.location.href = '/dashboard';
+    } catch {
+      setError('Something went wrong. Please try again.');
+      setSubmitting(false);
+    }
   }
 
   const fieldClasses =

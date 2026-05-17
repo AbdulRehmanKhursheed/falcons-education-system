@@ -1,12 +1,12 @@
 'use client';
 
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { attendanceSeries } from '@/lib/mock-data';
+import type { AttendanceSeriesPoint } from '@/lib/queries/dashboard';
 
-export function AttendanceChart() {
+export function AttendanceChart({ data }: { data: AttendanceSeriesPoint[] }) {
   return (
     <ResponsiveContainer width="100%" height={260}>
-      <BarChart data={attendanceSeries} margin={{ top: 8, right: 8, left: -16, bottom: 0 }} barCategoryGap={20}>
+      <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }} barCategoryGap={20}>
         <CartesianGrid stroke="var(--color-line-soft)" vertical={false} />
         <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-ink-muted)', fontSize: 11 }} />
         <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--color-ink-muted)', fontSize: 11 }} />

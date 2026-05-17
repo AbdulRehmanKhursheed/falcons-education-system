@@ -121,9 +121,12 @@ model User {
   // Relations
   teacher         Teacher?
   guardian        Guardian?
+  accounts        Account[]
+  sessions        Session[]
   attendanceMarks Attendance[]   @relation("MarkedByUser")
   assessmentsBy   Assessment[]   @relation("AssessedByUser")
   announcementsBy Announcement[] @relation("PostedByUser")
+  homework        Homework[]     @relation("HomeworkPostedBy")
   notifications   Notification[]
   paymentsRecorded Payment[]     @relation("RecordedByUser")
   auditLogs       AuditLog[]
@@ -136,14 +139,41 @@ model User {
   @@index([deletedAt])
 }
 
-// NextAuth.js session tables (kept minimal — full set added once we wire auth).
+// NextAuth.js session tables — full set for the @auth/prisma-adapter.
 model Session {
-  id        String   @id @default(cuid())
-  sessionToken String @unique
-  userId    String
-  expires   DateTime
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 // ── Students & guardians ───────────────────────────────────────────────────
@@ -466,6 +496,7 @@ model Homework {
 
   postedAt    DateTime @default(now())
   postedById  String                       // userId of the teacher who posted
+  postedBy    User     @relation("HomeworkPostedBy", fields: [postedById], references: [id])
 
   @@index([classroomId, dueDate])
 }

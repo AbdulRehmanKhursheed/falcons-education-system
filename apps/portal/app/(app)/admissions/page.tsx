@@ -1,10 +1,17 @@
 import { Plus, Filter } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { AdmissionsPipeline } from '@/components/data/AdmissionsPipeline';
+import { getApplications } from '@/lib/queries/admissions';
+import { requireRole } from '@/lib/auth-helpers';
 
 export const metadata = { title: 'Admissions' };
 
-export default function AdmissionsPage() {
+export default async function AdmissionsPage() {
+  const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN']);
+  const applications = await getApplications();
+  const canMoveStage =
+    session.user.role === 'SUPER_ADMIN' || session.user.role === 'SCHOOL_ADMIN';
+
   return (
     <>
       <PageHeader
@@ -31,7 +38,10 @@ export default function AdmissionsPage() {
         }
       />
 
-      <AdmissionsPipeline />
+      <AdmissionsPipeline
+        initialApplications={applications}
+        canMoveStage={canMoveStage}
+      />
     </>
   );
 }

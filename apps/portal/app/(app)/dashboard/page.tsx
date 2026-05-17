@@ -16,21 +16,46 @@ import { KPI } from '@/components/data/KPI';
 import { AttendanceChart } from '@/components/data/AttendanceChart';
 import { FeesChart } from '@/components/data/FeesChart';
 import { ActivityFeed } from '@/components/data/ActivityFeed';
-import { kpis } from '@/lib/mock-data';
 import { formatPKR, formatNumber, formatPercent } from '@/lib/format';
+import {
+  getKpis,
+  getAttendanceSeries,
+  getFeesSeries,
+  getRecentActivity,
+} from '@/lib/queries/dashboard';
+import { requireRole } from '@/lib/auth-helpers';
 
-export default function DashboardPage() {
+export const metadata = { title: 'Dashboard' };
+
+export default async function DashboardPage() {
+  const session = await requireRole([
+    'SUPER_ADMIN',
+    'SCHOOL_ADMIN',
+    'TEACHER',
+    'PARENT',
+    'ACCOUNTANT',
+  ]);
+
+  const [kpis, attendanceSeries, feesSeries, recentActivity] = await Promise.all([
+    getKpis(),
+    getAttendanceSeries(),
+    getFeesSeries(),
+    getRecentActivity(),
+  ]);
+
   const today = new Date().toLocaleDateString('en-PK', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
 
+  const firstName = session.user.name?.split(' ')[0] ?? 'there';
+
   return (
     <>
       <PageHeader
         eyebrow={today}
-        title="Good morning, Admin."
+        title={`Good morning, ${firstName}.`}
         description="A quick overview of the school today — attendance, applications, and fees collection."
         actions={
           <>
@@ -57,13 +82,13 @@ export default function DashboardPage() {
         <KPI
           label="Total students"
           value={formatNumber(kpis.totalStudents)}
-          delta={{ value: `+${kpis.studentsTrend}`, positive: true, suffix: 'last 30d' }}
+          delta={{ value: `+${kpis.studentsTrend}`, positive: kpis.studentsTrend >= 0, suffix: 'last 30d' }}
           Icon={Users}
         />
         <KPI
           label="Attendance today"
           value={formatPercent(kpis.attendanceToday)}
-          delta={{ value: `${kpis.attendanceTrend}%`, positive: kpis.attendanceTrend > 0, suffix: 'vs avg' }}
+          delta={{ value: `${kpis.attendanceTrend}%`, positive: kpis.attendanceTrend >= 0, suffix: 'vs avg' }}
           Icon={CalendarCheck}
         />
         <KPI
@@ -75,7 +100,7 @@ export default function DashboardPage() {
         <KPI
           label="Open applications"
           value={formatNumber(kpis.openApplications)}
-          delta={{ value: `+${kpis.applicationsTrend}`, positive: true, suffix: 'this week' }}
+          delta={{ value: `+${kpis.applicationsTrend}`, positive: kpis.applicationsTrend >= 0, suffix: 'this week' }}
           Icon={ClipboardList}
         />
       </div>
@@ -94,7 +119,7 @@ export default function DashboardPage() {
             }
           />
           <div className="p-5">
-            <AttendanceChart />
+            <AttendanceChart data={attendanceSeries} />
           </div>
         </Card>
 
@@ -110,7 +135,7 @@ export default function DashboardPage() {
             }
           />
           <div className="p-5">
-            <FeesChart />
+            <FeesChart data={feesSeries} />
           </div>
         </Card>
       </div>
@@ -126,7 +151,7 @@ export default function DashboardPage() {
             meta="Latest events across admissions, fees, attendance"
             action={<Chip tone="brand">Live</Chip>}
           />
-          <ActivityFeed />
+          <ActivityFeed events={recentActivity} />
         </Card>
 
         {/* Quick actions + announcements */}
@@ -182,7 +207,7 @@ export default function DashboardPage() {
                   <Chip tone="brand">Admissions</Chip>
                   <span className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">Ongoing</span>
                 </div>
-                <p className="text-[13.5px] text-ink">2026 session admissions — 18 open applications</p>
+                <p className="text-[13.5px] text-ink">2026 session admissions — {kpis.openApplications} open applications</p>
               </li>
             </ul>
             <div className="px-5 py-3 border-t border-line-soft">

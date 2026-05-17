@@ -1,17 +1,26 @@
-import { ClipboardList, Receipt, CalendarCheck, ChartLine, type LucideIcon } from 'lucide-react';
-import { recentActivity } from '@/lib/mock-data';
+import { ClipboardList, Receipt, CalendarCheck, ChartLine, Megaphone, type LucideIcon } from 'lucide-react';
+import type { ActivityEvent } from '@/lib/queries/dashboard';
 
 const iconMap: Record<string, LucideIcon> = {
-  admission:  ClipboardList,
-  fee:        Receipt,
-  attendance: CalendarCheck,
-  assessment: ChartLine,
+  admission:    ClipboardList,
+  fee:          Receipt,
+  attendance:   CalendarCheck,
+  assessment:   ChartLine,
+  announcement: Megaphone,
 };
 
-export function ActivityFeed() {
+export function ActivityFeed({ events }: { events: ActivityEvent[] }) {
+  if (events.length === 0) {
+    return (
+      <div className="px-5 py-12 text-center">
+        <p className="text-[13px] text-ink-faint">No recent activity yet.</p>
+      </div>
+    );
+  }
+
   return (
     <ul className="divide-y divide-line-soft">
-      {recentActivity.map((event) => {
+      {events.map((event) => {
         const Icon = iconMap[event.kind] ?? ClipboardList;
         return (
           <li key={event.id} className="flex items-start gap-3 px-5 py-3.5 hover:bg-surface-2 transition-colors">

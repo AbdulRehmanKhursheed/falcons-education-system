@@ -1,46 +1,69 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useTransition } from 'react';
 import { Search, Filter, ArrowUpRight, ArrowDownUp } from 'lucide-react';
-import { students, type Student } from '@/lib/mock-data';
 import { Chip } from '@/components/ui/Chip';
 import { Avatar } from '@/components/ui/Avatar';
 import { formatPKR, formatPercent } from '@/lib/format';
 import { cn } from '@/lib/cn';
+import { searchStudents } from '@/app/(app)/students/_actions';
+import type { StudentRow } from '@/lib/queries/students';
 
-const statusTone: Record<Student['status'], Parameters<typeof Chip>[0]['tone']> = {
+const statusTone: Record<StudentRow['status'], Parameters<typeof Chip>[0]['tone']> = {
   active:    'success',
   'on-leave': 'warn',
   inactive:  'danger',
 };
 
-const statusLabel: Record<Student['status'], string> = {
+const statusLabel: Record<StudentRow['status'], string> = {
   active:    'Active',
   'on-leave': 'On leave',
   inactive:  'Inactive',
 };
 
-export function StudentsTable() {
+type Props = {
+  initialRows: StudentRow[];
+  initialTotal: number;
+  classrooms: string[];
+};
+
+const PAGE_SIZE = 50;
+
+export function StudentsTable({ initialRows, initialTotal, classrooms }: Props) {
   const [query, setQuery] = useState('');
   const [classroomFilter, setClassroomFilter] = useState<string>('All');
+  const [rows, setRows] = useState<StudentRow[]>(initialRows);
+  const [total, setTotal] = useState(initialTotal);
+  const [page, setPage] = useState(1);
+  const [isPending, startTransition] = useTransition();
 
-  const classrooms = useMemo(
-    () => ['All', ...Array.from(new Set(students.map((s) => s.classroom)))],
-    []
-  );
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return students.filter((s) => {
-      if (classroomFilter !== 'All' && s.classroom !== classroomFilter) return false;
-      if (!q) return true;
-      return (
-        s.name.toLowerCase().includes(q) ||
-        s.rollNo.toLowerCase().includes(q) ||
-        s.guardian.toLowerCase().includes(q)
-      );
+  function runSearch(nextQuery: string, nextClassroom: string, nextPage: number) {
+    startTransition(async () => {
+      const res = await searchStudents(nextQuery, nextClassroom, nextPage);
+      setRows(res.rows);
+      setTotal(res.total);
+      setPage(res.page);
     });
-  }, [query, classroomFilter]);
+  }
+
+  function handleQueryChange(value: string) {
+    setQuery(value);
+    setPage(1);
+    runSearch(value, classroomFilter, 1);
+  }
+
+  function handleClassroomChange(c: string) {
+    setClassroomFilter(c);
+    setPage(1);
+    runSearch(query, c, 1);
+  }
+
+  function handlePageChange(nextPage: number) {
+    if (nextPage < 1 || nextPage > totalPages) return;
+    runSearch(query, classroomFilter, nextPage);
+  }
 
   return (
     <div className="bg-surface border border-line rounded-lg">
@@ -52,7 +75,7 @@ export function StudentsTable() {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => handleQueryChange(e.target.value)}
             placeholder="Search name, roll no, guardian…"
             className="w-full pl-9 pr-4 py-2 rounded-md border border-line bg-surface-2 text-[13px] text-ink placeholder:text-ink-faint focus:outline-none focus:border-ink focus:bg-surface transition-colors"
           />
@@ -69,7 +92,7 @@ export function StudentsTable() {
               <button
                 key={c}
                 type="button"
-                onClick={() => setClassroomFilter(c)}
+                onClick={() => handleClassroomChange(c)}
                 className={cn(
                   'px-2.5 py-1 rounded-full text-[11.5px] font-semibold border transition-colors',
                   active
@@ -84,7 +107,7 @@ export function StudentsTable() {
         </div>
 
         <p className="ml-auto text-[11.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint tabular">
-          {filtered.length} of {students.length}
+          {isPending ? 'Searching…' : `${rows.length} of ${total}`}
         </p>
       </div>
 
@@ -120,7 +143,7 @@ export function StudentsTable() {
           </thead>
 
           <tbody className="divide-y divide-line-soft">
-            {filtered.length === 0 && (
+            {rows.length === 0 && (
               <tr>
                 <td colSpan={8} className="px-5 py-16 text-center">
                   <p className="font-display text-xl text-ink" style={{ fontVariationSettings: '"opsz" 24' }}>
@@ -131,7 +154,7 @@ export function StudentsTable() {
               </tr>
             )}
 
-            {filtered.map((s) => (
+            {rows.map((s) => (
               <tr key={s.id} className="hover:bg-surface-2 transition-colors group">
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3 min-w-0">
@@ -174,12 +197,26 @@ export function StudentsTable() {
         </table>
       </div>
 
-      {/* Pagination footer (stub for Phase 1) */}
+      {/* Pagination footer */}
       <div className="flex items-center justify-between px-5 py-3 border-t border-line-soft text-[11.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
-        <span>Page 1 of 1</span>
+        <span className="tabular">Page {page} of {totalPages}</span>
         <div className="flex gap-1">
-          <button type="button" disabled className="px-2.5 py-1 rounded border border-line bg-surface-2 disabled:opacity-50">Prev</button>
-          <button type="button" disabled className="px-2.5 py-1 rounded border border-line bg-surface-2 disabled:opacity-50">Next</button>
+          <button
+            type="button"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1 || isPending}
+            className="px-2.5 py-1 rounded border border-line bg-surface-2 text-ink-soft hover:border-ink-faint hover:text-ink disabled:opacity-50 disabled:hover:border-line disabled:hover:text-ink-soft transition-colors"
+          >
+            Prev
+          </button>
+          <button
+            type="button"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages || isPending}
+            className="px-2.5 py-1 rounded border border-line bg-surface-2 text-ink-soft hover:border-ink-faint hover:text-ink disabled:opacity-50 disabled:hover:border-line disabled:hover:text-ink-soft transition-colors"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

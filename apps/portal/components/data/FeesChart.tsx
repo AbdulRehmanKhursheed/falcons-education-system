@@ -1,13 +1,13 @@
 'use client';
 
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { feesSeries } from '@/lib/mock-data';
 import { formatPKR } from '@/lib/format';
+import type { FeesSeriesPoint } from '@/lib/queries/dashboard';
 
-export function FeesChart() {
+export function FeesChart({ data }: { data: FeesSeriesPoint[] }) {
   return (
     <ResponsiveContainer width="100%" height={260}>
-      <AreaChart data={feesSeries} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+      <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="collectedFill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"   stopColor="var(--color-brand)"  stopOpacity={0.25} />

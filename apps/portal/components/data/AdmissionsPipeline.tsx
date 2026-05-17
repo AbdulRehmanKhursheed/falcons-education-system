@@ -1,30 +1,67 @@
 'use client';
 
-import { applications, type Application } from '@/lib/mock-data';
+import { useState, useTransition } from 'react';
 import { Avatar } from '@/components/ui/Avatar';
 import { Chip } from '@/components/ui/Chip';
-import { ArrowUpRight, Globe, MessageCircle, MapPin, UsersRound } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Globe, MessageCircle, MapPin, UsersRound, Phone, X } from 'lucide-react';
 import { formatDate } from '@/lib/format';
+import { cn } from '@/lib/cn';
+import type { ApplicationRow } from '@/lib/queries/admissions';
+import { moveStage } from '@/app/(app)/admissions/_actions';
 
-const stages: Array<{ id: Application['stage']; label: string; tone: Parameters<typeof Chip>[0]['tone'] }> = [
-  { id: 'received',  label: 'Received',      tone: 'neutral' },
-  { id: 'interview', label: 'Interview',     tone: 'info'    },
-  { id: 'approved',  label: 'Approved',      tone: 'brand'   },
-  { id: 'enrolled',  label: 'Enrolled',      tone: 'success' },
+type ActiveStage = Exclude<ApplicationRow['stage'], 'declined'>;
+
+const stages: Array<{
+  id: ActiveStage;
+  label: string;
+  tone: Parameters<typeof Chip>[0]['tone'];
+  next?: ActiveStage;
+}> = [
+  { id: 'received',  label: 'Received',  tone: 'neutral', next: 'interview' },
+  { id: 'interview', label: 'Interview', tone: 'info',    next: 'approved' },
+  { id: 'approved',  label: 'Approved',  tone: 'brand',   next: 'enrolled' },
+  { id: 'enrolled',  label: 'Enrolled',  tone: 'success' },
 ];
 
 const sourceIcon = {
-  website:  Globe,
-  whatsapp: MessageCircle,
+  website:   Globe,
+  whatsapp:  MessageCircle,
   'walk-in': MapPin,
-  referral: UsersRound,
+  referral:  UsersRound,
+  phone:     Phone,
 } as const;
 
-export function AdmissionsPipeline() {
+type Props = {
+  initialApplications: ApplicationRow[];
+  canMoveStage: boolean;
+};
+
+export function AdmissionsPipeline({ initialApplications, canMoveStage }: Props) {
+  const [apps, setApps] = useState(initialApplications);
+  const [isPending, startTransition] = useTransition();
+
+  function handleMove(id: string, next: ApplicationRow['stage']) {
+    const previous = apps;
+    // Optimistic update
+    setApps((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, stage: next } : a)),
+    );
+    startTransition(async () => {
+      try {
+        await moveStage(id, next);
+      } catch {
+        // revert on failure
+        setApps(previous);
+      }
+    });
+  }
+
+  const declined = apps.filter((a) => a.stage === 'declined');
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {stages.map((stage) => {
-        const inStage = applications.filter((a) => a.stage === stage.id);
+        const inStage = apps.filter((a) => a.stage === stage.id);
         return (
           <section key={stage.id} className="bg-surface border border-line rounded-lg flex flex-col min-h-[400px]">
 
@@ -49,10 +86,10 @@ export function AdmissionsPipeline() {
               )}
 
               {inStage.map((app) => {
-                const SourceIcon = sourceIcon[app.source];
+                const SourceIcon = sourceIcon[app.source] ?? Globe;
                 return (
                   <li key={app.id}>
-                    <article className="group bg-surface border border-line-soft rounded-md p-3.5 hover:border-line-strong hover:bg-surface-3 transition-all cursor-pointer">
+                    <article className="group bg-surface border border-line-soft rounded-md p-3.5 hover:border-line-strong hover:bg-surface-3 transition-all">
                       <div className="flex items-start gap-3 mb-3">
                         <Avatar name={app.applicantName} size="sm" />
                         <div className="flex-1 min-w-0">
@@ -67,7 +104,7 @@ export function AdmissionsPipeline() {
                         <p className="font-mono text-[10.5px] text-ink-faint tabular mt-1">{app.parentPhone}</p>
                       </div>
 
-                      <footer className="mt-3 pt-3 border-t border-line-soft flex items-center justify-between">
+                      <footer className="mt-3 pt-3 border-t border-line-soft flex items-center justify-between gap-2">
                         <span className="inline-flex items-center gap-1.5 text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
                           <SourceIcon className="w-3 h-3" strokeWidth={1.75} />
                           {app.source}
@@ -76,6 +113,32 @@ export function AdmissionsPipeline() {
                           {formatDate(app.submittedDate, { month: 'short', day: 'numeric' })}
                         </span>
                       </footer>
+
+                      {canMoveStage && stage.next && (
+                        <div className="mt-3 flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleMove(app.id, stage.next!)}
+                            disabled={isPending}
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-line bg-surface-2 px-2.5 py-1.5 text-[11px] font-semibold text-ink-soft hover:bg-ink hover:text-paper hover:border-ink transition-colors disabled:opacity-60"
+                          >
+                            Move to {stages.find((s) => s.id === stage.next)?.label}
+                            <ArrowRight className="w-3 h-3" strokeWidth={2} />
+                          </button>
+                          {stage.id !== 'enrolled' && (
+                            <button
+                              type="button"
+                              onClick={() => handleMove(app.id, 'declined')}
+                              disabled={isPending}
+                              className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-line bg-surface-2 text-ink-faint hover:bg-danger-soft hover:text-danger hover:border-danger/30 transition-colors disabled:opacity-60"
+                              aria-label="Decline application"
+                              title="Decline"
+                            >
+                              <X className="w-3 h-3" strokeWidth={2} />
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </article>
                   </li>
                 );
@@ -84,6 +147,58 @@ export function AdmissionsPipeline() {
           </section>
         );
       })}
+
+      {/* Declined rail */}
+      <section className="bg-surface-2/60 border border-line-soft rounded-lg flex flex-col min-h-[400px]">
+        <header className="flex items-center justify-between px-4 py-3.5 border-b border-line-soft">
+          <div className="flex items-center gap-2.5">
+            <Chip tone="neutral">Declined</Chip>
+            <span className="text-[12px] font-semibold text-ink-faint tabular">{declined.length}</span>
+          </div>
+        </header>
+
+        <ul className="flex-1 px-3 py-3 space-y-2">
+          {declined.length === 0 && (
+            <li className="text-center py-10 text-[12.5px] text-ink-faint italic">
+              None
+            </li>
+          )}
+
+          {declined.map((app) => {
+            const SourceIcon = sourceIcon[app.source] ?? Globe;
+            return (
+              <li key={app.id}>
+                <article className="bg-surface/60 border border-line-soft rounded-md p-3 opacity-80">
+                  <div className="flex items-start gap-3 mb-2">
+                    <Avatar name={app.applicantName} size="sm" className="opacity-60" />
+                    <div className="flex-1 min-w-0">
+                      <p className={cn('font-semibold text-ink-muted text-[13px] truncate line-through decoration-ink-faint/60')}>
+                        {app.applicantName}
+                      </p>
+                      <p className="text-[11.5px] text-ink-faint mt-0.5">{app.childAge}</p>
+                    </div>
+                  </div>
+
+                  <div className="text-[11.5px] text-ink-faint">
+                    <p>{app.programInterest}</p>
+                    <p className="font-mono text-[10.5px] tabular mt-1">{app.parentPhone}</p>
+                  </div>
+
+                  <footer className="mt-2.5 pt-2.5 border-t border-line-soft flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
+                      <SourceIcon className="w-3 h-3" strokeWidth={1.75} />
+                      {app.source}
+                    </span>
+                    <span className="text-[10.5px] text-ink-faint tabular">
+                      {formatDate(app.submittedDate, { month: 'short', day: 'numeric' })}
+                    </span>
+                  </footer>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </div>
   );
 }
