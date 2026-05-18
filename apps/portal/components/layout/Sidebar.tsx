@@ -15,19 +15,55 @@ type Props = {
   signOutAction: () => Promise<void>;
 };
 
+/**
+ * Desktop sticky sidebar. Hidden on screens narrower than lg — the
+ * MobileNav drawer renders the same content via SidebarContent.
+ */
 export function Sidebar({ role, userName, userEmail, signOutAction }: Props) {
+  return (
+    <aside className="hidden lg:flex flex-col w-64 shrink-0 h-screen sticky top-0 bg-surface border-r border-line">
+      <SidebarContent
+        role={role}
+        userName={userName}
+        userEmail={userEmail}
+        signOutAction={signOutAction}
+      />
+    </aside>
+  );
+}
+
+/**
+ * Inner content of the sidebar — Brand + Nav + User footer.
+ * Rendered both inside the desktop <aside> and inside the mobile drawer.
+ *
+ * `onNavigate` lets the mobile drawer close itself when a nav link is tapped.
+ */
+export function SidebarContent({
+  role,
+  userName,
+  userEmail,
+  signOutAction,
+  onNavigate,
+}: Props & { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 shrink-0 h-screen sticky top-0 bg-surface border-r border-line">
+    <>
       {/* Brand */}
       <div className="px-5 py-5 border-b border-line">
-        <Link href="/dashboard" className="flex items-center gap-2.5 group">
+        <Link
+          href="/dashboard"
+          onClick={onNavigate}
+          className="flex items-center gap-2.5 group"
+        >
           <span className="inline-flex items-center justify-center w-9 h-9 rounded-md bg-ink text-paper">
             <GraduationCap className="w-4.5 h-4.5" strokeWidth={1.5} />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="font-display text-base text-ink tracking-[-0.02em] group-hover:text-brand transition-colors" style={{ fontVariationSettings: '"opsz" 24' }}>
+            <span
+              className="font-display text-base text-ink tracking-[-0.02em] group-hover:text-brand transition-colors"
+              style={{ fontVariationSettings: '"opsz" 24' }}
+            >
               Falcons
             </span>
             <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-ink-faint">
@@ -58,10 +94,8 @@ export function Sidebar({ role, userName, userEmail, signOutAction }: Props) {
                     <li key={href}>
                       <Link
                         href={href}
-                        className={cn(
-                          'nav-item',
-                          active && 'nav-item-active'
-                        )}
+                        onClick={onNavigate}
+                        className={cn('nav-item', active && 'nav-item-active')}
                       >
                         <Icon className="w-4 h-4 shrink-0" strokeWidth={active ? 2 : 1.75} />
                         <span>{label}</span>
@@ -94,6 +128,6 @@ export function Sidebar({ role, userName, userEmail, signOutAction }: Props) {
           </form>
         </div>
       </div>
-    </aside>
+    </>
   );
 }

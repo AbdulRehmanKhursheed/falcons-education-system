@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import Link from 'next/link';
 import { Search, Filter, ArrowUpRight, ArrowDownUp } from 'lucide-react';
 import { Chip } from '@/components/ui/Chip';
 import { Avatar } from '@/components/ui/Avatar';
@@ -111,8 +112,66 @@ export function StudentsTable({ initialRows, initialTotal, classrooms }: Props) 
         </p>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Mobile cards — shown < md */}
+      <div className="md:hidden divide-y divide-line-soft">
+        {rows.length === 0 ? (
+          <div className="px-5 py-16 text-center">
+            <p className="font-display text-xl text-ink" style={{ fontVariationSettings: '"opsz" 24' }}>
+              No students match.
+            </p>
+            <p className="mt-1 text-[13px] text-ink-muted">Try a different filter or search term.</p>
+          </div>
+        ) : (
+          rows.map((s) => (
+            <Link
+              key={s.id}
+              href={`/students/${s.id}`}
+              className="block px-4 py-3.5 active:bg-surface-2 hover:bg-surface-2 transition-colors"
+            >
+              <div className="flex items-start gap-3">
+                <Avatar name={s.name} size="sm" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-ink text-[14px] truncate">{s.name}</p>
+                      <p className="font-mono text-[11px] text-ink-faint tabular truncate mt-0.5">
+                        {s.rollNo} · {s.classroom}
+                      </p>
+                    </div>
+                    <Chip tone={statusTone[s.status]} className="shrink-0">{statusLabel[s.status]}</Chip>
+                  </div>
+
+                  <p className="mt-2 text-[12.5px] text-ink-soft truncate">
+                    {s.guardian}
+                    <span className="text-ink-faint"> · </span>
+                    <span className="font-mono text-[11.5px] tabular">{s.guardianPhone}</span>
+                  </p>
+
+                  <div className="mt-2 flex items-center gap-4 text-[11.5px]">
+                    <span className="eyebrow text-ink-faint">
+                      Att <span className="tabular text-ink font-semibold normal-case tracking-normal ml-1">
+                        {formatPercent(s.attendance30d, 0)}
+                      </span>
+                    </span>
+                    <span className="eyebrow text-ink-faint">
+                      Dues <span className={cn(
+                        'tabular font-semibold normal-case tracking-normal ml-1',
+                        s.duesPKR > 0 ? 'text-danger' : 'text-ink-faint'
+                      )}>
+                        {s.duesPKR > 0 ? formatPKR(s.duesPKR) : '—'}
+                      </span>
+                    </span>
+                    <ArrowUpRight className="ml-auto w-3.5 h-3.5 text-ink-faint" strokeWidth={2} />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
+      </div>
+
+      {/* Desktop table — md+ */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead className="bg-surface-2 border-b border-line-soft">
             <tr className="text-left">

@@ -4,6 +4,9 @@ Internal admin portal for **Falcons Education System** — handles admissions, s
 
 Lives alongside the marketing website in this repo. The website (root `app/`) and the portal (`apps/portal/`) share brand language but are independent Next.js apps with isolated dependencies.
 
+- For local development setup, see [`NOTE.md`](./NOTE.md).
+- For production deployment to Vercel + Neon, see [`../../DEPLOYMENT.md`](../../DEPLOYMENT.md).
+
 ## Stack
 
 - **Next.js 16** App Router (full-stack — server actions + route handlers, no separate API server)
@@ -159,31 +162,30 @@ In priority order:
 
 ## Deploy
 
+The portal is deployed to **Vercel** with **Neon Postgres** as the database.
+For the full step-by-step provisioning + day-2 operations guide, see
+[`../../DEPLOYMENT.md`](../../DEPLOYMENT.md) at the repo root.
+
+For local development setup (docker postgres + seed credentials), see
+[`NOTE.md`](./NOTE.md).
+
 ### Local production build
 ```bash
 npm run build
 npm run start         # serves on :3001
 ```
 
-### Vercel (recommended for the portal)
-- Connect this repo to Vercel, set **Root Directory** to `apps/portal`
-- Environment variables: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_TRUST_HOST=true`, `NEXTAUTH_URL`
-- Use **Vercel Postgres** or **Neon** for managed Postgres (cheapest sane options)
-- Vercel auto-detects Next.js — no `vercel.json` needed
-- Add `prisma generate` to `package.json` build step if Vercel cache strips it:
-  ```json
-  "scripts": { "build": "prisma generate && next build" }
-  ```
+### Vercel — short version
+- Root Directory: `apps/portal/`
+- Build is configured in `vercel.json` — runs `prisma generate && prisma migrate deploy && next build`
+- Env vars: see the [Environment variables reference](../../DEPLOYMENT.md#environment-variables-reference) section in DEPLOYMENT.md
 
 ### Self-host (Railway / Fly.io / VPS)
 - Use the same Postgres (or a managed equivalent)
 - Set `NODE_ENV=production`
 - Reverse-proxy via Caddy / Nginx with HTTPS
-- Run `npm run db:migrate deploy` on each deploy
+- Run `npx prisma migrate deploy` on each deploy
 - Set `AUTH_TRUST_HOST=true` if behind a proxy
-
-### What NOT to deploy yet
-- Phase 1 UI runs against mock data — there's no real persistence until Phase 2 ships the Prisma-backed queries and auth. Don't put this in front of real parents without auth wired.
 
 ## Brand voice (for future contributors / Claude sessions)
 

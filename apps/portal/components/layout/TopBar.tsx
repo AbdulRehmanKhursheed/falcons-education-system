@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Search, Bell, Command, ChevronRight, LogOut, User } from 'lucide-react';
+import { Search, Bell, Command, ChevronRight, LogOut, User, Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { flatNav } from '@/lib/nav';
 import { Avatar } from '@/components/ui/Avatar';
@@ -40,9 +40,10 @@ type Props = {
   userEmail: string;
   userRole: AppRole;
   signOutAction: () => Promise<void>;
+  onOpenMobileNav?: () => void;
 };
 
-export function TopBar({ userName, userEmail, userRole, signOutAction }: Props) {
+export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMobileNav }: Props) {
   const pathname = usePathname();
   const crumbs = useBreadcrumbs(pathname);
   const [open, setOpen] = useState(false);
@@ -75,10 +76,20 @@ export function TopBar({ userName, userEmail, userRole, signOutAction }: Props) 
 
   return (
     <header className="sticky top-0 z-30 bg-surface/85 backdrop-blur-md border-b border-line">
-      <div className="flex items-center gap-6 h-14 px-5 lg:px-7">
+      <div className="flex items-center gap-3 lg:gap-6 h-14 px-3 sm:px-5 lg:px-7">
+
+        {/* Hamburger — mobile only */}
+        <button
+          type="button"
+          onClick={onOpenMobileNav}
+          className="lg:hidden inline-flex items-center justify-center w-9 h-9 rounded-md text-ink-soft hover:bg-surface-3 transition-colors -ml-1"
+          aria-label="Open navigation"
+        >
+          <Menu className="w-4 h-4" strokeWidth={1.75} />
+        </button>
 
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-[12px] text-ink-muted" aria-label="Breadcrumb">
+        <nav className="flex items-center gap-1.5 text-[12px] text-ink-muted min-w-0" aria-label="Breadcrumb">
           {crumbs.map((c, i) => (
             <span key={c.href} className="flex items-center gap-1.5">
               {i > 0 && <ChevronRight className="w-3 h-3 text-ink-faint" strokeWidth={1.5} />}

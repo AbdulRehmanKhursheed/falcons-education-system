@@ -1,0 +1,60 @@
+name: portal-ci
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/portal/**'
+      - '.github/workflows/portal-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/portal/**'
+      - '.github/workflows/portal-ci.yml'
+
+# Cancel superseded runs on the same branch.
+concurrency:
+  group: portal-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck-and-build:
+    name: Typecheck and build (apps/portal)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/portal
+    env:
+      # Next.js does NOT connect to the database at build time, but env
+      # validation (lib/env.ts) requires DATABASE_URL to be a valid URL and
+      # AUTH_SECRET to be >= 32 chars. The seed step also reads SEED_*
+      # variables; they're only used at `prisma db seed`, not at build.
+      DATABASE_URL: postgresql://test:test@localhost:5432/test
+      AUTH_SECRET: ci-only-not-secret-ci-only-not-secret
+      AUTH_TRUST_HOST: 'true'
+      NEXTAUTH_URL: http://localhost:3001
+      NODE_ENV: production
+      # Skip telemetry pings in CI.
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: apps/portal/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build (next build)
+        run: npx next build

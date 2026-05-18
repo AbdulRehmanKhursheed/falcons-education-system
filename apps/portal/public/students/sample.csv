@@ -1,0 +1,5 @@
+firstName,lastName,dateOfBirth,gender,classroomName,guardianName,guardianRelation,guardianPhone,guardianWhatsapp,guardianEmail,guardianCnic,admissionDate
+Ayesha,Khan,2018-04-12,female,Class 1,Asif Khan,Father,+923001234567,+923001234567,asif.khan@example.com,12345-1234567-1,2025-08-01
+Bilal,Ahmed,2017-09-23,male,Class 2,Sana Ahmed,Mother,+923021112233,,sana.ahmed@example.com,,2025-08-01
+Hassan,Ali,2019-01-05,male,Montessori A,"Imran Ali, MBBS",Father,+923334445566,+923334445566,,,
+Mariyam,Yousaf,2016-11-30,female,Class 3,Tariq Yousaf,Guardian,+923215556677,,,,2024-08-15

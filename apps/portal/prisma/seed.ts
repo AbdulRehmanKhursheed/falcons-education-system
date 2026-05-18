@@ -82,14 +82,63 @@ function currentTermLabel(now = new Date()): string {
   return `Term ${term} · ${year}`;
 }
 
+/**
+ * Resolve a seed password from env (preferred) or fall back to a dev default.
+ * In production, a missing env var is a hard error — we refuse to seed
+ * predictable credentials onto a live database.
+ */
+function resolveSeedPassword(envVar: string, devDefault: string): string {
+  const envValue = process.env[envVar];
+  if (envValue && envValue.trim().length > 0) return envValue;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      `Refusing to seed default password for ${envVar} in production. ` +
+        `Set ${envVar} in the environment before running the seed.`,
+    );
+  }
+  console.warn(
+    `[seed] ${envVar} not set — falling back to dev default. ` +
+      `DO NOT use this credential in production.`,
+  );
+  return devDefault;
+}
+
 async function main() {
   // ── Users ─────────────────────────────────────────────────────────────
+  // Defaults are intentionally policy-compliant (10+ chars, upper/lower/digit/symbol)
+  // so the seed works out of the box for local dev. Production must override
+  // every SEED_*_PASSWORD env var.
   const userSeeds: Array<{ email: string; name: string; role: Role; password: string }> = [
-    { email: 'admin@falconseducationsystem.com',     name: 'Falcons Admin',    role: Role.SUPER_ADMIN,  password: 'Falcons@Admin1' },
-    { email: 'principal@falconseducationsystem.com', name: 'Sara Principal',   role: Role.SCHOOL_ADMIN, password: 'Falcons@Principal1' },
-    { email: 'teacher@falconseducationsystem.com',   name: 'Anaya Khan',       role: Role.TEACHER,      password: 'Falcons@Teacher1' },
-    { email: 'accounts@falconseducationsystem.com',  name: 'Imran Accountant', role: Role.ACCOUNTANT,   password: 'Falcons@Accounts1' },
-    { email: 'parent@falconseducationsystem.com',    name: 'Demo Parent',      role: Role.PARENT,       password: 'Falcons@Parent1' },
+    {
+      email: 'admin@falconseducationsystem.com',
+      name: 'Falcons Admin',
+      role: Role.SUPER_ADMIN,
+      password: resolveSeedPassword('SEED_ADMIN_PASSWORD', 'Falcons@Admin1'),
+    },
+    {
+      email: 'principal@falconseducationsystem.com',
+      name: 'Sara Principal',
+      role: Role.SCHOOL_ADMIN,
+      password: resolveSeedPassword('SEED_PRINCIPAL_PASSWORD', 'Falcons@Principal1'),
+    },
+    {
+      email: 'teacher@falconseducationsystem.com',
+      name: 'Anaya Khan',
+      role: Role.TEACHER,
+      password: resolveSeedPassword('SEED_TEACHER_PASSWORD', 'Falcons@Teacher1'),
+    },
+    {
+      email: 'accounts@falconseducationsystem.com',
+      name: 'Imran Accountant',
+      role: Role.ACCOUNTANT,
+      password: resolveSeedPassword('SEED_ACCOUNTS_PASSWORD', 'Falcons@Accounts1'),
+    },
+    {
+      email: 'parent@falconseducationsystem.com',
+      name: 'Demo Parent',
+      role: Role.PARENT,
+      password: resolveSeedPassword('SEED_PARENT_PASSWORD', 'Falcons@Parent1'),
+    },
   ];
 
   const users: Record<string, { id: string; email: string }> = {};

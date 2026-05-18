@@ -13,6 +13,7 @@ export default function LoginPage() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (submitting) return;
     setSubmitting(true);
     setError(null);
 
@@ -23,15 +24,41 @@ export default function LoginPage() {
         redirect: false,
       });
 
-      if (!res || res.error) {
-        setError('Those credentials did not match. Try again.');
+      if (!res) {
+        setError('Something went wrong. Try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      // NextAuth v5 surfaces the rate-limit 429 from middleware as a generic
+      // CallbackRouteError. Detect via the status field when available, and
+      // fall back to a string match on the error code.
+      const status = (res as { status?: number }).status;
+      if (status === 429) {
+        setError('Too many attempts. Try again in 15 minutes.');
+        setSubmitting(false);
+        return;
+      }
+
+      if (res.error) {
+        const code = String(res.error);
+        if (code.toLowerCase().includes('ratelimit') || code === '429') {
+          setError('Too many attempts. Try again in 15 minutes.');
+        } else if (
+          code === 'CredentialsSignin' ||
+          code.toLowerCase().includes('credentials')
+        ) {
+          setError('Email or password is incorrect.');
+        } else {
+          setError('Something went wrong. Try again.');
+        }
         setSubmitting(false);
         return;
       }
 
       window.location.href = '/dashboard';
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError('Something went wrong. Try again.');
       setSubmitting(false);
     }
   }
