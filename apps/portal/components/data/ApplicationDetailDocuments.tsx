@@ -9,6 +9,7 @@ import {
   removeDocument,
 } from '@/app/(app)/admissions/[id]/_actions';
 import type { ApplicationDocument } from '@/lib/queries/application-detail';
+import { Uploader } from '@/components/ui/Uploader';
 
 type Props = {
   applicationId: string;
@@ -134,13 +135,12 @@ export function ApplicationDetailDocuments({ applicationId, documents }: Props) 
               </label>
             </div>
             <label className="block">
-              <span className="eyebrow text-ink-faint block mb-1.5">URL</span>
-              <input
-                type="url"
+              <span className="eyebrow text-ink-faint block mb-1.5">File</span>
+              <Uploader
+                endpoint="applicationDocument"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://…"
-                className={inputCls}
+                onChange={(next) => setUrl(next)}
+                placeholder="https://… (paste a document URL)"
               />
             </label>
             {err && <p className="text-[12px] text-danger">{err}</p>}

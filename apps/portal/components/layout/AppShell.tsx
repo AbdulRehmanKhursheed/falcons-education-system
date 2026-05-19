@@ -1,12 +1,9 @@
-'use client';
-
-import { useCallback, useState } from 'react';
-import { Sidebar } from './Sidebar';
-import { MobileNav } from './MobileNav';
-import { TopBar } from './TopBar';
-import { CommandPalette } from './CommandPalette';
-import { KeyboardShortcuts } from './KeyboardShortcuts';
-import { ToastProvider } from '@/components/ui/Toast';
+import { auth } from '@/auth';
+import {
+  getRecentNotifications,
+  getUnreadCount,
+} from '@/lib/queries/notifications';
+import { AppShellInner } from './AppShellInner';
 import type { AppRole } from '@/lib/auth-helpers';
 
 type Props = {
@@ -18,62 +15,30 @@ type Props = {
 };
 
 /**
- * Client wrapper that owns the mobile-nav open/close state, the Cmd-K
- * command palette, and the global keyboard-shortcut handler.
+ * Server wrapper for the portal chrome. Resolves notification state for the
+ * signed-in user on every render (the cost is two cheap indexed queries) so
+ * the TopBar bell shows a fresh unread count + recent rows on every nav.
  *
- * Kept as small as possible so the parent route layout can stay a Server
- * Component and continue fetching the session server-side.
+ * Interactive UI (mobile nav, command palette, keyboard shortcuts) lives in
+ * the inner client shell; this server layer exists solely to fetch data and
+ * pass plain objects across the RSC boundary.
  */
-export function AppShell({
-  role,
-  userName,
-  userEmail,
-  signOutAction,
-  children,
-}: Props) {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [paletteOpen, setPaletteOpen] = useState(false);
+export async function AppShell(props: Props) {
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  const openPalette = useCallback(() => setPaletteOpen(true), []);
-  const closePalette = useCallback(() => setPaletteOpen(false), []);
+  const [unread, recent] = userId
+    ? await Promise.all([
+        getUnreadCount(userId),
+        getRecentNotifications(userId, 5),
+      ])
+    : [0, []];
 
   return (
-    <ToastProvider>
-      <div className="flex min-h-screen bg-surface-2">
-        <Sidebar
-          role={role}
-          userName={userName}
-          userEmail={userEmail}
-          signOutAction={signOutAction}
-        />
-        <MobileNav
-          open={mobileNavOpen}
-          onClose={() => setMobileNavOpen(false)}
-          role={role}
-          userName={userName}
-          userEmail={userEmail}
-          signOutAction={signOutAction}
-        />
-        <div className="flex-1 flex flex-col min-w-0">
-          <TopBar
-            userName={userName}
-            userEmail={userEmail}
-            userRole={role}
-            signOutAction={signOutAction}
-            onOpenMobileNav={() => setMobileNavOpen(true)}
-            onOpenPalette={openPalette}
-          />
-          <main className="flex-1 px-5 sm:px-7 lg:px-10 py-8 lg:py-10">
-            <div className="max-w-7xl mx-auto">{children}</div>
-          </main>
-        </div>
-
-        <CommandPalette open={paletteOpen} onClose={closePalette} userRole={role} />
-        <KeyboardShortcuts
-          onOpenPalette={openPalette}
-          paletteOpen={paletteOpen}
-        />
-      </div>
-    </ToastProvider>
+    <AppShellInner
+      {...props}
+      notificationsUnread={unread}
+      notificationsRecent={recent}
+    />
   );
 }

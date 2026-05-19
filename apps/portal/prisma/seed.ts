@@ -468,6 +468,16 @@ async function main() {
     console.log(`✓ Linked sibling family (guardian 0 → 2 students)`);
   }
 
+  // ── Demo parent user ↔ guardian-0 ───────────────────────────────────
+  // Wire the seeded PARENT user to seed-guardian-0 so the parent portal
+  // has at least one (in fact two — sibling family) linked children to
+  // exercise the multi-child code path on first boot.
+  await prisma.guardian.update({
+    where: { id: `seed-guardian-0` },
+    data: { userId: users[Role.PARENT].id },
+  });
+  console.log(`✓ Linked demo parent user → seed-guardian-0`);
+
   // ── FeeStructures ──────────────────────────────────────────────────
   const feeAmounts: Record<string, number> = {
     Nursery: 6500,

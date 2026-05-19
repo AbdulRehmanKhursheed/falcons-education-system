@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { updateStudent } from '@/app/(app)/students/[id]/_actions';
 import type { UpdateStudentInput } from '@/lib/schemas/students';
+import { Uploader } from '@/components/ui/Uploader';
 
 type Props = {
   studentId: string;
@@ -159,13 +160,13 @@ export function StudentEditForm({ studentId, initial }: Props) {
         </select>
       </Field>
 
-      <Field label="Photo URL">
-        <input
-          type="url"
+      <Field label="Photo">
+        <Uploader
+          endpoint="studentPhoto"
           value={photoUrl}
-          onChange={(e) => setPhotoUrl(e.target.value)}
-          placeholder="https://…"
-          className={inputCls}
+          onChange={(url) => setPhotoUrl(url)}
+          variant="button"
+          placeholder="https://… (paste a public image URL)"
         />
       </Field>
 

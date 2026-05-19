@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Search, Bell, Command, ChevronRight, LogOut, User, Menu } from 'lucide-react';
+import { Search, Command, ChevronRight, LogOut, User, Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { flatNav } from '@/lib/nav';
 import { Avatar } from '@/components/ui/Avatar';
 import { Chip } from '@/components/ui/Chip';
+import { NotificationBell } from './NotificationBell';
 import { cn } from '@/lib/cn';
 import type { AppRole } from '@/lib/auth-helpers';
+import type { NotificationRow } from '@/lib/queries/notifications';
 
 function useBreadcrumbs(pathname: string) {
   const item = flatNav().find((i) => i.href === pathname || pathname.startsWith(`${i.href}/`));
@@ -42,9 +44,20 @@ type Props = {
   signOutAction: () => Promise<void>;
   onOpenMobileNav?: () => void;
   onOpenPalette?: () => void;
+  notificationsUnread: number;
+  notificationsRecent: NotificationRow[];
 };
 
-export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMobileNav, onOpenPalette }: Props) {
+export function TopBar({
+  userName,
+  userEmail,
+  userRole,
+  signOutAction,
+  onOpenMobileNav,
+  onOpenPalette,
+  notificationsUnread,
+  notificationsRecent,
+}: Props) {
   const pathname = usePathname();
   const crumbs = useBreadcrumbs(pathname);
   const [open, setOpen] = useState(false);
@@ -126,14 +139,10 @@ export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMob
             <Search className="w-4 h-4" strokeWidth={1.75} />
           </button>
 
-          <button
-            type="button"
-            className="relative inline-flex items-center justify-center w-9 h-9 rounded-md text-ink-soft hover:bg-surface-3 transition-colors"
-            aria-label="Notifications"
-          >
-            <Bell className="w-4 h-4" strokeWidth={1.75} />
-            <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-accent" aria-hidden />
-          </button>
+          <NotificationBell
+            initialUnread={notificationsUnread}
+            initialRecent={notificationsRecent}
+          />
 
           {/* User menu */}
           <div ref={menuRef} className="relative">

@@ -14,6 +14,8 @@ import {
   Activity,
   ArrowUpRight,
   ScrollText,
+  Printer,
+  FileText,
 } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Card, CardHeader } from '@/components/ui/Card';
@@ -25,6 +27,7 @@ import {
   getStudentDetail,
   getStudentActivity,
 } from '@/lib/queries/student-detail';
+import { getStudentTerms } from '@/lib/queries/report-card';
 import { StudentDetailGuardians } from '@/components/data/StudentDetailGuardians';
 import { StudentDetailAttendance } from '@/components/data/StudentDetailAttendance';
 import { StudentDetailActivity } from '@/components/data/StudentDetailActivity';
@@ -78,9 +81,10 @@ export default async function StudentDetailPage({
   const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER']);
   const { id } = await params;
 
-  const [student, activity] = await Promise.all([
+  const [student, activity, reportCardTerms] = await Promise.all([
     getStudentDetail(id),
     getStudentActivity(id),
+    getStudentTerms(id),
   ]);
 
   if (!student) notFound();
@@ -395,6 +399,52 @@ export default async function StudentDetailPage({
             action={<ClipboardList className="w-4 h-4 text-accent" strokeWidth={1.5} />}
           />
           <StudentDetailActivity entries={activity} />
+        </Card>
+      </div>
+
+      {/* Report cards — one print link per term that has recorded assessments. */}
+      <div className="mt-4">
+        <Card>
+          <CardHeader
+            eyebrow="Print"
+            title="Report cards"
+            meta={
+              reportCardTerms.length > 0
+                ? `${reportCardTerms.length} term${reportCardTerms.length === 1 ? '' : 's'} available`
+                : undefined
+            }
+            action={<FileText className="w-4 h-4 text-accent" strokeWidth={1.5} />}
+          />
+          {reportCardTerms.length === 0 ? (
+            <div className="px-5 py-6 text-[12.5px] text-ink-faint italic">
+              No report cards available — assessments not yet recorded.
+            </div>
+          ) : (
+            <ul className="divide-y divide-line-soft">
+              {reportCardTerms.map((term) => (
+                <li
+                  key={term}
+                  className="flex items-center justify-between gap-3 px-5 py-3"
+                >
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-semibold text-ink truncate">
+                      {term}
+                    </p>
+                    <p className="text-[11.5px] text-ink-faint">
+                      Print-ready · {student.fullName}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/students/${student.id}/report-card?term=${encodeURIComponent(term)}`}
+                    className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-3 py-1.5 text-[12px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors shrink-0"
+                  >
+                    <Printer className="w-3.5 h-3.5" strokeWidth={2} />
+                    Print
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </Card>
       </div>
     </>

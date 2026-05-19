@@ -19,6 +19,7 @@ import {
   type RosterRow,
   type ClassroomDailySummary,
 } from '@/lib/queries/attendance';
+import { notifyUsers, getParentUserIdsForStudent } from '@/lib/notify';
 
 function assertNotFuture(date: Date) {
   if (date.getTime() > todayMidnight().getTime()) {
@@ -82,6 +83,36 @@ export async function markAttendance(input: MarkAttendanceInput): Promise<{
       diff: { date: parsed.date, status: parsed.status, classroomId: parsed.classroomId },
     },
   });
+
+  // Notify parents on ABSENT — best effort, never blocks the mark-attendance
+  // action. We re-fetch the student name once because the roster query is
+  // overkill for a single row.
+  if (parsed.status === 'ABSENT') {
+    try {
+      const [parentUserIds, student] = await Promise.all([
+        getParentUserIdsForStudent(parsed.studentId),
+        db.student.findUnique({
+          where: { id: parsed.studentId },
+          select: { fullName: true },
+        }),
+      ]);
+      if (parentUserIds.length > 0 && student) {
+        const dateLabel = new Date(parsed.date).toLocaleDateString('en-PK', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+        });
+        await notifyUsers(parentUserIds, {
+          kind: 'ATTENDANCE',
+          title: `${student.fullName} marked absent on ${dateLabel}`,
+          body: 'Please contact the school if this is incorrect.',
+          link: `/parent/kids/${parsed.studentId}/attendance`,
+        });
+      }
+    } catch (err) {
+      console.warn('[attendance] absent notification failed', err);
+    }
+  }
 
   revalidatePath('/attendance');
   revalidatePath('/dashboard');

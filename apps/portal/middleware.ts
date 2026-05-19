@@ -57,11 +57,53 @@ export default auth((req) => {
   // ── Auth-gate everything else ───────────────────────────────────────
   const isAuthed = !!req.auth;
   const isAuthRoute = pathname.startsWith('/login');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const role: string | undefined = (req.auth?.user as any)?.role;
+  const isParent = role === 'PARENT';
+  const isParentRoute = pathname.startsWith('/parent');
 
   if (!isAuthed && !isAuthRoute) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
+
   if (isAuthed && isAuthRoute) {
+    // Parents land in the parent portal; everyone else hits the admin
+    // dashboard.
+    return NextResponse.redirect(
+      new URL(isParent ? '/parent/dashboard' : '/dashboard', req.url),
+    );
+  }
+
+  // ── Parent role steering ───────────────────────────────────────────
+  // Admin surfaces a parent shouldn't see → bounce to their portal.
+  // We intercept the bare path AND any nested route under it.
+  const adminOnlySegments = [
+    '/dashboard',
+    '/students',
+    '/admissions',
+    '/attendance',
+    '/fees',
+    '/assessments',
+    '/teachers',
+    '/parents',
+    '/settings',
+    '/homework',
+    '/staff-attendance',
+    '/notifications',
+    '/timetable',
+  ];
+
+  if (isAuthed && isParent) {
+    const hitsAdmin = adminOnlySegments.some(
+      (seg) => pathname === seg || pathname.startsWith(`${seg}/`),
+    );
+    if (hitsAdmin) {
+      return NextResponse.redirect(new URL('/parent/dashboard', req.url));
+    }
+  }
+
+  // Non-parent users hitting /parent/* → admin dashboard.
+  if (isAuthed && !isParent && isParentRoute) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 });

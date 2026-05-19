@@ -8,6 +8,11 @@ import {
   type AnnouncementInput,
 } from '@/lib/schemas/settings';
 import type { ActionResult } from '@/app/(app)/settings/_actions';
+import {
+  notifyRoles,
+  notifyClassroomParents,
+  notifyUsers,
+} from '@/lib/notify';
 
 function normalize(input: AnnouncementInput) {
   return {
@@ -58,6 +63,54 @@ export async function createAnnouncement(
       diff: { title: created.title, audience: created.audience, pinned: created.pinned },
     },
   });
+
+  // Fan-out notifications by audience — best effort, never blocks the
+  // announcement create itself.
+  try {
+    const payload = {
+      kind: 'ANNOUNCEMENT' as const,
+      title: created.title,
+      body: created.body.length > 180 ? `${created.body.slice(0, 177)}…` : created.body,
+      link: '/notifications',
+    };
+
+    switch (created.audience) {
+      case 'ALL':
+        await notifyRoles(
+          ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'PARENT', 'ACCOUNTANT'],
+          payload,
+        );
+        break;
+      case 'PARENTS_ONLY':
+        await notifyRoles(['PARENT'], payload);
+        break;
+      case 'STAFF_ONLY':
+        await notifyRoles(
+          ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'],
+          payload,
+        );
+        break;
+      case 'CLASSROOM':
+        if (created.classroomId) {
+          await notifyClassroomParents(created.classroomId, payload);
+        }
+        break;
+      case 'CUSTOM':
+        // Custom audience selection is not modelled yet — no fan-out.
+        break;
+    }
+
+    // Always poke the author so they get a confirmation in their own inbox.
+    if (session.user.id) {
+      await notifyUsers([session.user.id], {
+        ...payload,
+        title: `Announcement posted · ${created.title}`,
+        body: `Audience: ${created.audience.replace(/_/g, ' ').toLowerCase()}`,
+      });
+    }
+  } catch (err) {
+    console.warn('[announcements] fan-out failed', err);
+  }
 
   revalidatePath('/settings/announcements');
   revalidatePath('/settings');

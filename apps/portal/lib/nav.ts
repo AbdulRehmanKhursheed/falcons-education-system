@@ -8,6 +8,8 @@ import {
   UsersRound,
   ChartLine,
   Settings,
+  Megaphone,
+  Bell,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -86,3 +88,31 @@ export type AppRole =
 export function filterNavByRole(role: AppRole): NavItem[] {
   return flatNav().filter((item) => !item.roles || item.roles.includes(role));
 }
+
+/**
+ * Parent portal nav — flat (no role gating). Per-child entries are not
+ * listed here because they are dynamic; ParentSidebar renders them from a
+ * live query against the linked Guardian → Student chain.
+ */
+export const parentNavigation: NavSection[] = [
+  {
+    label: 'Home',
+    number: '01',
+    items: [
+      { href: '/parent/dashboard', label: 'Dashboard', Icon: LayoutDashboard },
+    ],
+  },
+  {
+    label: 'School',
+    number: '02',
+    items: [
+      { href: '/parent/announcements', label: 'Announcements', Icon: Megaphone },
+    ],
+  },
+];
+
+export const parentNotificationsNav: NavItem = {
+  href: '/parent/dashboard',
+  label: 'Notifications',
+  Icon: Bell,
+};

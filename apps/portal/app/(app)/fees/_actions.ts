@@ -16,6 +16,7 @@ import {
   type InvoiceRow,
 } from '@/lib/queries/fees';
 import type { InvoiceStatus } from '@prisma/client';
+import { notifyUsers, getParentUserIdsForStudent } from '@/lib/notify';
 
 // ── Search / filter ──────────────────────────────────────────────────
 
@@ -78,7 +79,15 @@ export async function recordPayment(
 
   const invoice = await db.invoice.findUnique({
     where: { id: invoiceId },
-    select: { id: true, total: true, amountPaid: true, status: true, dueDate: true },
+    select: {
+      id: true,
+      invoiceNo: true,
+      studentId: true,
+      total: true,
+      amountPaid: true,
+      status: true,
+      dueDate: true,
+    },
   });
   if (!invoice) return { ok: false, error: 'Invoice not found' };
   if (invoice.status === 'CANCELLED') {
@@ -136,6 +145,24 @@ export async function recordPayment(
 
     return payment;
   });
+
+  // Best-effort parent notification — never block the action on a failure.
+  try {
+    const parentUserIds = await getParentUserIdsForStudent(invoice.studentId);
+    if (parentUserIds.length > 0) {
+      const amountLabel = `₨${amount.toLocaleString('en-PK')}`;
+      await notifyUsers(parentUserIds, {
+        kind: 'FEE',
+        title: `Payment received · ${amountLabel}`,
+        body: `Invoice ${invoice.invoiceNo} · ${
+          nextStatus === 'PAID' ? 'Paid in full' : 'Partial payment'
+        }`,
+        link: `/parent/kids/${invoice.studentId}/fees`,
+      });
+    }
+  } catch (err) {
+    console.warn('[fees] payment notification failed', err);
+  }
 
   revalidatePath('/fees');
   revalidatePath(`/fees/${invoiceId}`);
