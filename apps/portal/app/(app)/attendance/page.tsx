@@ -20,7 +20,7 @@ import {
   toISODate,
 } from '@/lib/queries/attendance';
 import { formatNumber, formatPercent } from '@/lib/format';
-import { requireSession } from '@/lib/auth-helpers';
+import { requireRole } from '@/lib/auth-helpers';
 
 export const metadata = { title: 'Attendance' };
 
@@ -34,7 +34,12 @@ export default async function AttendancePage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const session = await requireSession();
+  const session = await requireRole([
+    'SUPER_ADMIN',
+    'SCHOOL_ADMIN',
+    'TEACHER',
+    'ACCOUNTANT',
+  ]);
   const { classroom: classroomParam, date: dateParam } = await searchParams;
 
   const role = session.user.role;

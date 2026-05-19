@@ -11,7 +11,8 @@ import {
   Hash,
   X,
 } from 'lucide-react';
-import { flatNav } from '@/lib/nav';
+import { filterNavByRole, type AppRole } from '@/lib/nav';
+import { formatPKR } from '@/lib/format';
 import { cn } from '@/lib/cn';
 
 type StudentHit = {
@@ -51,6 +52,7 @@ type CommandItem = {
 type Props = {
   open: boolean;
   onClose: () => void;
+  userRole: AppRole;
 };
 
 const groupLabels: Record<CommandItem['group'], string> = {
@@ -74,11 +76,7 @@ const groupIcon: Record<CommandItem['group'], typeof Users> = {
   actions: ArrowRight,
 };
 
-function formatPKR(n: number): string {
-  return `Rs ${n.toLocaleString('en-IN')}`;
-}
-
-export function CommandPalette({ open, onClose }: Props) {
+export function CommandPalette({ open, onClose, userRole }: Props) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
@@ -165,7 +163,8 @@ export function CommandPalette({ open, onClose }: Props) {
   // Build the unified item list (in the order they're rendered).
   const items = useMemo<CommandItem[]>(() => {
     const q = debouncedQuery.toLowerCase();
-    const nav = flatNav();
+    // Only surface nav targets the current role can actually open.
+    const nav = filterNavByRole(userRole);
     const navHits: CommandItem[] = nav
       .filter((n) => {
         if (q.length < 2) return true;
@@ -210,7 +209,7 @@ export function CommandPalette({ open, onClose }: Props) {
     }));
 
     return [...navHits, ...studentItems, ...invoiceItems, ...applicationItems];
-  }, [debouncedQuery, results]);
+  }, [debouncedQuery, results, userRole]);
 
   // Group items in render order.
   const grouped = useMemo(() => {

@@ -1,4 +1,5 @@
-import { Plus, Filter } from 'lucide-react';
+import Link from 'next/link';
+import { Plus } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { AdmissionsPipeline } from '@/components/data/AdmissionsPipeline';
 import { getApplications } from '@/lib/queries/admissions';
@@ -19,22 +20,13 @@ export default async function AdmissionsPage() {
         title="Admissions pipeline"
         description="Track every application from inquiry through enrollment. Move cards across stages as conversations progress."
         actions={
-          <>
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-3.5 py-2 text-[12.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors"
-            >
-              <Filter className="w-3.5 h-3.5" strokeWidth={2} />
-              Filter
-            </button>
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
-            >
-              <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
-              New application
-            </button>
-          </>
+          <Link
+            href="/admissions/new"
+            className="inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+            New application
+          </Link>
         }
       />
 

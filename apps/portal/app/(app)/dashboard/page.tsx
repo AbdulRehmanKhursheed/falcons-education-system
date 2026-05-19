@@ -16,14 +16,48 @@ import { KPI } from '@/components/data/KPI';
 import { AttendanceChart } from '@/components/data/AttendanceChart';
 import { FeesChart } from '@/components/data/FeesChart';
 import { ActivityFeed } from '@/components/data/ActivityFeed';
-import { formatPKR, formatNumber, formatPercent } from '@/lib/format';
+import { formatPKR, formatNumber, formatPercent, formatDate } from '@/lib/format';
 import {
   getKpis,
   getAttendanceSeries,
   getFeesSeries,
   getRecentActivity,
+  getActiveAnnouncements,
+  type DashboardAnnouncement,
 } from '@/lib/queries/dashboard';
 import { requireRole } from '@/lib/auth-helpers';
+
+function greeting(d: Date): string {
+  // Convert to Asia/Karachi hour. Pakistan has no DST.
+  const hour = Number(
+    d.toLocaleString('en-US', {
+      timeZone: 'Asia/Karachi',
+      hour: '2-digit',
+      hour12: false,
+    }),
+  );
+  if (hour >= 5 && hour < 12) return 'Good morning';
+  if (hour >= 12 && hour < 17) return 'Good afternoon';
+  if (hour >= 17 && hour < 21) return 'Good evening';
+  return 'Good night';
+}
+
+const ANNOUNCEMENT_TONE: Record<
+  DashboardAnnouncement['kind'],
+  Parameters<typeof Chip>[0]['tone']
+> = {
+  pinned: 'accent',
+  reminder: 'warn',
+  event: 'info',
+  announcement: 'brand',
+};
+
+const ANNOUNCEMENT_LABEL: Record<DashboardAnnouncement['kind'], string> = {
+  pinned: 'Pinned',
+  reminder: 'Reminder',
+  event: 'Event',
+  announcement: 'Announcement',
+};
 
 export const metadata = { title: 'Dashboard' };
 
@@ -36,12 +70,14 @@ export default async function DashboardPage() {
     'ACCOUNTANT',
   ]);
 
-  const [kpis, attendanceSeries, feesSeries, recentActivity] = await Promise.all([
-    getKpis(),
-    getAttendanceSeries(),
-    getFeesSeries(),
-    getRecentActivity(),
-  ]);
+  const [kpis, attendanceSeries, feesSeries, recentActivity, announcements] =
+    await Promise.all([
+      getKpis(),
+      getAttendanceSeries(),
+      getFeesSeries(),
+      getRecentActivity(),
+      getActiveAnnouncements(),
+    ]);
 
   const today = new Date().toLocaleDateString('en-PK', {
     weekday: 'long',
@@ -50,12 +86,14 @@ export default async function DashboardPage() {
   });
 
   const firstName = session.user.name?.split(' ')[0] ?? 'there';
+  const role = session.user.role;
+  const isAdmin = role === 'SUPER_ADMIN' || role === 'SCHOOL_ADMIN';
 
   return (
     <>
       <PageHeader
         eyebrow={today}
-        title={`Good morning, ${firstName}.`}
+        title={`${greeting(new Date())}, ${firstName}.`}
         description="A quick overview of the school today — attendance, applications, and fees collection."
         actions={
           <>
@@ -94,7 +132,11 @@ export default async function DashboardPage() {
         <KPI
           label="Outstanding dues"
           value={formatPKR(kpis.outstandingDues)}
-          delta={{ value: formatPKR(Math.abs(kpis.duesTrend)), positive: kpis.duesTrend < 0, suffix: 'cleared' }}
+          delta={{
+            value: formatPKR(kpis.recentCollections),
+            positive: true,
+            suffix: 'collected last 30d',
+          }}
           Icon={Receipt}
         />
         <KPI
@@ -187,38 +229,42 @@ export default async function DashboardPage() {
               meta="What's happening this week"
               action={<Megaphone className="w-4 h-4 text-accent" strokeWidth={1.5} />}
             />
-            <ul className="divide-y divide-line-soft">
-              <li className="px-5 py-3.5">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <Chip tone="warn">Reminder</Chip>
-                  <span className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">Fri · 16 May</span>
-                </div>
-                <p className="text-[13.5px] text-ink">Mid-term assessment week begins</p>
-              </li>
-              <li className="px-5 py-3.5">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <Chip tone="info">Event</Chip>
-                  <span className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">Sat · 17 May</span>
-                </div>
-                <p className="text-[13.5px] text-ink">Parent-teacher meeting · 10:00 – 12:00</p>
-              </li>
-              <li className="px-5 py-3.5">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <Chip tone="brand">Admissions</Chip>
-                  <span className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">Ongoing</span>
-                </div>
-                <p className="text-[13.5px] text-ink">2026 session admissions — {kpis.openApplications} open applications</p>
-              </li>
-            </ul>
-            <div className="px-5 py-3 border-t border-line-soft">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 text-[12px] font-semibold text-ink-soft hover:text-ink transition-colors"
-              >
-                <CalendarDays className="w-3.5 h-3.5" strokeWidth={1.75} />
-                Open school calendar
-              </button>
-            </div>
+            {announcements.length === 0 ? (
+              <div className="px-5 py-6 text-ink-muted text-[13px]">
+                No active announcements right now.
+              </div>
+            ) : (
+              <ul className="divide-y divide-line-soft">
+                {announcements.map((a) => (
+                  <li key={a.id} className="px-5 py-3.5">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <Chip tone={ANNOUNCEMENT_TONE[a.kind]}>
+                        {ANNOUNCEMENT_LABEL[a.kind]}
+                      </Chip>
+                      <span className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
+                        {formatDate(a.publishAt, {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric',
+                        }).toUpperCase()}
+                      </span>
+                    </div>
+                    <p className="text-[13.5px] text-ink">{a.title}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {isAdmin && (
+              <div className="px-5 py-3 border-t border-line-soft">
+                <Link
+                  href="/settings/announcements"
+                  className="inline-flex items-center gap-2 text-[12px] font-semibold text-ink-soft hover:text-ink transition-colors"
+                >
+                  <CalendarDays className="w-3.5 h-3.5" strokeWidth={1.75} />
+                  Open school calendar
+                </Link>
+              </div>
+            )}
           </Card>
         </div>
       </div>

@@ -196,9 +196,9 @@ export async function bulkUpdate(input: BulkUpdateInput): Promise<{
   const enrolledSet = new Set(enrolled.map((e) => e.studentId));
   const valid = parsed.rows.filter((r) => enrolledSet.has(r.studentId));
 
-  await db.$transaction(
-    valid.map((r) =>
-      db.attendance.upsert({
+  await db.$transaction(async (tx) => {
+    for (const r of valid) {
+      await tx.attendance.upsert({
         where: { studentId_date: { studentId: r.studentId, date } },
         update: {
           status: r.status,
@@ -212,18 +212,17 @@ export async function bulkUpdate(input: BulkUpdateInput): Promise<{
           status: r.status,
           markedById: session.user.id,
         },
-      }),
-    ),
-  );
-
-  await db.auditLog.create({
-    data: {
-      actorId: session.user.id,
-      action: 'attendance.bulk_update',
-      entityType: 'Classroom',
-      entityId: parsed.classroomId,
-      diff: { date: parsed.date, count: valid.length },
-    },
+      });
+    }
+    await tx.auditLog.create({
+      data: {
+        actorId: session.user.id,
+        action: 'attendance.bulk_update',
+        entityType: 'Classroom',
+        entityId: parsed.classroomId,
+        diff: { date: parsed.date, count: valid.length },
+      },
+    });
   });
 
   revalidatePath('/attendance');
@@ -249,7 +248,6 @@ export async function loadClassroomDay(
     'SCHOOL_ADMIN',
     'TEACHER',
     'ACCOUNTANT',
-    'PARENT',
   ]);
   const d = parseISODate(date);
   const [roster, summary] = await Promise.all([

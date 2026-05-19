@@ -68,7 +68,7 @@ export function AppShell({
           </main>
         </div>
 
-        <CommandPalette open={paletteOpen} onClose={closePalette} />
+        <CommandPalette open={paletteOpen} onClose={closePalette} userRole={role} />
         <KeyboardShortcuts
           onOpenPalette={openPalette}
           paletteOpen={paletteOpen}

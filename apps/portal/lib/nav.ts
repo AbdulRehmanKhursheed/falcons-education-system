@@ -70,3 +70,19 @@ export const navigation: NavSection[] = [
 export function flatNav(): NavItem[] {
   return navigation.flatMap((section) => section.items);
 }
+
+/**
+ * Role-aware flat nav for shortcuts (Cmd-K palette, search-as-you-type, etc).
+ * Items without a `roles` array are visible to every signed-in user, matching
+ * the Sidebar's filter rule.
+ */
+export type AppRole =
+  | 'SUPER_ADMIN'
+  | 'SCHOOL_ADMIN'
+  | 'TEACHER'
+  | 'PARENT'
+  | 'ACCOUNTANT';
+
+export function filterNavByRole(role: AppRole): NavItem[] {
+  return flatNav().filter((item) => !item.roles || item.roles.includes(role));
+}

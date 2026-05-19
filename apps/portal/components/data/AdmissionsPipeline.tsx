@@ -68,9 +68,16 @@ export function AdmissionsPipeline({ initialApplications, canMoveStage }: Props)
     );
     startTransition(async () => {
       try {
-        await moveStage(id, next);
+        const res = await moveStage(id, next);
+        if (!res.ok) {
+          // Server rejected the transition — revert and surface the reason.
+          setApps(previous);
+          if (typeof window !== 'undefined') {
+            window.alert(res.error);
+          }
+        }
       } catch {
-        // revert on failure
+        // revert on unexpected throw
         setApps(previous);
       }
     });

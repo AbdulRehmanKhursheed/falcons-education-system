@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import type { Prisma } from '@prisma/client';
 import { db } from '@/lib/db';
 import { requireRole } from '@/lib/auth-helpers';
 import {
@@ -120,27 +121,33 @@ export async function archiveStudent(id: string): Promise<ActionResult> {
 // ── Create student (with guardian + enrollment) ───────────────────────
 
 /**
- * Generate the next unique roll number in the FES-YYYY-NNN sequence.
+ * Generate the next unique roll number in the FES-YYYY-NNNN sequence.
  *
- * Reads the max existing roll number for the current calendar year and
- * adds 1. Pads to 3 digits. Falls back gracefully if no rolls exist yet
- * for the year.
+ * Reads all existing roll numbers for the current calendar year, parses their
+ * numeric suffix, and returns max + 1 padded to 4 digits.
+ *
+ * P0-05: this must be called inside the same transaction as the create —
+ * otherwise two concurrent admin clicks pick the same number and the second
+ * one crashes on the unique constraint. We also parse the suffix numerically
+ * to avoid the lex-sort bug at >999 rolls (`FES-2026-1000` would sort before
+ * `FES-2026-999` with `orderBy: { rollNo: 'desc' }`).
+ *
+ * Existing legacy roll numbers (3-digit pads like `FES-2026-001`) keep working
+ * because we parse on the numeric value; new ones are emitted with 4 digits.
  */
-async function nextRollNo(): Promise<string> {
+async function nextRollNo(tx: Prisma.TransactionClient): Promise<string> {
   const year = new Date().getFullYear();
   const prefix = `FES-${year}-`;
-  const latest = await db.student.findFirst({
+  const existing = await tx.student.findMany({
     where: { rollNo: { startsWith: prefix } },
-    orderBy: { rollNo: 'desc' },
     select: { rollNo: true },
   });
-  let next = 1;
-  if (latest) {
-    const numPart = latest.rollNo.slice(prefix.length);
-    const n = parseInt(numPart, 10);
-    if (!Number.isNaN(n)) next = n + 1;
+  let max = 0;
+  for (const { rollNo } of existing) {
+    const n = parseInt(rollNo.slice(prefix.length), 10);
+    if (!Number.isNaN(n) && n > max) max = n;
   }
-  return `${prefix}${String(next).padStart(3, '0')}`;
+  return `${prefix}${String(max + 1).padStart(4, '0')}`;
 }
 
 export async function createStudent(
@@ -177,11 +184,14 @@ export async function createStudent(
     guardianId = ''; // assigned inside the transaction
   }
 
-  const rollNo = await nextRollNo();
   const fullName = `${s.firstName} ${s.lastName}`.trim();
 
   try {
     const result = await db.$transaction(async (tx) => {
+      // Compute the roll number inside the txn so the read serializes with
+      // any concurrent create and prevents a unique-constraint race.
+      const rollNo = await nextRollNo(tx);
+
       if (createdNewGuardian && g.mode === 'new') {
         const guardian = await tx.guardian.create({
           data: {
@@ -247,12 +257,12 @@ export async function createStudent(
         },
       });
 
-      return { id: student.id };
+      return { id: student.id, rollNo };
     });
 
     revalidatePath('/students');
     revalidatePath('/dashboard');
-    return { ok: true, data: { studentId: result.id, rollNo } };
+    return { ok: true, data: { studentId: result.id, rollNo: result.rollNo } };
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Failed to create student';
     return { ok: false, error: msg };

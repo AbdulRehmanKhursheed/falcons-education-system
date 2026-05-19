@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ArrowLeft, GraduationCap } from 'lucide-react';
 import { PrintTriggerButton } from '@/components/data/PrintTriggerButton';
 import {
@@ -8,7 +9,7 @@ import {
   todayMidnight,
   toISODate,
 } from '@/lib/queries/attendance';
-import { requireSession } from '@/lib/auth-helpers';
+import { requireRole } from '@/lib/auth-helpers';
 import { schoolProfile, formatSchoolAddress } from '@/lib/school-config';
 import { db } from '@/lib/db';
 
@@ -27,7 +28,12 @@ export default async function AttendancePrintPage({
 }: {
   searchParams: Promise<{ classroom?: string; date?: string }>;
 }) {
-  await requireSession();
+  const session = await requireRole([
+    'SUPER_ADMIN',
+    'SCHOOL_ADMIN',
+    'TEACHER',
+    'ACCOUNTANT',
+  ]);
   const sp = await searchParams;
 
   const classrooms = await getClassroomsForSelector();
@@ -41,6 +47,19 @@ export default async function AttendancePrintPage({
   const classroom = classrooms.find((c) => c.id === classroomId) ?? classrooms[0];
   const date = sp.date ? parseISODate(sp.date) : todayMidnight();
   const dateIso = toISODate(date);
+
+  // Teacher gate — only allow printing rosters for classrooms the requester is
+  // homeroom teacher of. Matches the rule on /students/[id]/print.
+  if (session.user.role === 'TEACHER') {
+    const teacher = await db.teacher.findUnique({
+      where: { userId: session.user.id },
+      select: { homerooms: { select: { id: true } } },
+    });
+    const allowed = new Set(teacher?.homerooms.map((c) => c.id) ?? []);
+    if (!allowed.has(classroom.id)) {
+      notFound();
+    }
+  }
 
   const [roster, classroomFull] = await Promise.all([
     getRoster(classroom.id, date),

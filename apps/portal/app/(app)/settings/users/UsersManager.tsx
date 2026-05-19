@@ -70,12 +70,22 @@ export function UsersManager({ rows, currentUserId, canMutate }: Props) {
     });
   }, [rows, roleFilter, activeOnly, query]);
 
-  function handleRoleChange(userId: string, role: Role) {
+  function handleRoleChange(
+    e: React.ChangeEvent<HTMLSelectElement>,
+    user: UserRow,
+    newRole: Role,
+  ) {
     if (!canMutate) return;
+    const roleLabel = ROLE_LABEL[newRole];
+    if (!confirm(`Change ${user.name}'s role to ${roleLabel}?`)) {
+      // Revert the select value visually
+      e.target.value = user.role;
+      return;
+    }
     setError(null);
-    setBusyId(userId);
+    setBusyId(user.id);
     startTransition(async () => {
-      const result = await updateUserRole({ userId, role });
+      const result = await updateUserRole({ userId: user.id, role: newRole });
       if (!result.ok) setError(result.error);
       setBusyId(null);
     });
@@ -204,7 +214,7 @@ export function UsersManager({ rows, currentUserId, canMutate }: Props) {
                             value={u.role}
                             disabled={busy}
                             onChange={(e) =>
-                              handleRoleChange(u.id, e.target.value as Role)
+                              handleRoleChange(e, u, e.target.value as Role)
                             }
                             className="w-full rounded-md border border-line bg-surface px-2 py-1.5 text-[12px] text-ink focus:outline-none focus:border-brand disabled:opacity-60"
                           >
@@ -322,7 +332,7 @@ export function UsersManager({ rows, currentUserId, canMutate }: Props) {
                       <select
                         value={u.role}
                         disabled={busy}
-                        onChange={(e) => handleRoleChange(u.id, e.target.value as Role)}
+                        onChange={(e) => handleRoleChange(e, u, e.target.value as Role)}
                         className="rounded-md border border-line bg-surface px-2 py-1.5 text-[12px] text-ink focus:outline-none focus:border-brand disabled:opacity-60"
                       >
                         {(Object.keys(ROLE_LABEL) as Role[]).map((r) => (

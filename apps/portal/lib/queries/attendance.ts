@@ -60,7 +60,12 @@ export async function getKpisForDate(date: Date): Promise<AttendanceKpis> {
       where: { date },
       _count: { _all: true },
     }),
-    db.enrollment.count({ where: { withdrawnAt: null } }),
+    db.enrollment.count({
+      where: {
+        withdrawnAt: null,
+        classroom: { academicYear: { isCurrent: true } },
+      },
+    }),
   ]);
 
   const counts: Record<AttendanceStatus, number> = {

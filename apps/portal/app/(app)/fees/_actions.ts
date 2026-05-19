@@ -11,7 +11,6 @@ import {
 } from '@/lib/schemas/fees';
 import {
   currentMonthKey,
-  nextInvoiceSeqForMonth,
   getInvoices,
   type InvoiceListStatus,
   type InvoiceRow,
@@ -95,7 +94,7 @@ export async function recordPayment(
     return {
       ok: false,
       error: `Payment exceeds outstanding balance (₨${(total - currentPaid).toLocaleString(
-        'en-IN',
+        'en-PK',
       )} remaining).`,
     };
   }
@@ -298,10 +297,13 @@ export async function generateMonthlyInvoices(): Promise<
     },
   });
 
-  let seq = await nextInvoiceSeqForMonth(monthKey);
-  let created = 0;
+  // Build (student, feeStructure) pairs outside the transaction. The actual
+  // sequence computation, dedupe re-check, createMany, and audit log all run
+  // inside a single transaction so two concurrent admin clicks serialize on
+  // the same monthly read instead of racing for the same invoice numbers.
   let skipped = 0;
-  const createdInvoiceIds: string[] = [];
+  type Pending = { studentId: string; feeStructureId: string; amount: number };
+  const pending: Pending[] = [];
 
   for (const s of students) {
     const enrolment = s.enrollments[0];
@@ -312,47 +314,72 @@ export async function generateMonthlyInvoices(): Promise<
     const existingFsIds = new Set(
       s.invoices.map((i) => i.feeStructureId).filter(Boolean) as string[],
     );
-
     for (const fs of enrolment.classroom.feeStructures) {
       if (existingFsIds.has(fs.id)) {
         skipped++;
         continue;
       }
-      const amount = Number(fs.amount);
-      const invoiceNo = `INV-${monthKey}-${String(seq).padStart(4, '0')}`;
-      seq++;
-
-      const inv = await db.invoice.create({
-        data: {
-          invoiceNo,
-          studentId: s.id,
-          feeStructureId: fs.id,
-          monthYear: monthKey,
-          amount,
-          discount: 0,
-          total: amount,
-          amountPaid: 0,
-          status: 'ISSUED',
-          dueDate,
-        },
-        select: { id: true },
+      pending.push({
+        studentId: s.id,
+        feeStructureId: fs.id,
+        amount: Number(fs.amount),
       });
-      createdInvoiceIds.push(inv.id);
-      created++;
     }
   }
 
-  await db.auditLog.create({
-    data: {
-      actorId: session.user.id,
-      action: 'invoice.batch_generate',
-      entityType: 'Invoice',
-      entityId: monthKey,
-      diff: { monthYear: monthKey, created, skipped, invoiceIds: createdInvoiceIds },
-    },
+  const created = await db.$transaction(async (tx) => {
+    if (pending.length === 0) return 0;
+
+    // Recompute sequence INSIDE the transaction — this is the only place a
+    // collision on invoice numbers can occur, and reading inside the txn
+    // serializes concurrent batch generations.
+    const prefix = `INV-${monthKey}-`;
+    const existing = await tx.invoice.findMany({
+      where: { invoiceNo: { startsWith: prefix } },
+      select: { invoiceNo: true },
+    });
+    let seq = 0;
+    for (const { invoiceNo } of existing) {
+      const tail = invoiceNo.slice(prefix.length);
+      const n = parseInt(tail, 10);
+      if (!Number.isNaN(n) && n > seq) seq = n;
+    }
+    seq += 1;
+
+    const rows = pending.map((p, i) => ({
+      invoiceNo: `INV-${monthKey}-${String(seq + i).padStart(4, '0')}`,
+      studentId: p.studentId,
+      feeStructureId: p.feeStructureId,
+      monthYear: monthKey,
+      amount: p.amount,
+      discount: 0,
+      total: p.amount,
+      amountPaid: 0,
+      status: 'ISSUED' as const,
+      dueDate,
+    }));
+
+    const result = await tx.invoice.createMany({
+      data: rows,
+      skipDuplicates: true,
+    });
+
+    await tx.auditLog.create({
+      data: {
+        actorId: session.user.id,
+        action: 'invoice.batch_generate',
+        entityType: 'Invoice',
+        entityId: monthKey,
+        diff: { monthYear: monthKey, created: result.count, skipped },
+      },
+    });
+
+    return result.count;
   });
 
   revalidatePath('/fees');
   revalidatePath('/dashboard');
+  // P1-09: student detail pages show outstanding dues — invalidate them too.
+  revalidatePath('/students', 'layout');
   return { ok: true, data: { created, skipped, monthYear: monthKey } };
 }

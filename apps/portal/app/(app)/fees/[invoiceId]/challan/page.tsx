@@ -5,17 +5,10 @@ import { PrintChallanButton } from '@/components/data/PrintChallanButton';
 import { formatPKR, formatDate } from '@/lib/format';
 import { getInvoiceDetail, type InvoiceDetail } from '@/lib/queries/fees';
 import { requireRole } from '@/lib/auth-helpers';
+import { schoolProfile, formatSchoolAddress } from '@/lib/school-config';
 import type { InvoiceStatus } from '@prisma/client';
 
 export const metadata = { title: 'Fee Challan' };
-
-const SCHOOL = {
-  name: 'Falcons Education System',
-  tagline: 'Nursery · Montessori · Primary · Coaching',
-  address: 'Kamalabad Road, Rawalpindi',
-  phone: '+92 311 0440086',
-  email: 'info@falconseducation.pk',
-};
 
 const statusLabel: Record<InvoiceStatus, string> = {
   DRAFT: 'Draft',
@@ -136,13 +129,13 @@ function ChallanCopy({
               className="font-display text-2xl text-ink leading-tight"
               style={{ fontVariationSettings: '"opsz" 48' }}
             >
-              {SCHOOL.name}
+              {schoolProfile.name}
             </h1>
             <p className="text-[11.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint mt-1">
-              {SCHOOL.tagline}
+              {schoolProfile.tagline}
             </p>
             <p className="text-[12px] text-ink-muted mt-2">
-              {SCHOOL.address} · {SCHOOL.phone}
+              {formatSchoolAddress(schoolProfile)} · {schoolProfile.phone}
             </p>
           </div>
         </div>
@@ -257,7 +250,7 @@ function ChallanCopy({
           <ul className="space-y-0.5">
             <li>· Cash — at the school office</li>
             <li>· Bank transfer — account on request</li>
-            <li>· JazzCash / EasyPaisa to {SCHOOL.phone}</li>
+            <li>· JazzCash / EasyPaisa to {schoolProfile.phone}</li>
           </ul>
         </div>
         <div>
@@ -284,7 +277,7 @@ function ChallanCopy({
 
       <footer className="mt-6 pt-3 border-t border-line-soft flex items-center justify-between text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
         <span>
-          {SCHOOL.name} · {SCHOOL.email}
+          {schoolProfile.name} · {schoolProfile.email}
         </span>
         <span className="tabular">
           Printed {formatDate(new Date().toISOString())}

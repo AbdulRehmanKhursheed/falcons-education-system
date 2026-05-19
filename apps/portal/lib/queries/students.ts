@@ -65,7 +65,13 @@ export async function getStudents(opts: StudentQuery = {}): Promise<{
     ...(classroom && classroom !== 'All'
       ? {
           enrollments: {
-            some: { classroom: { name: classroom }, withdrawnAt: null },
+            some: {
+              classroom: {
+                name: classroom,
+                academicYear: { isCurrent: true },
+              },
+              withdrawnAt: null,
+            },
           },
         }
       : {}),
@@ -116,7 +122,11 @@ export async function getStudents(opts: StudentQuery = {}): Promise<{
     }),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     db.student.count({ where: where as any }),
-    db.classroom.findMany({ select: { name: true }, orderBy: { name: 'asc' } }),
+    db.classroom.findMany({
+      where: { academicYear: { isCurrent: true } },
+      select: { name: true },
+      orderBy: { name: 'asc' },
+    }),
   ]);
 
   const rows: StudentRow[] = students.map((s) => {

@@ -124,6 +124,8 @@ export function ApplicationDetailActions({
       return;
     }
     startTransition(async () => {
+      // `convertToStudent` redirects to the new student on success — it never
+      // resolves to `{ ok: true }` here. We only see the result on failure.
       const res = await convertToStudent(applicationId, {
         classroomId,
         rollNo: rollNo || undefined,
@@ -132,9 +134,6 @@ export function ApplicationDetailActions({
         setErr(res.error);
         return;
       }
-      // Jump to the new student record.
-      router.push(`/students/${res.data!.studentId}`);
-      router.refresh();
     });
   }
 

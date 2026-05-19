@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
   Pencil,
-  Download,
   CalendarDays,
   GraduationCap,
   Cake,
@@ -137,13 +136,6 @@ export default async function StudentDetailPage({
                 Edit
               </Link>
             )}
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-3.5 py-2 text-[12.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors"
-            >
-              <Download className="w-3.5 h-3.5" strokeWidth={2} />
-              Export
-            </button>
             {canEdit && <StudentDetailArchive studentId={student.id} />}
           </>
         }

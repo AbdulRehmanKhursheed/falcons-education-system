@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import type { Prisma } from '@prisma/client';
 import { db } from '@/lib/db';
 import { requireRole } from '@/lib/auth-helpers';
 import {
@@ -213,20 +214,24 @@ export async function approveApplication(id: string): Promise<ActionResult> {
 
 // ── Convert to student ─────────────────────────────────────────────────
 
-async function nextRollNo(): Promise<string> {
+/**
+ * Next roll number in the FES-YYYY-NNNN sequence. Parses numerically so it's
+ * robust to legacy 3-digit pads and the lex-sort bug at >999 rolls. Must be
+ * called inside the same transaction as the create — see P0-05.
+ */
+async function nextRollNo(tx: Prisma.TransactionClient): Promise<string> {
   const year = new Date().getFullYear();
   const prefix = `FES-${year}-`;
-  const latest = await db.student.findFirst({
+  const existing = await tx.student.findMany({
     where: { rollNo: { startsWith: prefix } },
-    orderBy: { rollNo: 'desc' },
     select: { rollNo: true },
   });
-  let next = 1;
-  if (latest) {
-    const n = parseInt(latest.rollNo.slice(prefix.length), 10);
-    if (!Number.isNaN(n)) next = n + 1;
+  let max = 0;
+  for (const { rollNo } of existing) {
+    const n = parseInt(rollNo.slice(prefix.length), 10);
+    if (!Number.isNaN(n) && n > max) max = n;
   }
-  return `${prefix}${String(next).padStart(3, '0')}`;
+  return `${prefix}${String(max + 1).padStart(4, '0')}`;
 }
 
 function splitName(full: string): { firstName: string; lastName: string } {
@@ -238,10 +243,18 @@ function splitName(full: string): { firstName: string; lastName: string } {
   };
 }
 
+/**
+ * Convert an approved application into a Student record + enrollment.
+ *
+ * On success this redirects to `/students/${id}` (P1-04). `redirect()` throws
+ * a NEXT_REDIRECT control-flow error, so the return type below describes the
+ * error path only — callers won't ever receive `{ ok: true }` synchronously,
+ * but the type keeps `ActionResult` discriminated for the error case.
+ */
 export async function convertToStudent(
   applicationId: string,
   input: ConvertToStudentInput,
-): Promise<ActionResult<{ studentId: string; rollNo: string }>> {
+): Promise<ActionResult<never>> {
   const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN']);
 
   const parsed = convertToStudentSchema.safeParse(input);
@@ -273,6 +286,15 @@ export async function convertToStudent(
   if (app.studentId) {
     return { ok: false, error: 'Application already linked to a student' };
   }
+  // P0-06: reject conversion when the application didn't capture a DOB —
+  // silently substituting today's date corrupts the student's birthday.
+  if (!app.dateOfBirth) {
+    return {
+      ok: false,
+      error:
+        'Date of birth is required before converting to a student. Edit the application first.',
+    };
+  }
 
   const classroom = await db.classroom.findUnique({
     where: { id: classroomId },
@@ -280,22 +302,28 @@ export async function convertToStudent(
   });
   if (!classroom) return { ok: false, error: 'Classroom not found' };
 
-  const rollNo = parsed.data.rollNo?.trim() || (await nextRollNo());
+  const userRollNo = parsed.data.rollNo?.trim();
 
   // Conflict check on roll no if user supplied one
-  if (parsed.data.rollNo) {
+  if (userRollNo) {
     const clash = await db.student.findUnique({
-      where: { rollNo },
+      where: { rollNo: userRollNo },
       select: { id: true },
     });
     if (clash) return { ok: false, error: 'Roll number already in use' };
   }
 
   const { firstName, lastName } = splitName(app.applicantName);
-  const dob = app.dateOfBirth ?? new Date(); // fallback when application didn't capture DoB
+  const dob = app.dateOfBirth;
 
+  let createdStudentId: string;
+  let createdRollNo: string;
   try {
     const result = await db.$transaction(async (tx) => {
+      // P0-05: compute the roll number inside the txn to serialize concurrent
+      // creates and avoid the unique-constraint race.
+      const rollNo = userRollNo || (await nextRollNo(tx));
+
       // Reuse guardian by phone if exists; else create new
       let guardianId: string;
       const existingGuardian = await tx.guardian.findFirst({
@@ -376,18 +404,25 @@ export async function convertToStudent(
         },
       });
 
-      return { id: student.id };
+      return { id: student.id, rollNo };
     });
-
-    revalidatePath('/admissions');
-    revalidatePath(`/admissions/${applicationId}`);
-    revalidatePath('/students');
-    revalidatePath('/dashboard');
-    return { ok: true, data: { studentId: result.id, rollNo } };
+    createdStudentId = result.id;
+    createdRollNo = result.rollNo;
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Failed to convert application';
     return { ok: false, error: msg };
   }
+
+  revalidatePath('/admissions');
+  revalidatePath(`/admissions/${applicationId}`);
+  revalidatePath('/students');
+  revalidatePath('/dashboard');
+
+  // P1-04: navigate directly to the new student detail page. `redirect()`
+  // throws so this line never falls through. `createdRollNo` is unused after
+  // this call but kept for clarity / future audit hooks.
+  void createdRollNo;
+  redirect(`/students/${createdStudentId}`);
 }
 
 // ── Add document ───────────────────────────────────────────────────────

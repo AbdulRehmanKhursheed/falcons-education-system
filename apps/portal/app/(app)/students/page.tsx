@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Plus, Download, Upload } from 'lucide-react';
+import { Plus, Upload } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { StudentsTable } from '@/components/data/StudentsTable';
 import { getStudents } from '@/lib/queries/students';
@@ -40,20 +40,13 @@ export default async function StudentsPage() {
               <Upload className="w-3.5 h-3.5" strokeWidth={2} />
               Import
             </Link>
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-3.5 py-2 text-[12.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors"
-            >
-              <Download className="w-3.5 h-3.5" strokeWidth={2} />
-              Export
-            </button>
-            <button
-              type="button"
+            <Link
+              href="/students/new"
               className="inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
             >
               <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
               Add student
-            </button>
+            </Link>
           </>
         }
       />

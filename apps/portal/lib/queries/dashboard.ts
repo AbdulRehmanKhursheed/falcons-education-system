@@ -14,7 +14,7 @@ export type Kpis = {
   openApplications: number;
   studentsTrend: number;
   attendanceTrend: number;
-  duesTrend: number;
+  recentCollections: number;
   applicationsTrend: number;
 };
 
@@ -23,8 +23,6 @@ export async function getKpis(): Promise<Kpis> {
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const thirtyDaysAgo = new Date(todayStart);
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  const sixtyDaysAgo = new Date(todayStart);
-  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
   const sevenDaysAgo = new Date(todayStart);
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -77,12 +75,12 @@ export async function getKpis(): Promise<Kpis> {
     0,
   );
 
-  // Trend: cleared in last 30d (payments) vs previous 30d.
+  // Total collected in the last 30 days (positive value for "money in").
   const recentPayments = await db.payment.aggregate({
     where: { paidAt: { gte: thirtyDaysAgo } },
     _sum: { amount: true },
   });
-  const duesTrend = -Number(recentPayments._sum.amount ?? 0);
+  const recentCollections = Math.abs(Number(recentPayments._sum.amount ?? 0));
 
   return {
     totalStudents,
@@ -91,7 +89,7 @@ export async function getKpis(): Promise<Kpis> {
     openApplications,
     studentsTrend: studentsAddedLast30,
     attendanceTrend,
-    duesTrend,
+    recentCollections,
     applicationsTrend: applicationsLast7,
   };
 }
@@ -200,6 +198,54 @@ export async function getFeesSeries(): Promise<FeesSeriesPoint[]> {
       .reduce((sum, p) => sum + Number(p.amount), 0);
 
     return { month: b.label, collected, expected };
+  });
+}
+
+// ── Active announcements (dashboard panel) ───────────────────────────
+
+export type DashboardAnnouncement = {
+  id: string;
+  title: string;
+  body: string;
+  audience: 'ALL' | 'STAFF_ONLY' | 'PARENTS_ONLY' | 'CLASSROOM' | 'CUSTOM';
+  publishAt: string; // ISO string
+  pinned: boolean;
+  kind: 'pinned' | 'reminder' | 'event' | 'announcement';
+};
+
+export async function getActiveAnnouncements(): Promise<DashboardAnnouncement[]> {
+  const now = new Date();
+  const rows = await db.announcement.findMany({
+    where: {
+      OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+    },
+    orderBy: [{ pinned: 'desc' }, { publishAt: 'desc' }],
+    take: 5,
+    select: {
+      id: true,
+      title: true,
+      body: true,
+      audience: true,
+      publishAt: true,
+      pinned: true,
+    },
+  });
+
+  return rows.map((a) => {
+    let kind: DashboardAnnouncement['kind'];
+    if (a.pinned) kind = 'pinned';
+    else if (a.audience === 'CLASSROOM') kind = 'event';
+    else if (a.audience === 'PARENTS_ONLY') kind = 'reminder';
+    else kind = 'announcement';
+    return {
+      id: a.id,
+      title: a.title,
+      body: a.body,
+      audience: a.audience,
+      publishAt: a.publishAt.toISOString(),
+      pinned: a.pinned,
+      kind,
+    };
   });
 }
 
