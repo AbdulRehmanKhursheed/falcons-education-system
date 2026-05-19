@@ -56,6 +56,7 @@ import {
   PaymentMethod,
   AssessmentKind,
   AnnouncementAudience,
+  NotificationKind,
 } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -1207,6 +1208,331 @@ async function main() {
     });
   }
   console.log(`✓ ${auditSeeds.length} audit log entries`);
+
+  // ── Subjects ────────────────────────────────────────────────────────
+  // Master list of subjects taught at Falcons. `order` controls display order.
+  const subjectSeeds: Array<{ id: string; name: string; code: string; order: number }> = [
+    { id: 'subject-math',           name: 'Math',           code: 'MATH', order: 1 },
+    { id: 'subject-urdu',           name: 'Urdu',           code: 'URDU', order: 2 },
+    { id: 'subject-english',        name: 'English',        code: 'ENG',  order: 3 },
+    { id: 'subject-science',        name: 'Science',        code: 'SCI',  order: 4 },
+    { id: 'subject-social-studies', name: 'Social Studies', code: 'SST',  order: 5 },
+    { id: 'subject-islamiat',       name: 'Islamiat',       code: 'ISL',  order: 6 },
+    { id: 'subject-computer',       name: 'Computer',       code: 'CMP',  order: 7 },
+  ];
+  for (const s of subjectSeeds) {
+    await prisma.subject.upsert({
+      where: { id: s.id },
+      update: { name: s.name, code: s.code, order: s.order, active: true },
+      create: {
+        id: s.id,
+        name: s.name,
+        code: s.code,
+        order: s.order,
+        active: true,
+      },
+    });
+  }
+  console.log(`✓ ${subjectSeeds.length} subjects`);
+
+  // ── Periods (school day blocks) ─────────────────────────────────────
+  // Note: per spec, the first slot is Assembly (isBreak=false). Slot 4 is the
+  // mid-morning Break (isBreak=true). Slots 2-3 and 5-8 are teaching periods.
+  const periodSeeds: Array<{
+    id: string;
+    number: number;
+    startTime: string;
+    endTime: string;
+    label: string;
+    isBreak: boolean;
+  }> = [
+    { id: 'period-1', number: 1, startTime: '08:00', endTime: '08:30', label: 'Assembly',  isBreak: false },
+    { id: 'period-2', number: 2, startTime: '08:30', endTime: '09:15', label: 'Period 1',  isBreak: false },
+    { id: 'period-3', number: 3, startTime: '09:15', endTime: '10:00', label: 'Period 2',  isBreak: false },
+    { id: 'period-4', number: 4, startTime: '10:00', endTime: '10:30', label: 'Break',     isBreak: true  },
+    { id: 'period-5', number: 5, startTime: '10:30', endTime: '11:15', label: 'Period 3',  isBreak: false },
+    { id: 'period-6', number: 6, startTime: '11:15', endTime: '12:00', label: 'Period 4',  isBreak: false },
+    { id: 'period-7', number: 7, startTime: '12:00', endTime: '12:45', label: 'Period 5',  isBreak: false },
+    { id: 'period-8', number: 8, startTime: '12:45', endTime: '13:30', label: 'Period 6',  isBreak: false },
+  ];
+  for (const p of periodSeeds) {
+    await prisma.period.upsert({
+      where: { id: p.id },
+      update: {
+        number: p.number,
+        startTime: p.startTime,
+        endTime: p.endTime,
+        label: p.label,
+        isBreak: p.isBreak,
+      },
+      create: p,
+    });
+  }
+  console.log(`✓ ${periodSeeds.length} periods`);
+
+  // ── Timetable entries ───────────────────────────────────────────────
+  // For each primary classroom (Class 1–6) seed Mon–Fri:
+  //   Period 1 (assembly) → subject null, notes 'Morning assembly'
+  //   Period 4 (break)    → skipped entirely (no entry)
+  //   Periods 2,3,5,6,7,8 → rotate through the 7 subjects
+  // For early-years classrooms (Nursery, Montessori A, KG) seed Mon–Fri:
+  //   Periods 1–3 + 5 (first 4 non-break slots) → subject null, notes 'Free play / activity time'
+  //
+  // Teacher assignment: use the classroom's homeroomTeacher for simplicity.
+  // A real school would assign per-subject specialists — left as a future
+  // refinement.
+  //
+  // Stable IDs: tt-{classroomSlug}-{day}-{period}
+  const subjectRotation = [
+    'subject-math',
+    'subject-urdu',
+    'subject-english',
+    'subject-science',
+    'subject-social-studies',
+    'subject-islamiat',
+    'subject-computer',
+  ];
+  const teachingPeriodNumbers = [2, 3, 5, 6, 7, 8]; // skip 1 (assembly) and 4 (break)
+  const earlyYearsPeriodNumbers = [1, 2, 3, 5];     // first 4 non-break slots
+  const primaryClassroomNames = ['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6'];
+  const earlyYearsClassroomNames = ['Nursery', 'Montessori A', 'KG'];
+
+  function classSlug(name: string): string {
+    return name.toLowerCase().replace(/\s+/g, '-');
+  }
+
+  // Build a map className → homeroom teacherId (Teacher.id). Fall back to the
+  // first active teacher so every entry has a teacher assigned.
+  const fallbackTeacherId = activeTeachers[0]?.id ?? null;
+  const homeroomTeacherIdByClass: Record<string, string | null> = {};
+  for (const name of [...primaryClassroomNames, ...earlyYearsClassroomNames]) {
+    homeroomTeacherIdByClass[name] = homeroomPlan[name] ?? fallbackTeacherId;
+  }
+
+  let timetableCount = 0;
+  for (const className of primaryClassroomNames) {
+    const classroom = classrooms[className];
+    const teacherId = homeroomTeacherIdByClass[className];
+    for (let day = 1; day <= 5; day++) {
+      // Assembly
+      const assemblyId = `tt-${classSlug(className)}-${day}-1`;
+      await prisma.timetableEntry.upsert({
+        where: { id: assemblyId },
+        update: {
+          classroomId: classroom.id,
+          periodId: 'period-1',
+          dayOfWeek: day,
+          subjectId: null,
+          teacherId,
+          notes: 'Morning assembly',
+        },
+        create: {
+          id: assemblyId,
+          classroomId: classroom.id,
+          periodId: 'period-1',
+          dayOfWeek: day,
+          subjectId: null,
+          teacherId,
+          notes: 'Morning assembly',
+        },
+      });
+      timetableCount++;
+
+      // Teaching periods 2,3,5,6,7,8 — rotate subjects (shifted by day for variety)
+      for (let i = 0; i < teachingPeriodNumbers.length; i++) {
+        const periodNum = teachingPeriodNumbers[i];
+        const subjectId = subjectRotation[(i + day) % subjectRotation.length];
+        const entryId = `tt-${classSlug(className)}-${day}-${periodNum}`;
+        await prisma.timetableEntry.upsert({
+          where: { id: entryId },
+          update: {
+            classroomId: classroom.id,
+            periodId: `period-${periodNum}`,
+            dayOfWeek: day,
+            subjectId,
+            teacherId,
+            notes: null,
+          },
+          create: {
+            id: entryId,
+            classroomId: classroom.id,
+            periodId: `period-${periodNum}`,
+            dayOfWeek: day,
+            subjectId,
+            teacherId,
+            notes: null,
+          },
+        });
+        timetableCount++;
+      }
+    }
+  }
+
+  // Early-years classrooms (Nursery / Montessori A / KG): 4 free-play slots Mon-Fri.
+  for (const className of earlyYearsClassroomNames) {
+    const classroom = classrooms[className];
+    const teacherId = homeroomTeacherIdByClass[className];
+    for (let day = 1; day <= 5; day++) {
+      for (const periodNum of earlyYearsPeriodNumbers) {
+        const entryId = `tt-${classSlug(className)}-${day}-${periodNum}`;
+        await prisma.timetableEntry.upsert({
+          where: { id: entryId },
+          update: {
+            classroomId: classroom.id,
+            periodId: `period-${periodNum}`,
+            dayOfWeek: day,
+            subjectId: null,
+            teacherId,
+            notes: 'Free play / activity time',
+          },
+          create: {
+            id: entryId,
+            classroomId: classroom.id,
+            periodId: `period-${periodNum}`,
+            dayOfWeek: day,
+            subjectId: null,
+            teacherId,
+            notes: 'Free play / activity time',
+          },
+        });
+        timetableCount++;
+      }
+    }
+  }
+  console.log(`✓ ${timetableCount} timetable entries (6 primary classes Mon-Fri + 3 early-years)`);
+
+  // ── Staff attendance (last 5 working days) ──────────────────────────
+  // For each TEACHER user (active or inactive — all staff get marked), seed 5
+  // working-day attendance rows ending at today. Skip weekends (Sat=6/Sun=0).
+  // Distribution: 80% PRESENT, 10% LATE, 5% ABSENT, 5% EXCUSED.
+  // markedById = SUPER_ADMIN user (the office admin who runs the front desk).
+  const teacherUserIds: string[] = [
+    users[Role.TEACHER].id,
+    ...extraTeacherUsers.map((u) => u.id),
+  ];
+
+  // Walk back from today, collecting the last 5 weekdays.
+  const workingDays: Date[] = [];
+  {
+    const cursor = new Date(today0);
+    while (workingDays.length < 5) {
+      const dow = cursor.getDay(); // 0=Sun .. 6=Sat
+      if (dow !== 0 && dow !== 6) {
+        workingDays.push(new Date(cursor));
+      }
+      cursor.setDate(cursor.getDate() - 1);
+    }
+  }
+
+  function staffStatusFor(seed: number): AttendanceStatus {
+    const r = seed % 100;
+    if (r < 80) return AttendanceStatus.PRESENT;
+    if (r < 90) return AttendanceStatus.LATE;
+    if (r < 95) return AttendanceStatus.ABSENT;
+    return AttendanceStatus.EXCUSED;
+  }
+
+  let staffAttendanceCount = 0;
+  for (let ui = 0; ui < teacherUserIds.length; ui++) {
+    const userId = teacherUserIds[ui];
+    for (let di = 0; di < workingDays.length; di++) {
+      const date = workingDays[di];
+      // Deterministic pseudo-random per (user, day) so re-runs produce same values.
+      const seed = (ui * 17 + di * 41 + 7) % 100;
+      const status = staffStatusFor(seed);
+      const remark =
+        status === AttendanceStatus.LATE
+          ? 'Arrived ~15 min late'
+          : status === AttendanceStatus.ABSENT
+            ? 'No-show, follow up'
+            : status === AttendanceStatus.EXCUSED
+              ? 'Pre-approved leave'
+              : null;
+      await prisma.staffAttendance.upsert({
+        where: { userId_date: { userId, date } },
+        update: { status, remark },
+        create: {
+          userId,
+          date,
+          status,
+          remark,
+          markedById: adminId,
+        },
+      });
+      staffAttendanceCount++;
+    }
+  }
+  console.log(`✓ ${staffAttendanceCount} staff attendance rows (${teacherUserIds.length} teachers × ${workingDays.length} days)`);
+
+  // ── Parent notifications ────────────────────────────────────────────
+  // Seed a few notifications pointing the parent user at recent events. Stable
+  // IDs keep this idempotent.
+  const parentUserId = users[Role.PARENT].id;
+  const notificationSeeds: Array<{
+    id: string;
+    kind: NotificationKind;
+    title: string;
+    body: string;
+    link: string;
+    read: boolean;
+  }> = [
+    {
+      id: 'notif-parent-1',
+      kind: NotificationKind.ASSESSMENT,
+      title: 'New homework in Class 3',
+      body: 'Science workbook chapter on plants — due tomorrow.',
+      link: '/homework',
+      read: false,
+    },
+    {
+      id: 'notif-parent-2',
+      kind: NotificationKind.FEE,
+      title: 'Fee receipt issued',
+      body: 'Your latest fee payment has been recorded.',
+      link: '/fees',
+      read: false,
+    },
+    {
+      id: 'notif-parent-3',
+      kind: NotificationKind.ANNOUNCEMENT,
+      title: 'Term test schedule posted',
+      body: 'Mid-term assessments start on Friday — see the schedule.',
+      link: '/announcements',
+      read: true,
+    },
+    {
+      id: 'notif-parent-4',
+      kind: NotificationKind.ATTENDANCE,
+      title: 'Attendance update',
+      body: 'Your child was marked present today.',
+      link: '/attendance',
+      read: true,
+    },
+    {
+      id: 'notif-parent-5',
+      kind: NotificationKind.ADMISSION,
+      title: 'Admission documents reviewed',
+      body: 'The admissions team has reviewed your submitted documents.',
+      link: '/admissions',
+      read: false,
+    },
+  ];
+  for (const n of notificationSeeds) {
+    await prisma.notification.upsert({
+      where: { id: n.id },
+      update: { title: n.title, body: n.body, link: n.link, read: n.read, kind: n.kind },
+      create: {
+        id: n.id,
+        userId: parentUserId,
+        kind: n.kind,
+        title: n.title,
+        body: n.body,
+        link: n.link,
+        read: n.read,
+      },
+    });
+  }
+  console.log(`✓ ${notificationSeeds.length} parent notifications`);
 
   console.log('\nSeed complete.');
 }
