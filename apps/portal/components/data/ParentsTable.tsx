@@ -94,8 +94,105 @@ export function ParentsTable({ initialRows, initialTotal, relations }: Props) {
         </p>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Mobile cards — shown < md */}
+      <div className="md:hidden divide-y divide-line-soft">
+        {rows.length === 0 ? (
+          <div className="px-5 py-16 text-center">
+            <p
+              className="font-display text-xl text-ink"
+              style={{ fontVariationSettings: '"opsz" 24' }}
+            >
+              No guardians yet.
+            </p>
+            <p className="mt-1 text-[13px] text-ink-muted">
+              Guardians are added when you onboard a student.
+            </p>
+            <Link
+              href="/students"
+              className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+            >
+              <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2.25} />
+              Go to students
+            </Link>
+          </div>
+        ) : (
+          rows.map((g) => (
+            <Link
+              key={g.id}
+              href={`/parents/${g.id}`}
+              className="block px-4 py-3.5 active:bg-surface-2 hover:bg-surface-2 transition-colors"
+            >
+              <div className="flex items-start gap-3">
+                <Avatar name={g.fullName} size="sm" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-ink text-[14px] truncate">
+                        {g.fullName}
+                      </p>
+                      <div className="mt-1 inline-flex flex-wrap items-center gap-1.5">
+                        <Chip
+                          tone={relationTone[g.relation] ?? 'neutral'}
+                          className="!py-0"
+                        >
+                          {g.relation}
+                        </Chip>
+                        {g.isPrimary && (
+                          <Chip tone="success" className="!py-0">
+                            Primary
+                          </Chip>
+                        )}
+                      </div>
+                    </div>
+                    <ArrowUpRight
+                      className="w-3.5 h-3.5 text-ink-faint shrink-0 mt-1"
+                      strokeWidth={2}
+                    />
+                  </div>
+
+                  <p className="mt-2 font-mono text-[12px] text-ink-soft tabular truncate">
+                    {g.phone}
+                  </p>
+                  {g.whatsapp && (
+                    <a
+                      href={waLink(g.whatsapp) ?? '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="mt-1 inline-flex items-center gap-1.5 font-mono text-[12px] text-success tabular hover:underline decoration-success/40 underline-offset-[5px]"
+                    >
+                      <MessageCircle className="w-3 h-3" strokeWidth={2} />
+                      {g.whatsapp}
+                    </a>
+                  )}
+
+                  {g.children.length > 0 && (
+                    <div className="mt-2 flex items-center gap-2">
+                      <div className="flex -space-x-1.5">
+                        {g.children.slice(0, 3).map((c) => (
+                          <Avatar
+                            key={c.id}
+                            name={c.name}
+                            size="xs"
+                            className="ring-2 ring-surface"
+                          />
+                        ))}
+                      </div>
+                      <span className="eyebrow text-ink-faint">
+                        {g.children.length} child
+                        {g.children.length === 1 ? '' : 'ren'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
+      </div>
+
+      {/* Desktop table — md+ */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead className="bg-surface-2 border-b border-line-soft">
             <tr className="text-left">
@@ -140,11 +237,18 @@ export function ParentsTable({ initialRows, initialTotal, relations }: Props) {
                     className="font-display text-xl text-ink"
                     style={{ fontVariationSettings: '"opsz" 24' }}
                   >
-                    No guardians match.
+                    No guardians yet.
                   </p>
                   <p className="mt-1 text-[13px] text-ink-muted">
-                    Try a different search term or relation filter.
+                    Guardians are added when you onboard a student.
                   </p>
+                  <Link
+                    href="/students"
+                    className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+                  >
+                    <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2.25} />
+                    Go to students
+                  </Link>
                 </td>
               </tr>
             )}

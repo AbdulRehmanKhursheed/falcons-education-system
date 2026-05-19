@@ -8,6 +8,15 @@ import { formatDate } from '@/lib/format';
 import { cn } from '@/lib/cn';
 import type { ApplicationRow } from '@/lib/queries/admissions';
 import { moveStage } from '@/app/(app)/admissions/_actions';
+import { useUrlState } from '@/hooks/useUrlState';
+
+const STAGE_IDS = new Set<ApplicationRow['stage']>([
+  'received',
+  'interview',
+  'approved',
+  'enrolled',
+  'declined',
+]);
 
 type ActiveStage = Exclude<ApplicationRow['stage'], 'declined'>;
 
@@ -37,8 +46,19 @@ type Props = {
 };
 
 export function AdmissionsPipeline({ initialApplications, canMoveStage }: Props) {
+  const { get, set } = useUrlState();
+  const rawStage = get('stage');
+  const highlightStage =
+    rawStage && STAGE_IDS.has(rawStage as ApplicationRow['stage'])
+      ? (rawStage as ApplicationRow['stage'])
+      : null;
+
   const [apps, setApps] = useState(initialApplications);
   const [isPending, startTransition] = useTransition();
+
+  function toggleHighlight(stage: ApplicationRow['stage']) {
+    set({ stage: highlightStage === stage ? null : stage });
+  }
 
   function handleMove(id: string, next: ApplicationRow['stage']) {
     const previous = apps;
@@ -62,8 +82,19 @@ export function AdmissionsPipeline({ initialApplications, canMoveStage }: Props)
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {stages.map((stage) => {
         const inStage = apps.filter((a) => a.stage === stage.id);
+        const isHighlighted = highlightStage === stage.id;
+        const isDimmed = highlightStage !== null && !isHighlighted;
         return (
-          <section key={stage.id} className="bg-surface border border-line rounded-lg flex flex-col min-h-[400px]">
+          <section
+            key={stage.id}
+            className={cn(
+              'bg-surface border rounded-lg flex flex-col min-h-[400px] transition-all',
+              isHighlighted
+                ? 'border-ink shadow-sm ring-1 ring-ink/10'
+                : 'border-line',
+              isDimmed && 'opacity-60',
+            )}
+          >
 
             <header className="flex items-center justify-between px-4 py-3.5 border-b border-line-soft">
               <div className="flex items-center gap-2.5">
@@ -72,9 +103,16 @@ export function AdmissionsPipeline({ initialApplications, canMoveStage }: Props)
               </div>
               <button
                 type="button"
-                className="text-[11px] uppercase tracking-[0.14em] font-semibold text-ink-faint hover:text-ink transition-colors"
+                onClick={() => toggleHighlight(stage.id)}
+                aria-pressed={isHighlighted}
+                className={cn(
+                  'text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors',
+                  isHighlighted
+                    ? 'text-ink'
+                    : 'text-ink-faint hover:text-ink',
+                )}
               >
-                View
+                {isHighlighted ? 'Clear' : 'Focus'}
               </button>
             </header>
 
@@ -149,12 +187,33 @@ export function AdmissionsPipeline({ initialApplications, canMoveStage }: Props)
       })}
 
       {/* Declined rail */}
-      <section className="bg-surface-2/60 border border-line-soft rounded-lg flex flex-col min-h-[400px]">
+      <section
+        className={cn(
+          'bg-surface-2/60 border rounded-lg flex flex-col min-h-[400px] transition-all',
+          highlightStage === 'declined'
+            ? 'border-ink shadow-sm ring-1 ring-ink/10'
+            : 'border-line-soft',
+          highlightStage !== null && highlightStage !== 'declined' && 'opacity-60',
+        )}
+      >
         <header className="flex items-center justify-between px-4 py-3.5 border-b border-line-soft">
           <div className="flex items-center gap-2.5">
             <Chip tone="neutral">Declined</Chip>
             <span className="text-[12px] font-semibold text-ink-faint tabular">{declined.length}</span>
           </div>
+          <button
+            type="button"
+            onClick={() => toggleHighlight('declined')}
+            aria-pressed={highlightStage === 'declined'}
+            className={cn(
+              'text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors',
+              highlightStage === 'declined'
+                ? 'text-ink'
+                : 'text-ink-faint hover:text-ink',
+            )}
+          >
+            {highlightStage === 'declined' ? 'Clear' : 'Focus'}
+          </button>
         </header>
 
         <ul className="flex-1 px-3 py-3 space-y-2">

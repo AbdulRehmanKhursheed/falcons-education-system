@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
-import { Search, ArrowUpRight, ArrowDownUp, Filter } from 'lucide-react';
+import { Search, ArrowUpRight, ArrowDownUp, Filter, Plus } from 'lucide-react';
 import { Chip } from '@/components/ui/Chip';
 import { Avatar } from '@/components/ui/Avatar';
 import { formatPKR, formatDate } from '@/lib/format';
@@ -14,6 +14,25 @@ import {
 } from '@/lib/queries/fees';
 import type { InvoiceStatus } from '@prisma/client';
 import { searchInvoices } from '@/app/(app)/fees/_actions';
+import { useUrlState } from '@/hooks/useUrlState';
+
+const VALID_STATUSES = new Set<InvoiceListStatus>([
+  'all',
+  'issued',
+  'partially_paid',
+  'paid',
+  'overdue',
+  'cancelled',
+]);
+
+function coerceStatus(
+  raw: string,
+  fallback: InvoiceListStatus,
+): InvoiceListStatus {
+  return VALID_STATUSES.has(raw as InvoiceListStatus)
+    ? (raw as InvoiceListStatus)
+    : fallback;
+}
 
 const statusTone: Record<
   InvoiceStatus,
@@ -54,6 +73,7 @@ type Props = {
   initialClassroom: string;
   initialMonth: string;
   initialQuery: string;
+  canGenerate?: boolean;
 };
 
 export function InvoiceTable({
@@ -65,21 +85,67 @@ export function InvoiceTable({
   initialClassroom,
   initialMonth,
   initialQuery,
+  canGenerate = false,
 }: Props) {
-  const [status, setStatus] = useState<InvoiceListStatus>(initialStatus);
-  const [classroom, setClassroom] = useState(initialClassroom);
-  const [month, setMonth] = useState(initialMonth);
-  const [query, setQuery] = useState(initialQuery);
+  const { get, set } = useUrlState();
+
+  // URL-backed initial state (URL wins over server-provided initials).
+  const seededStatus = coerceStatus(get('status') || initialStatus, initialStatus);
+  const seededClassroom = get('classroom') || initialClassroom;
+  const seededMonth = get('monthYear') || initialMonth;
+  const seededQuery = get('query') || initialQuery;
+
+  const [status, setStatus] = useState<InvoiceListStatus>(seededStatus);
+  const [classroom, setClassroom] = useState(seededClassroom);
+  const [month, setMonth] = useState(seededMonth);
+  const [query, setQuery] = useState(seededQuery);
   const [rows, setRows] = useState<InvoiceRow[]>(initialRows);
   const [total, setTotal] = useState(initialTotal);
   const [isPending, startTransition] = useTransition();
 
-  function runSearch(next: {
-    status: InvoiceListStatus;
-    classroom: string;
-    monthYear: string;
-    query: string;
-  }) {
+  // If URL had params that diverge from the server-side initials, fetch on mount.
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
+    const drift =
+      seededStatus !== initialStatus ||
+      seededClassroom !== initialClassroom ||
+      seededMonth !== initialMonth ||
+      seededQuery !== initialQuery;
+    if (drift) {
+      runSearch(
+        {
+          status: seededStatus,
+          classroom: seededClassroom,
+          monthYear: seededMonth,
+          query: seededQuery,
+        },
+        /* skipUrl */ true,
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function runSearch(
+    next: {
+      status: InvoiceListStatus;
+      classroom: string;
+      monthYear: string;
+      query: string;
+    },
+    skipUrl = false,
+  ) {
+    if (!skipUrl) {
+      set({
+        status: next.status === 'all' ? null : next.status,
+        classroom: next.classroom === 'All' ? null : next.classroom,
+        monthYear: next.monthYear === 'All' ? null : next.monthYear,
+        query: next.query,
+        // Reset page to 1 (we keep `page` removed from the URL).
+        page: null,
+      });
+    }
     startTransition(async () => {
       const res = await searchInvoices(next);
       setRows(res.rows);
@@ -183,8 +249,116 @@ export function InvoiceTable({
         </label>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Mobile cards — shown < md */}
+      <div className="md:hidden divide-y divide-line-soft">
+        {rows.length === 0 ? (
+          <div className="px-5 py-16 text-center">
+            <p
+              className="font-display text-xl text-ink"
+              style={{ fontVariationSettings: '"opsz" 24' }}
+            >
+              No invoices match.
+            </p>
+            <p className="mt-1 text-[13px] text-ink-muted">
+              Try a different filter or search term.
+            </p>
+            {canGenerate && (
+              <Link
+                href="/fees"
+                className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+                Generate this month&rsquo;s invoices
+              </Link>
+            )}
+          </div>
+        ) : (
+          rows.map((inv) => {
+            const isOverdueDueDate =
+              inv.status !== 'PAID' &&
+              inv.status !== 'CANCELLED' &&
+              new Date(inv.dueDate).getTime() < Date.now();
+            return (
+              <Link
+                key={inv.id}
+                href={`/fees/${inv.id}`}
+                className="block px-4 py-3.5 active:bg-surface-2 hover:bg-surface-2 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <p className="font-mono text-[12px] text-ink font-semibold tabular truncate">
+                    {inv.invoiceNo}
+                  </p>
+                  <Chip tone={statusTone[inv.status]} className="shrink-0">
+                    {statusLabel[inv.status]}
+                  </Chip>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Avatar name={inv.studentName} size="sm" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-ink text-[14px] truncate">
+                      {inv.studentName}
+                    </p>
+                    <p className="font-mono text-[11px] text-ink-faint tabular truncate mt-0.5">
+                      {inv.rollNo} &middot; {inv.classroom}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-2 text-[11.5px]">
+                  <div>
+                    <p className="eyebrow text-ink-faint">Month</p>
+                    <p className="mt-0.5 text-ink-soft tabular">
+                      {formatMonth(inv.monthYear)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="eyebrow text-ink-faint">Amount</p>
+                    <p className="mt-0.5 text-ink tabular font-semibold">
+                      {formatPKR(inv.total)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="eyebrow text-ink-faint">Due</p>
+                    <p
+                      className={cn(
+                        'mt-0.5 tabular',
+                        isOverdueDueDate
+                          ? 'text-danger font-semibold'
+                          : 'text-ink-soft',
+                      )}
+                    >
+                      {formatDate(inv.dueDate, {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                </div>
+
+                {inv.amountPaid > 0 && (
+                  <p
+                    className={cn(
+                      'mt-2 text-[11.5px] tabular',
+                      inv.amountPaid >= inv.total
+                        ? 'text-success'
+                        : 'text-warn',
+                    )}
+                  >
+                    <span className="eyebrow text-ink-faint">Paid</span>{' '}
+                    <span className="font-semibold normal-case tracking-normal ml-1">
+                      {formatPKR(inv.amountPaid)}
+                    </span>
+                  </p>
+                )}
+              </Link>
+            );
+          })
+        )}
+      </div>
+
+      {/* Desktop table — md+ */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead className="bg-surface-2 border-b border-line-soft">
             <tr className="text-left">
@@ -233,6 +407,15 @@ export function InvoiceTable({
                   <p className="mt-1 text-[13px] text-ink-muted">
                     Try a different filter or search term.
                   </p>
+                  {canGenerate && (
+                    <Link
+                      href="/fees"
+                      className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+                    >
+                      <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+                      Generate this month&rsquo;s invoices
+                    </Link>
+                  )}
                 </td>
               </tr>
             )}

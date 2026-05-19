@@ -158,7 +158,87 @@ export function AcademicYearsManager({ rows }: Props) {
         </div>
       )}
 
-      <table className="w-full text-[13px]">
+      {/* Mobile cards — shown < md */}
+      <div className="md:hidden divide-y divide-line-soft">
+        {rows.length === 0 ? (
+          <div className="px-5 py-12 text-center">
+            <p
+              className="font-display text-xl text-ink"
+              style={{ fontVariationSettings: '"opsz" 24' }}
+            >
+              No academic years yet.
+            </p>
+            <p className="mt-1 text-[13px] text-ink-muted">
+              Create your first one to start adding classrooms.
+            </p>
+          </div>
+        ) : (
+          rows.map((r) => {
+            const busy = busyId === r.id && isPending;
+            return (
+              <div key={r.id} className="px-4 py-3.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-ink text-[14px] tabular truncate">
+                      {r.name}
+                    </p>
+                    <p className="mt-0.5 text-[11.5px] text-ink-faint tabular">
+                      {formatDate(r.startDate)} &rarr; {formatDate(r.endDate)}
+                    </p>
+                  </div>
+                  {r.isCurrent ? (
+                    <Chip tone="success" className="shrink-0">
+                      <Star className="w-3 h-3 inline-block mr-1" strokeWidth={2.25} />
+                      Current
+                    </Chip>
+                  ) : (
+                    <Chip tone="neutral" className="shrink-0">Archived</Chip>
+                  )}
+                </div>
+
+                <p className="mt-2 text-[11.5px] eyebrow text-ink-faint">
+                  Classrooms{' '}
+                  <span className="tabular text-ink font-semibold normal-case tracking-normal ml-1">
+                    {r.classroomCount}
+                  </span>
+                </p>
+
+                <div className="mt-3 flex flex-wrap items-center justify-end gap-1.5">
+                  {!r.isCurrent && (
+                    <button
+                      type="button"
+                      onClick={() => handleSetCurrent(r.id)}
+                      disabled={busy}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors disabled:opacity-60"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      Set current
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(r.id, r.name)}
+                    disabled={busy || r.isCurrent || r.classroomCount > 0}
+                    title={
+                      r.isCurrent
+                        ? 'Set another year as current first'
+                        : r.classroomCount > 0
+                          ? 'Remove classrooms before deleting'
+                          : 'Delete'
+                    }
+                    className="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-danger-soft hover:text-danger hover:border-danger/40 transition-colors disabled:opacity-40 disabled:hover:bg-surface disabled:hover:text-ink-soft disabled:hover:border-line"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" strokeWidth={1.75} />
+                  </button>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Desktop table — md+ */}
+      <table className="hidden md:table w-full text-[13px]">
         <thead className="bg-surface-3/60">
           <tr className="text-left text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
             <th className="px-5 py-3">Name</th>
@@ -172,8 +252,16 @@ export function AcademicYearsManager({ rows }: Props) {
         <tbody className="divide-y divide-line-soft">
           {rows.length === 0 && (
             <tr>
-              <td colSpan={6} className="px-5 py-10 text-center text-ink-faint italic">
-                No academic years yet. Create your first one above.
+              <td colSpan={6} className="px-5 py-12 text-center">
+                <p
+                  className="font-display text-xl text-ink"
+                  style={{ fontVariationSettings: '"opsz" 24' }}
+                >
+                  No academic years yet.
+                </p>
+                <p className="mt-1 text-[13px] text-ink-muted">
+                  Create your first one to start adding classrooms.
+                </p>
               </td>
             </tr>
           )}

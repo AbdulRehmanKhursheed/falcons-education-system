@@ -9,6 +9,7 @@ import {
   Phone,
   GraduationCap,
   BookOpen,
+  Plus,
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { Chip } from '@/components/ui/Chip';
@@ -93,8 +94,15 @@ export function TeachersGrid({ initialRows, initialTotal }: Props) {
             No teachers match.
           </p>
           <p className="mt-1 text-[13px] text-ink-muted">
-            Try a different search term or toggle the active filter.
+            Try a different search term, or invite your first teacher.
           </p>
+          <Link
+            href="/teachers/new"
+            className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+            Add teacher
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

@@ -7,7 +7,7 @@
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
-import { Filter, ArrowUpRight } from 'lucide-react';
+import { Filter, ArrowUpRight, Plus } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { Chip } from '@/components/ui/Chip';
 import { cn } from '@/lib/cn';
@@ -95,8 +95,16 @@ export function MontessoriObservationsList({
             No observations yet.
           </p>
           <p className="mt-1 text-[13px] text-ink-muted">
-            Once teachers log Montessori observations, they will appear here.
+            Log what you see in the prepared environment — practical life,
+            sensorial, language, math.
           </p>
+          <Link
+            href="/assessments/new?kind=montessori"
+            className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+            Add observation
+          </Link>
         </div>
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">

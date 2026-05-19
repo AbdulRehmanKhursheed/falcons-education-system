@@ -143,7 +143,86 @@ export function PrimaryGradesTable({
         </p>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Mobile cards — shown < md */}
+      <div className="md:hidden divide-y divide-line-soft">
+        {rows.length === 0 ? (
+          <div className="px-5 py-16 text-center">
+            <p
+              className="font-display text-xl text-ink"
+              style={{ fontVariationSettings: '"opsz" 24' }}
+            >
+              No grades to show.
+            </p>
+            <p className="mt-1 text-[13px] text-ink-muted">
+              Try a different filter or record a new assessment.
+            </p>
+          </div>
+        ) : (
+          rows.map((r) => (
+            <Link
+              key={r.id}
+              href={`/assessments/${r.id}`}
+              className="block px-4 py-3.5 active:bg-surface-2 hover:bg-surface-2 transition-colors"
+            >
+              <div className="flex items-start gap-3">
+                <Avatar name={r.studentName} size="sm" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-ink text-[14px] truncate">
+                        {r.studentName}
+                      </p>
+                      <p className="font-mono text-[11px] text-ink-faint tabular truncate mt-0.5">
+                        {r.rollNo} &middot; {r.classroom ?? '—'}
+                      </p>
+                    </div>
+                    {r.grade ? (
+                      <Chip tone={gradeTone[r.grade] ?? 'neutral'} className="shrink-0">
+                        {r.grade}
+                      </Chip>
+                    ) : (
+                      <span className="text-ink-faint shrink-0">—</span>
+                    )}
+                  </div>
+
+                  <p className="mt-2 text-[12.5px] text-ink-soft truncate">
+                    <span className="text-ink">{r.subject}</span>
+                    <span className="text-ink-faint"> &middot; </span>
+                    {r.term}
+                  </p>
+
+                  <div className="mt-2 flex items-center justify-between gap-3 text-[11.5px]">
+                    <span className="text-ink tabular font-semibold">
+                      {r.score !== null && r.scoreMax !== null ? (
+                        <>
+                          {r.score}
+                          <span className="text-ink-faint font-normal">
+                            {' '}/ {r.scoreMax}
+                          </span>
+                          {r.scorePct !== null && (
+                            <span className="ml-2 text-[10.5px] text-ink-faint font-normal">
+                              {r.scorePct.toFixed(1)}%
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="text-ink-faint">—</span>
+                      )}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-ink-faint tabular">
+                      {formatDate(r.assessedAt, { month: 'short', day: 'numeric' })}
+                      <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
+      </div>
+
+      {/* Desktop table — md+ */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead className="bg-surface-2 border-b border-line-soft">
             <tr className="text-left">

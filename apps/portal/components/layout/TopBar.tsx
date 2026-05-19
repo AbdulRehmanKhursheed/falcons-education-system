@@ -41,9 +41,10 @@ type Props = {
   userRole: AppRole;
   signOutAction: () => Promise<void>;
   onOpenMobileNav?: () => void;
+  onOpenPalette?: () => void;
 };
 
-export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMobileNav }: Props) {
+export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMobileNav, onOpenPalette }: Props) {
   const pathname = usePathname();
   const crumbs = useBreadcrumbs(pathname);
   const [open, setOpen] = useState(false);
@@ -104,6 +105,8 @@ export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMob
         <div className="ml-auto flex items-center gap-3">
           <button
             type="button"
+            onClick={onOpenPalette}
+            aria-label="Open command palette"
             className="hidden md:inline-flex items-center gap-2.5 pl-3 pr-2 py-1.5 rounded-md border border-line bg-surface-2 text-ink-faint hover:bg-surface-3 hover:text-ink-muted transition-colors text-[12.5px] w-72"
           >
             <Search className="w-3.5 h-3.5" strokeWidth={1.75} />
@@ -111,6 +114,16 @@ export function TopBar({ userName, userEmail, userRole, signOutAction, onOpenMob
             <span className="inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface border border-line text-ink-faint">
               <Command className="w-2.5 h-2.5" strokeWidth={2} />K
             </span>
+          </button>
+
+          {/* Mobile palette trigger — icon-only, matches notifications button */}
+          <button
+            type="button"
+            onClick={onOpenPalette}
+            aria-label="Open command palette"
+            className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md text-ink-soft hover:bg-surface-3 transition-colors"
+          >
+            <Search className="w-4 h-4" strokeWidth={1.75} />
           </button>
 
           <button

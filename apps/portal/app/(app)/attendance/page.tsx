@@ -1,8 +1,10 @@
+import Link from 'next/link';
 import {
   CalendarCheck,
   XCircle,
   Clock4,
   PieChart,
+  Printer,
 } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { KPI } from '@/components/data/KPI';
@@ -81,9 +83,11 @@ export default async function AttendancePage({
     getClassroomDailySummary(initialClassroomId, dateObj),
   ]);
 
+  const printHref = `/attendance/print?classroom=${encodeURIComponent(initialClassroomId)}&date=${dateISO}`;
+
   return (
     <>
-      <Header />
+      <Header printHref={printHref} />
 
       {/* KPIs — always reflect today, not the selected date. */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -142,12 +146,23 @@ export default async function AttendancePage({
   );
 }
 
-function Header() {
+function Header({ printHref }: { printHref?: string } = {}) {
   return (
     <PageHeader
       eyebrow="Section · 02 / Attendance"
       title="Attendance"
       description="Mark today's attendance, browse classroom history, and notify guardians of absences or late arrivals via WhatsApp."
+      actions={
+        printHref ? (
+          <Link
+            href={printHref}
+            className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-3.5 py-2 text-[12.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors"
+          >
+            <Printer className="w-3.5 h-3.5" strokeWidth={2} />
+            Print roster
+          </Link>
+        ) : undefined
+      }
     />
   );
 }

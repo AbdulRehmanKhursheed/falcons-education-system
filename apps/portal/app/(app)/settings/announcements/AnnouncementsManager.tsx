@@ -179,8 +179,24 @@ export function AnnouncementsManager({ rows, classrooms }: Props) {
 
       <ul className="divide-y divide-line-soft">
         {rows.length === 0 && (
-          <li className="px-5 py-12 text-center text-ink-faint italic text-[13px]">
-            No announcements yet. Create one to broadcast to staff or parents.
+          <li className="px-5 py-12 text-center">
+            <p
+              className="font-display text-xl text-ink"
+              style={{ fontVariationSettings: '"opsz" 24' }}
+            >
+              No announcements yet.
+            </p>
+            <p className="mt-1 text-[13px] text-ink-muted">
+              Create one to broadcast to staff or parents.
+            </p>
+            <button
+              type="button"
+              onClick={openCreate}
+              className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+              New announcement
+            </button>
           </li>
         )}
         {rows.map((row) => {
@@ -189,7 +205,7 @@ export function AnnouncementsManager({ rows, classrooms }: Props) {
             row.expiresAt && new Date(row.expiresAt).getTime() < Date.now();
           return (
             <li key={row.id} className="px-5 py-4 hover:bg-surface-3/30">
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-1.5">
                     <Chip tone={AUDIENCE_TONE[row.audience as Audience]}>
@@ -223,7 +239,7 @@ export function AnnouncementsManager({ rows, classrooms }: Props) {
                     )}
                   </p>
                 </div>
-                <div className="inline-flex items-center gap-1.5 shrink-0">
+                <div className="inline-flex items-center justify-end gap-1.5 shrink-0">
                   <button
                     type="button"
                     onClick={() => openEdit(row)}

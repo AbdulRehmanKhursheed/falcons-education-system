@@ -1,37 +1,32 @@
 import Link from 'next/link';
-import { Plus, Download, Upload, CheckCircle2 } from 'lucide-react';
+import { Plus, Download, Upload } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { StudentsTable } from '@/components/data/StudentsTable';
 import { getStudents } from '@/lib/queries/students';
 import { requireRole } from '@/lib/auth-helpers';
+import { getClassroomOptionsForBulk } from '@/app/(app)/students/_actions';
 
 export const metadata = { title: 'Students' };
 
-export default async function StudentsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ imported?: string }>;
-}) {
-  await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER']);
+export default async function StudentsPage() {
+  const session = await requireRole(['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER']);
+  const canManage =
+    session.user.role === 'SUPER_ADMIN' || session.user.role === 'SCHOOL_ADMIN';
 
-  const { rows, total, classrooms } = await getStudents({
-    query: '',
-    classroom: 'All',
-    take: 50,
-    skip: 0,
-  });
-
-  const sp = await searchParams;
-  const importedCount = sp.imported ? parseInt(sp.imported, 10) : 0;
+  const [{ rows, total, classrooms }, classroomOptions] = await Promise.all([
+    getStudents({
+      query: '',
+      classroom: 'All',
+      take: 50,
+      skip: 0,
+    }),
+    // Only admins see the "Move to classroom" dropdown, so spare the query
+    // for teachers.
+    canManage ? getClassroomOptionsForBulk() : Promise.resolve([]),
+  ]);
 
   return (
     <>
-      {importedCount > 0 && (
-        <div className="mb-5 flex items-center gap-2 rounded-md border border-success/30 bg-success-soft px-3.5 py-2.5 text-[12.5px] text-success">
-          <CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2} />
-          <span className="font-semibold">Imported {importedCount} students.</span>
-        </div>
-      )}
       <PageHeader
         eyebrow="Section · 02 / Students"
         title="Students"
@@ -67,6 +62,8 @@ export default async function StudentsPage({
         initialRows={rows}
         initialTotal={total}
         classrooms={classrooms}
+        classroomOptions={classroomOptions}
+        canManage={canManage}
       />
     </>
   );

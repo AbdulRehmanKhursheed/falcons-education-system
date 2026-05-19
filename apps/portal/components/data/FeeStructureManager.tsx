@@ -163,7 +163,97 @@ export function FeeStructureManager({ initialRows, classrooms }: Props) {
       )}
 
       <div className="bg-surface border border-line rounded-lg overflow-hidden">
-        <table className="w-full text-[13px]">
+        {/* Mobile cards — shown < md */}
+        <div className="md:hidden divide-y divide-line-soft">
+          {rows.length === 0 ? (
+            <div className="px-5 py-16 text-center">
+              <p
+                className="font-display text-xl text-ink"
+                style={{ fontVariationSettings: '"opsz" 24' }}
+              >
+                No fee structures yet.
+              </p>
+              <p className="mt-1 text-[13px] text-ink-muted">
+                Define a per-classroom monthly fee to enable invoice generation.
+              </p>
+              <button
+                type="button"
+                onClick={() => setEditing({ kind: 'creating' })}
+                className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+                New structure
+              </button>
+            </div>
+          ) : (
+            rows.map((r) => (
+              <div key={r.id} className="px-4 py-3.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-ink text-[14px] truncate">
+                      {r.classroomName}
+                    </p>
+                    <p className="text-[12.5px] text-ink-soft truncate mt-0.5">
+                      {r.name}
+                    </p>
+                  </div>
+                  <Chip tone={r.active ? 'success' : 'neutral'} className="shrink-0">
+                    {r.active ? 'Active' : 'Inactive'}
+                  </Chip>
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-2 text-[11.5px]">
+                  <div>
+                    <p className="eyebrow text-ink-faint">Frequency</p>
+                    <p className="mt-0.5 text-ink-soft capitalize">
+                      {r.frequency}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="eyebrow text-ink-faint">Amount</p>
+                    <p className="mt-0.5 text-ink tabular font-semibold">
+                      {formatPKR(r.amount)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="eyebrow text-ink-faint">Invoices</p>
+                    <p className="mt-0.5 text-ink-soft tabular">
+                      {r.invoiceCount}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-center justify-end gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(r.id)}
+                    disabled={pending}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors disabled:opacity-60"
+                  >
+                    {r.active ? (
+                      <PowerOff className="w-3.5 h-3.5" strokeWidth={1.75} />
+                    ) : (
+                      <Power className="w-3.5 h-3.5" strokeWidth={1.75} />
+                    )}
+                    {r.active ? 'Deactivate' : 'Activate'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditing({ kind: 'editing', row: r })}
+                    disabled={pending}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors disabled:opacity-60"
+                  >
+                    <Pencil className="w-3.5 h-3.5" strokeWidth={1.75} />
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop table — md+ */}
+        <table className="hidden md:table w-full text-[13px]">
           <thead className="bg-surface-2 border-b border-line-soft">
             <tr className="text-left">
               {[
@@ -190,16 +280,24 @@ export function FeeStructureManager({ initialRows, classrooms }: Props) {
           <tbody className="divide-y divide-line-soft">
             {rows.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-5 py-12 text-center">
+                <td colSpan={7} className="px-5 py-16 text-center">
                   <p
-                    className="font-display text-lg text-ink"
+                    className="font-display text-xl text-ink"
                     style={{ fontVariationSettings: '"opsz" 24' }}
                   >
                     No fee structures yet.
                   </p>
-                  <p className="mt-1 text-[12.5px] text-ink-muted">
-                    Create one to enable monthly invoice generation.
+                  <p className="mt-1 text-[13px] text-ink-muted">
+                    Define a per-classroom monthly fee to enable invoice generation.
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => setEditing({ kind: 'creating' })}
+                    className="mt-5 inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-[12.5px] font-semibold text-paper hover:bg-brand-dark transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" strokeWidth={2.25} />
+                    New structure
+                  </button>
                 </td>
               </tr>
             )}

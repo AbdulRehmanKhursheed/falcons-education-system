@@ -154,7 +154,123 @@ export function UsersManager({ rows, currentUserId, canMutate }: Props) {
           </div>
         )}
 
-        <table className="w-full text-[13px]">
+        {/* Mobile cards — shown < md */}
+        <div className="md:hidden divide-y divide-line-soft">
+          {filtered.length === 0 ? (
+            <div className="px-5 py-12 text-center">
+              <p
+                className="font-display text-xl text-ink"
+                style={{ fontVariationSettings: '"opsz" 24' }}
+              >
+                No users match.
+              </p>
+              <p className="mt-1 text-[13px] text-ink-muted">
+                Try a different role or search term.
+              </p>
+            </div>
+          ) : (
+            filtered.map((u) => {
+              const isSelf = u.id === currentUserId;
+              const busy = busyId === u.id && isPending;
+              return (
+                <div key={u.id} className="px-4 py-3.5">
+                  <div className="flex items-start gap-3">
+                    <Avatar name={u.name} size="sm" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="font-semibold text-ink text-[14px] truncate inline-flex items-center gap-2">
+                            {u.name}
+                            {isSelf && (
+                              <span className="text-[10px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
+                                You
+                              </span>
+                            )}
+                          </p>
+                          <p className="text-[12px] text-ink-muted truncate mt-0.5">
+                            {u.email}
+                          </p>
+                        </div>
+                        {u.active ? (
+                          <Chip tone="success" className="shrink-0">Active</Chip>
+                        ) : (
+                          <Chip tone="neutral" className="shrink-0">Inactive</Chip>
+                        )}
+                      </div>
+
+                      <div className="mt-2">
+                        {canMutate && !isSelf ? (
+                          <select
+                            value={u.role}
+                            disabled={busy}
+                            onChange={(e) =>
+                              handleRoleChange(u.id, e.target.value as Role)
+                            }
+                            className="w-full rounded-md border border-line bg-surface px-2 py-1.5 text-[12px] text-ink focus:outline-none focus:border-brand disabled:opacity-60"
+                          >
+                            {(Object.keys(ROLE_LABEL) as Role[]).map((r) => (
+                              <option key={r} value={r}>
+                                {ROLE_LABEL[r]}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <Chip tone={ROLE_TONE[u.role as Role]}>
+                            {ROLE_LABEL[u.role as Role]}
+                          </Chip>
+                        )}
+                      </div>
+
+                      <p className="mt-2 text-[11px] eyebrow text-ink-faint">
+                        Updated{' '}
+                        <span className="tabular text-ink-soft normal-case tracking-normal ml-1">
+                          {formatDate(u.updatedAt)}
+                        </span>
+                      </p>
+
+                      {canMutate && (
+                        <div className="mt-3 flex flex-wrap items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setResetTarget(u)}
+                            disabled={busy}
+                            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-surface-3 hover:text-ink transition-colors disabled:opacity-60"
+                          >
+                            <KeyRound className="w-3.5 h-3.5" strokeWidth={1.75} />
+                            Reset
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleActive(u.id, u.active)}
+                            disabled={busy || isSelf}
+                            title={
+                              isSelf
+                                ? 'You can’t deactivate yourself'
+                                : u.active
+                                  ? 'Deactivate'
+                                  : 'Reactivate'
+                            }
+                            className={
+                              u.active
+                                ? 'inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-danger-soft hover:text-danger hover:border-danger/40 transition-colors disabled:opacity-40 disabled:hover:bg-surface disabled:hover:text-ink-soft disabled:hover:border-line'
+                                : 'inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1.5 text-[11.5px] font-semibold text-ink-soft hover:bg-success-soft hover:text-success hover:border-success/40 transition-colors disabled:opacity-40 disabled:hover:bg-surface disabled:hover:text-ink-soft disabled:hover:border-line'
+                            }
+                          >
+                            <Power className="w-3.5 h-3.5" strokeWidth={1.75} />
+                            {u.active ? 'Deactivate' : 'Reactivate'}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Desktop table — md+ */}
+        <table className="hidden md:table w-full text-[13px]">
           <thead className="bg-surface-3/60">
             <tr className="text-left text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-faint">
               <th className="px-5 py-3">User</th>
@@ -167,8 +283,16 @@ export function UsersManager({ rows, currentUserId, canMutate }: Props) {
           <tbody className="divide-y divide-line-soft">
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-5 py-10 text-center text-ink-faint italic">
-                  No users match the current filters.
+                <td colSpan={5} className="px-5 py-12 text-center">
+                  <p
+                    className="font-display text-xl text-ink"
+                    style={{ fontVariationSettings: '"opsz" 24' }}
+                  >
+                    No users match.
+                  </p>
+                  <p className="mt-1 text-[13px] text-ink-muted">
+                    Try a different role or search term.
+                  </p>
                 </td>
               </tr>
             )}
