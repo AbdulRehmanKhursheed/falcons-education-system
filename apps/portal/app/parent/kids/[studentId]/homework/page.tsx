@@ -29,7 +29,15 @@ export default async function ChildHomeworkPage({
   if (!child) notFound();
 
   const now = new Date();
-  const upcoming = homework.filter((h) => new Date(h.dueDate) >= now);
+  // `getChildHomework` orders by dueDate DESC (best for the "past" view),
+  // so upcoming items end up farthest-future-first. Resort the upcoming
+  // bucket ASC so the nearest due-date is at the top — matches the parent
+  // dashboard's `upcomingHomework`.
+  const upcoming = homework
+    .filter((h) => new Date(h.dueDate) >= now)
+    .sort(
+      (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
+    );
   const past = homework.filter((h) => new Date(h.dueDate) < now);
 
   return (

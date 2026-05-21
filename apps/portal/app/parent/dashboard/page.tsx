@@ -284,7 +284,7 @@ export default async function ParentDashboardPage() {
                       {formatDate(a.publishAt, {
                         month: 'short',
                         day: 'numeric',
-                      }).toUpperCase()}
+                      })}
                     </span>
                   </div>
                   <p className="text-[13.5px] text-ink font-semibold leading-snug">

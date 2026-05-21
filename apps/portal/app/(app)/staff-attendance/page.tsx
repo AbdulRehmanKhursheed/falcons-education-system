@@ -3,6 +3,7 @@ import {
   Clock4,
   XCircle,
   PieChart,
+  Info,
 } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { KPI } from '@/components/data/KPI';
@@ -47,6 +48,10 @@ export default async function StaffAttendancePage({
 
   const canEdit =
     session.user.role === 'SUPER_ADMIN' || session.user.role === 'SCHOOL_ADMIN';
+
+  // Most Falcons branches run a Mon–Sat week; Sunday on the date picker is
+  // almost always an accidental selection.
+  const isWeekend = dateObj.getDay() === 0;
 
   return (
     <>
@@ -98,6 +103,17 @@ export default async function StaffAttendancePage({
           Icon={PieChart}
         />
       </div>
+
+      {isWeekend && (
+        <div className="mb-4 flex items-start gap-2.5 rounded-lg border border-line-soft bg-surface-2 px-4 py-3 text-[13px] text-ink-muted">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-ink-faint" strokeWidth={1.75} />
+          <span>
+            <span className="font-semibold text-ink">Sunday selected.</span>{' '}
+            The school is normally closed on Sundays — double-check the date
+            before saving attendance.
+          </span>
+        </div>
+      )}
 
       <StaffAttendanceGrid
         initialDate={dateISO}

@@ -19,8 +19,13 @@ const programLabel: Record<string, string> = {
  * Provides identity (avatar + name), context (classroom + roll), and a
  * "Back to overview" affordance.
  */
+// Early-years programmes record observations, not letter grades — show
+// "Progress" instead of "Grades" so the tab label matches what the parent
+// will actually see on the page.
+const EARLY_YEARS_KINDS = new Set(['NURSERY', 'MONTESSORI', 'KINDERGARTEN']);
+
 export function ChildHeader({ child, activeTab }: { child: ParentChildHeader; activeTab?: TabId }) {
-  const tabs = childTabs(child.id);
+  const tabs = childTabs(child.id, child.programKind);
 
   return (
     <header className="mb-7">
@@ -85,12 +90,17 @@ export function ChildHeader({ child, activeTab }: { child: ParentChildHeader; ac
 
 export type TabId = 'overview' | 'attendance' | 'fees' | 'grades' | 'homework' | 'timetable';
 
-function childTabs(id: string): Array<{ id: TabId; label: string; href: string }> {
+function childTabs(
+  id: string,
+  programKind: ParentChildHeader['programKind'],
+): Array<{ id: TabId; label: string; href: string }> {
+  const gradesLabel =
+    programKind && EARLY_YEARS_KINDS.has(programKind) ? 'Progress' : 'Grades';
   return [
     { id: 'overview', label: 'Overview', href: `/parent/kids/${id}` },
     { id: 'attendance', label: 'Attendance', href: `/parent/kids/${id}/attendance` },
     { id: 'fees', label: 'Fees', href: `/parent/kids/${id}/fees` },
-    { id: 'grades', label: 'Grades', href: `/parent/kids/${id}/grades` },
+    { id: 'grades', label: gradesLabel, href: `/parent/kids/${id}/grades` },
     { id: 'homework', label: 'Homework', href: `/parent/kids/${id}/homework` },
     { id: 'timetable', label: 'Timetable', href: `/parent/kids/${id}/timetable` },
   ];

@@ -275,11 +275,13 @@ export function TimetableGrid({
         })}
       </div>
 
-      {/* Desktop: full weekly grid */}
+      {/* Desktop: full weekly grid. On md (768–1023px) the Period column shrinks
+          to 110px so the 5–6 day columns have enough room to breathe without
+          horizontal scroll; lg+ restores the full 160px column. */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-[12.5px] table-fixed">
           <colgroup>
-            <col className="w-[160px]" />
+            <col className="w-[110px] lg:w-[160px]" />
             {dayChips.map((d) => (
               <col key={d} />
             ))}

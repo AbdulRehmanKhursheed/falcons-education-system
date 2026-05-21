@@ -76,6 +76,11 @@ export async function createAnnouncement(
     };
     const parentPayload = { ...basePayload, link: '/parent/announcements' };
     const staffPayload = { ...basePayload, link: '/notifications' };
+    // Skip the author on staff broadcasts so they don't receive both the
+    // role fan-out AND the explicit self-poke confirmation below.
+    const excludeAuthor = session.user.id
+      ? { excludeUserIds: [session.user.id] }
+      : undefined;
 
     switch (created.audience) {
       case 'ALL':
@@ -85,6 +90,7 @@ export async function createAnnouncement(
           notifyRoles(
             ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'],
             staffPayload,
+            excludeAuthor,
           ),
         ]);
         break;
@@ -95,6 +101,7 @@ export async function createAnnouncement(
         await notifyRoles(
           ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'],
           staffPayload,
+          excludeAuthor,
         );
         break;
       case 'CLASSROOM':

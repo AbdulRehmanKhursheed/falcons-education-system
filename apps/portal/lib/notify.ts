@@ -169,27 +169,31 @@ export async function notifyClassroomParents(
 
 /**
  * Find every active user matching one of the given roles and notify each.
+ *
+ * `excludeUserIds` lets callers filter out specific users — typically the
+ * actor who triggered the broadcast, so they don't receive both the role
+ * fan-out and a separate self-poke confirmation.
  */
 export async function notifyRoles(
   roles: Role[],
   input: Payload,
+  options?: { excludeUserIds?: string[] },
 ): Promise<void> {
   if (roles.length === 0) return;
   try {
+    const exclude = new Set(options?.excludeUserIds ?? []);
     const users = await db.user.findMany({
       where: { role: { in: roles }, active: true, deletedAt: null },
       select: { id: true },
     });
-    if (users.length === 0) {
+    const ids = users.map((u) => u.id).filter((id) => !exclude.has(id));
+    if (ids.length === 0) {
       console.warn(
         `[notify] notifyRoles: no active users for roles ${roles.join(',')}`,
       );
       return;
     }
-    await notifyUsers(
-      users.map((u) => u.id),
-      input,
-    );
+    await notifyUsers(ids, input);
   } catch (err) {
     console.warn('[notify] notifyRoles failed', err);
   }

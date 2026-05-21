@@ -107,14 +107,22 @@ export function NotificationStrip({
                   </p>
                 )}
                 <div className="mt-1.5 flex items-center gap-3">
-                  {n.link && (
-                    <Link
-                      href={resolveParentLink(n.link)}
-                      className="text-[11.5px] font-semibold text-ink-soft hover:text-ink underline decoration-line decoration-1 underline-offset-[5px]"
-                    >
-                      Open
-                    </Link>
-                  )}
+                  {(() => {
+                    if (!n.link) return null;
+                    const resolved = resolveParentLink(n.link);
+                    // Hide the "Open" affordance when the resolver returns
+                    // null — the link doesn't have a known parent equivalent
+                    // and would just dump the user on the dashboard.
+                    if (!resolved) return null;
+                    return (
+                      <Link
+                        href={resolved}
+                        className="text-[11.5px] font-semibold text-ink-soft hover:text-ink underline decoration-line decoration-1 underline-offset-[5px]"
+                      >
+                        Open
+                      </Link>
+                    );
+                  })()}
                   {!n.read && (
                     <button
                       type="button"
@@ -152,12 +160,27 @@ export function NotificationStrip({
  * Notifications inserted by other modules link to admin URLs by default
  * (e.g. /fees, /attendance). Steer the parent to the equivalent parent
  * surface so the link doesn't bounce through middleware.
+ *
+ * Known prefixes (extend this list when adding a new notification kind):
+ *   - `/parent/*`             → passes through unchanged
+ *   - `/announcements/*`      → `/parent/announcements`
+ *   - `/notifications`        → falls through to the dashboard fallback
+ *   - `/fees`, `/attendance`, `/homework` → `/parent/dashboard`
+ *
+ * Anything else falls back to `/parent/dashboard`. Returning null tells the
+ * caller to hide the "Open" button entirely so unrecognised admin links
+ * don't render a misleading clickable affordance.
  */
-function resolveParentLink(link: string): string {
+function resolveParentLink(link: string): string | null {
   if (link.startsWith('/parent')) return link;
   if (link.startsWith('/announcements')) return '/parent/announcements';
-  if (link.startsWith('/fees') || link.startsWith('/attendance') || link.startsWith('/homework')) {
+  if (
+    link.startsWith('/fees') ||
+    link.startsWith('/attendance') ||
+    link.startsWith('/homework') ||
+    link.startsWith('/notifications')
+  ) {
     return '/parent/dashboard';
   }
-  return '/parent/dashboard';
+  return null;
 }

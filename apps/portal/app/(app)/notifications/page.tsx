@@ -68,6 +68,17 @@ export default async function NotificationsPage(props: {
     { kind: kindFilter, unreadOnly, take: 100 },
   );
 
+  // Most-active kind: pick the highest-count entry once, then reuse it for
+  // both the KPI value and subtitle. Previously this was computed three times
+  // inline inside the JSX.
+  const mostActive = (
+    Object.entries(byKind) as Array<[NotificationKind, number]>
+  ).reduce<{ kind: NotificationKind | null; count: number }>(
+    (best, [kind, count]) =>
+      count > best.count ? { kind, count } : best,
+    { kind: null, count: 0 },
+  );
+
   return (
     <>
       <PageHeader
@@ -95,30 +106,8 @@ export default async function NotificationsPage(props: {
         />
         <KpiTile
           label="Most active"
-          value={
-            (Object.entries(byKind) as Array<[NotificationKind, number]>).reduce(
-              (best, [kind, count]) =>
-                count > best.count ? { kind, count } : best,
-              { kind: 'SYSTEM' as NotificationKind, count: 0 },
-            ).count
-          }
-          subtitle={
-            (Object.entries(byKind) as Array<[NotificationKind, number]>).reduce(
-              (best, [kind, count]) =>
-                count > best.count ? { kind, count } : best,
-              { kind: null as NotificationKind | null, count: 0 },
-            ).kind
-              ? KIND_LABEL[
-                  (Object.entries(byKind) as Array<
-                    [NotificationKind, number]
-                  >).reduce(
-                    (best, [kind, count]) =>
-                      count > best.count ? { kind, count } : best,
-                    { kind: 'SYSTEM' as NotificationKind, count: 0 },
-                  ).kind
-                ]
-              : '—'
-          }
+          value={mostActive.count}
+          subtitle={mostActive.kind ? KIND_LABEL[mostActive.kind] : '—'}
           tone="info"
         />
       </div>
