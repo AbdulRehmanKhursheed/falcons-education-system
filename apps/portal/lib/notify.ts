@@ -74,15 +74,24 @@ export async function notifyUsers(
  * a linked userId (e.g. parents who don't yet have a portal login) are
  * skipped silently — they'll see the announcement when their account is
  * provisioned, but we don't error out the calling action.
+ *
+ * Optionally accepts a `linkFor(studentId)` builder so callers can include
+ * a per-recipient deep link (e.g. `/parent/kids/<id>/homework`). When the
+ * builder is omitted, every recipient gets the static `input.link`. Note
+ * that one parent linked to multiple kids in the same classroom will see
+ * one notification per child — that's intentional, so each row's deep link
+ * targets the correct kid page.
  */
 export async function notifyClassroomParents(
   classroomId: string,
   input: Payload,
+  opts?: { linkFor?: (studentId: string) => string },
 ): Promise<void> {
   try {
     const enrollments = await db.enrollment.findMany({
       where: { classroomId, withdrawnAt: null },
       select: {
+        studentId: true,
         student: {
           select: {
             guardians: {
@@ -93,21 +102,66 @@ export async function notifyClassroomParents(
       },
     });
 
-    const userIds: string[] = [];
-    for (const e of enrollments) {
-      for (const sg of e.student.guardians) {
-        if (sg.guardian.userId) userIds.push(sg.guardian.userId);
-      }
+    if (enrollments.length === 0) {
+      console.warn(
+        `[notify] notifyClassroomParents: no enrollments for classroom ${classroomId}`,
+      );
+      return;
     }
 
-    if (userIds.length === 0) {
+    // No per-recipient link → cheaper batched insert.
+    if (!opts?.linkFor) {
+      const userIds: string[] = [];
+      for (const e of enrollments) {
+        for (const sg of e.student.guardians) {
+          if (sg.guardian.userId) userIds.push(sg.guardian.userId);
+        }
+      }
+      if (userIds.length === 0) {
+        console.warn(
+          `[notify] notifyClassroomParents: no linked parent users for classroom ${classroomId}`,
+        );
+        return;
+      }
+      await notifyUsers(userIds, input);
+      return;
+    }
+
+    // Per-recipient link → one row per (parent, student) pair. Dedup at the
+    // pair level so a parent linked to a student twice doesn't get duplicates.
+    const seen = new Set<string>();
+    const rows: Array<{ userId: string; link: string }> = [];
+    for (const e of enrollments) {
+      const studentLink = opts.linkFor(e.studentId);
+      for (const sg of e.student.guardians) {
+        const uid = sg.guardian.userId;
+        if (!uid) continue;
+        const key = `${uid}|${e.studentId}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        rows.push({ userId: uid, link: studentLink });
+      }
+    }
+    if (rows.length === 0) {
       console.warn(
         `[notify] notifyClassroomParents: no linked parent users for classroom ${classroomId}`,
       );
       return;
     }
-
-    await notifyUsers(userIds, input);
+    try {
+      await db.notification.createMany({
+        data: rows.map((r) => ({
+          userId: r.userId,
+          kind: input.kind,
+          title: input.title,
+          body: input.body,
+          link: r.link,
+        })),
+        skipDuplicates: true,
+      });
+    } catch (err) {
+      console.warn('[notify] notifyClassroomParents per-recipient write failed', err);
+    }
   } catch (err) {
     console.warn('[notify] notifyClassroomParents failed', err);
   }

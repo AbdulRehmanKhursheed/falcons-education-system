@@ -65,34 +65,41 @@ export async function createAnnouncement(
   });
 
   // Fan-out notifications by audience — best effort, never blocks the
-  // announcement create itself.
+  // announcement create itself. Links are role-aware: parents land on
+  // `/parent/announcements`, staff on `/notifications` (middleware blocks
+  // parents from `/notifications` and would redirect them away).
   try {
-    const payload = {
+    const basePayload = {
       kind: 'ANNOUNCEMENT' as const,
       title: created.title,
       body: created.body.length > 180 ? `${created.body.slice(0, 177)}…` : created.body,
-      link: '/notifications',
     };
+    const parentPayload = { ...basePayload, link: '/parent/announcements' };
+    const staffPayload = { ...basePayload, link: '/notifications' };
 
     switch (created.audience) {
       case 'ALL':
-        await notifyRoles(
-          ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'PARENT', 'ACCOUNTANT'],
-          payload,
-        );
+        // Split so each role gets the link it can actually open.
+        await Promise.all([
+          notifyRoles(['PARENT'], parentPayload),
+          notifyRoles(
+            ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'],
+            staffPayload,
+          ),
+        ]);
         break;
       case 'PARENTS_ONLY':
-        await notifyRoles(['PARENT'], payload);
+        await notifyRoles(['PARENT'], parentPayload);
         break;
       case 'STAFF_ONLY':
         await notifyRoles(
           ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'],
-          payload,
+          staffPayload,
         );
         break;
       case 'CLASSROOM':
         if (created.classroomId) {
-          await notifyClassroomParents(created.classroomId, payload);
+          await notifyClassroomParents(created.classroomId, parentPayload);
         }
         break;
       case 'CUSTOM':
@@ -101,9 +108,10 @@ export async function createAnnouncement(
     }
 
     // Always poke the author so they get a confirmation in their own inbox.
+    // Author is staff (SUPER_ADMIN/SCHOOL_ADMIN), so the staff link applies.
     if (session.user.id) {
       await notifyUsers([session.user.id], {
-        ...payload,
+        ...staffPayload,
         title: `Announcement posted · ${created.title}`,
         body: `Audience: ${created.audience.replace(/_/g, ' ').toLowerCase()}`,
       });

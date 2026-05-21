@@ -227,6 +227,21 @@ export async function bulkUpdate(input: BulkUpdateInput): Promise<{
   const enrolledSet = new Set(enrolled.map((e) => e.studentId));
   const valid = parsed.rows.filter((r) => enrolledSet.has(r.studentId));
 
+  // Snapshot prior statuses so we only fire absence notifications for rows
+  // that actually transitioned INTO 'ABSENT'. (Re-marking an already-absent
+  // student should not double-send.)
+  const priorStatuses = new Map<string, 'PRESENT' | 'ABSENT' | 'LATE' | 'SICK' | 'EXCUSED' | null>();
+  if (valid.length > 0) {
+    const existing = await db.attendance.findMany({
+      where: {
+        date,
+        studentId: { in: valid.map((r) => r.studentId) },
+      },
+      select: { studentId: true, status: true },
+    });
+    for (const e of existing) priorStatuses.set(e.studentId, e.status);
+  }
+
   await db.$transaction(async (tx) => {
     for (const r of valid) {
       await tx.attendance.upsert({
@@ -255,6 +270,39 @@ export async function bulkUpdate(input: BulkUpdateInput): Promise<{
       },
     });
   });
+
+  // After the transaction commits: notify parents for every fresh ABSENT
+  // mark. Best-effort, mirrors the single-row markAttendance path.
+  const newlyAbsent = valid.filter(
+    (r) => r.status === 'ABSENT' && priorStatuses.get(r.studentId) !== 'ABSENT',
+  );
+  if (newlyAbsent.length > 0) {
+    try {
+      const students = await db.student.findMany({
+        where: { id: { in: newlyAbsent.map((r) => r.studentId) } },
+        select: { id: true, fullName: true },
+      });
+      const nameById = new Map(students.map((s) => [s.id, s.fullName]));
+      const dateLabel = new Date(parsed.date).toLocaleDateString('en-PK', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      });
+      // Sequentially to avoid an N-row burst; this is a low-volume action.
+      for (const r of newlyAbsent) {
+        const parentIds = await getParentUserIdsForStudent(r.studentId);
+        if (parentIds.length === 0) continue;
+        await notifyUsers(parentIds, {
+          kind: 'ATTENDANCE',
+          title: `${nameById.get(r.studentId) ?? 'Your child'} marked absent on ${dateLabel}`,
+          body: 'Please contact the school if this is incorrect.',
+          link: `/parent/kids/${r.studentId}/attendance`,
+        });
+      }
+    } catch (err) {
+      console.warn('[attendance] bulk absence notifications failed', err);
+    }
+  }
 
   revalidatePath('/attendance');
   revalidatePath('/dashboard');

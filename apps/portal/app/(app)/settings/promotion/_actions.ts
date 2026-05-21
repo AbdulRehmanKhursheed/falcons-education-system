@@ -215,27 +215,47 @@ export async function previewPromotion(
   const targetIds = parsed.data.mappings
     .map((m) => m.targetClassroomId)
     .filter((id): id is string => !!id);
+  // De-duplicate so the count comparison below isn't tripped by a mapping
+  // that references the same source/target room twice.
+  const uniqueSourceIds = Array.from(new Set(sourceIds));
+  const uniqueTargetIds = Array.from(new Set(targetIds));
 
   const [sourceRooms, targetRooms, enrollments] = await Promise.all([
     db.classroom.findMany({
-      where: { id: { in: sourceIds }, academicYearId: parsed.data.sourceYearId },
+      where: { id: { in: uniqueSourceIds }, academicYearId: parsed.data.sourceYearId },
       select: { id: true, name: true },
     }),
-    targetIds.length > 0
+    uniqueTargetIds.length > 0
       ? db.classroom.findMany({
-          where: { id: { in: targetIds }, academicYearId: parsed.data.targetYearId },
+          where: { id: { in: uniqueTargetIds }, academicYearId: parsed.data.targetYearId },
           select: { id: true, name: true },
         })
       : Promise.resolve([] as { id: string; name: string }[]),
     db.enrollment.groupBy({
       by: ['classroomId'],
       where: {
-        classroomId: { in: sourceIds },
+        classroomId: { in: uniqueSourceIds },
         withdrawnAt: null,
       },
       _count: { _all: true },
     }),
   ]);
+
+  // Reject mismatched-year classroom ids loudly instead of silently rendering
+  // "(missing source)" / "(missing target)" placeholders that a user might
+  // then submit to commitPromotion.
+  if (sourceRooms.length !== uniqueSourceIds.length) {
+    return {
+      ok: false,
+      error: 'A source classroom does not belong to the source academic year.',
+    };
+  }
+  if (uniqueTargetIds.length > 0 && targetRooms.length !== uniqueTargetIds.length) {
+    return {
+      ok: false,
+      error: 'A target classroom does not belong to the target academic year.',
+    };
+  }
 
   const sourceNameMap = new Map(sourceRooms.map((c) => [c.id, c.name]));
   const targetNameMap = new Map(targetRooms.map((c) => [c.id, c.name]));
@@ -440,7 +460,13 @@ export async function commitPromotion(
   revalidatePath('/settings/promotion');
   revalidatePath('/settings/academic-years');
   revalidatePath('/settings');
-  revalidatePath('/students');
+  // Layout-scoped invalidation: per-student detail pages and the entire
+  // parent portal cache their data via the layout, so a plain
+  // revalidatePath('/students') would leave `/students/[id]` (and every
+  // `/parent/*` route) showing pre-promotion status. Promotion can flip
+  // students to GRADUATED and move enrollments, so we need to bust both.
+  revalidatePath('/students', 'layout');
+  revalidatePath('/parent', 'layout');
   revalidatePath('/dashboard');
 
   return {

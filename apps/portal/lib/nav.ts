@@ -10,6 +10,9 @@ import {
   Settings,
   Megaphone,
   Bell,
+  BookOpen,
+  CalendarRange,
+  UserCheck,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -40,9 +43,11 @@ export const navigation: NavSection[] = [
     number: '02',
     items: [
       { href: '/students',    label: 'Students',    Icon: Users },
-      { href: '/admissions',  label: 'Admissions',  Icon: ClipboardList },
-      { href: '/attendance',  label: 'Attendance',  Icon: CalendarCheck },
-      { href: '/assessments', label: 'Assessments', Icon: ChartLine, roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER'] },
+      { href: '/admissions',  label: 'Admissions',  Icon: ClipboardList,  roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
+      { href: '/attendance',  label: 'Attendance',  Icon: CalendarCheck,  roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'] },
+      { href: '/assessments', label: 'Assessments', Icon: ChartLine,      roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER'] },
+      { href: '/homework',    label: 'Homework',    Icon: BookOpen,       roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER'] },
+      { href: '/timetable',   label: 'Timetable',   Icon: CalendarRange,  roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'] },
     ],
   },
   {
@@ -56,13 +61,21 @@ export const navigation: NavSection[] = [
     label: 'People',
     number: '04',
     items: [
-      { href: '/teachers', label: 'Teachers', Icon: GraduationCap, roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
-      { href: '/parents',  label: 'Parents',  Icon: UsersRound,    roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
+      { href: '/teachers',         label: 'Teachers',          Icon: GraduationCap, roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
+      { href: '/parents',          label: 'Parents',           Icon: UsersRound,    roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
+      { href: '/staff-attendance', label: 'Staff attendance',  Icon: UserCheck,     roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
+    ],
+  },
+  {
+    label: 'Inbox',
+    number: '05',
+    items: [
+      { href: '/notifications', label: 'Notifications', Icon: Bell },
     ],
   },
   {
     label: 'Settings',
-    number: '05',
+    number: '06',
     items: [
       { href: '/settings', label: 'Settings', Icon: Settings, roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN'] },
     ],

@@ -20,6 +20,9 @@ export async function markNotificationRead(notificationId: string): Promise<void
     data: { read: true },
   });
   revalidatePath('/parent/dashboard');
+  // Layout revalidation is what refreshes the topbar's unread badge — without
+  // this, the badge stays at the original count until the user reloads.
+  revalidatePath('/parent', 'layout');
 }
 
 export async function markAllNotificationsRead(): Promise<void> {
@@ -29,4 +32,5 @@ export async function markAllNotificationsRead(): Promise<void> {
     data: { read: true },
   });
   revalidatePath('/parent/dashboard');
+  revalidatePath('/parent', 'layout');
 }

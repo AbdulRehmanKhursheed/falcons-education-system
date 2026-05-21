@@ -138,33 +138,29 @@ export async function createHomework(
     },
   });
 
-  // Notification fanout — only if the optional notify helper is present. The
-  // import is dynamic so this file compiles whether or not `lib/notify.ts`
-  // exists yet. The notifications agent will retrofit it when ready.
+  // Notification fan-out — best effort, never blocks the post. We use a
+  // per-recipient `linkFor` builder so each parent's notification deep-links
+  // into the right child's homework page (`/parent/kids/<their-kid>/homework`).
+  // The previous broadcast pointed at `/parent/homework/<id>`, which doesn't
+  // exist in the parent portal.
   try {
-    const mod = (await import('@/lib/notify').catch(() => null)) as unknown as
-      | {
-          notifyClassroomParents?: (
-            classroomId: string,
-            payload: {
-              kind: 'HOMEWORK';
-              title: string;
-              body?: string;
-              link?: string;
-            },
-          ) => Promise<void> | void;
-        }
-      | null;
-    if (mod?.notifyClassroomParents) {
-      await mod.notifyClassroomParents(classroomId, {
-        kind: 'HOMEWORK',
+    const { notifyClassroomParents } = await import('@/lib/notify');
+    await notifyClassroomParents(
+      classroomId,
+      {
+        // The Notification.kind enum doesn't have a dedicated HOMEWORK value,
+        // so we map homework posts to ASSESSMENT — academics inbox. (Aligns
+        // with the dashboard NotificationStrip icon mapping.)
+        kind: 'ASSESSMENT',
         title: `New homework · ${subject.name}`,
         body: title,
-        link: `/parent/homework/${created.id}`,
-      });
-    }
-  } catch {
-    // Silent — notification delivery failures should never block the post.
+      },
+      {
+        linkFor: (studentId) => `/parent/kids/${studentId}/homework`,
+      },
+    );
+  } catch (err) {
+    console.warn('[homework] notification fan-out failed', err);
   }
 
   revalidatePath('/homework');
