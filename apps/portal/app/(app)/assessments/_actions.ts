@@ -115,7 +115,7 @@ export async function updateAssessment(
 
   const existing = await db.assessment.findUnique({
     where: { id },
-    select: { id: true, assessedById: true },
+    select: { id: true, assessedById: true, studentId: true },
   });
   if (!existing) return { ok: false, error: 'Assessment no longer exists.' };
 
@@ -134,6 +134,19 @@ export async function updateAssessment(
       ok: false,
       error: 'Please fix the highlighted fields.',
       fieldErrors: flattenZodErrors(parsed.error),
+    };
+  }
+
+  // Don't allow the studentId to be silently rewritten by a crafted FormData
+  // POST — a teacher could otherwise reassign their own assessment to any
+  // student in the school. Editing the subject of an assessment is not a
+  // supported workflow; force delete+recreate for that.
+  if (parsed.data.studentId !== existing.studentId) {
+    return {
+      ok: false,
+      error:
+        'You cannot move an assessment to a different student. Delete this one and create a new assessment instead.',
+      fieldErrors: { studentId: 'Reassigning students is not supported' },
     };
   }
 

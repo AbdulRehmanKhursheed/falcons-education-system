@@ -42,7 +42,11 @@ function prismaErrorMessage(err: unknown): string {
 }
 
 /**
- * Confirm a TEACHER actually owns the classroom they're posting to.
+ * Confirm a TEACHER is actually linked to the classroom they're posting to —
+ * either as the homeroom teacher OR via a TimetableEntry. Specialist subject
+ * teachers who don't homeroom but teach a class via the timetable were
+ * previously locked out of posting homework for that class.
+ *
  * Returns null if allowed, an error string if not.
  */
 async function ensureTeacherOwnsClassroom(
@@ -51,12 +55,19 @@ async function ensureTeacherOwnsClassroom(
 ): Promise<string | null> {
   const teacher = await db.teacher.findUnique({
     where: { userId },
-    select: { homerooms: { select: { id: true } } },
+    select: {
+      id: true,
+      homerooms: { where: { id: classroomId }, select: { id: true } },
+    },
   });
   if (!teacher) return 'Your teacher profile is missing.';
-  const owned = new Set(teacher.homerooms.map((c) => c.id));
-  if (!owned.has(classroomId)) return 'You can only post to your own homerooms.';
-  return null;
+  if (teacher.homerooms.length > 0) return null;
+  const timetableLink = await db.timetableEntry.findFirst({
+    where: { classroomId, teacherId: teacher.id },
+    select: { id: true },
+  });
+  if (timetableLink) return null;
+  return 'You can only post to classrooms you teach.';
 }
 
 // ── Create ─────────────────────────────────────────────────────────────────

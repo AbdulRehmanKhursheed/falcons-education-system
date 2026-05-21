@@ -96,6 +96,17 @@ export async function scheduleInterview(
   });
   if (!existing) return { ok: false, error: 'Application not found' };
 
+  // Don't allow scheduling against a closed application. The moveStage guard
+  // already forbids DECLINED → INTERVIEW transitions, but scheduleInterview
+  // bypasses that gate and was happily writing interviewAt onto declined or
+  // enrolled rows — leaving them in a contradictory state.
+  if (existing.stage === 'DECLINED' || existing.stage === 'ENROLLED') {
+    return {
+      ok: false,
+      error: `Cannot schedule an interview on a ${existing.stage.toLowerCase()} application.`,
+    };
+  }
+
   const interviewDate = new Date(interviewAt);
   if (Number.isNaN(interviewDate.getTime())) {
     return { ok: false, error: 'Invalid interview date/time' };

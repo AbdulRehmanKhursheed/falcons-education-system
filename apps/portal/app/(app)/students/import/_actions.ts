@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import type { Prisma } from '@prisma/client';
 import { db } from '@/lib/db';
 import { requireRole } from '@/lib/auth-helpers';
 import { parseCSV } from '@/lib/csv';
@@ -234,25 +235,27 @@ export type CommitResult =
   | { ok: true; created: number; firstRollNo: string | null; lastRollNo: string | null };
 
 /**
- * Compute the next sequence start. We call this once before the loop and
- * increment locally — generating roll numbers inside the transaction with
- * lookups would N+1 the import.
+ * Compute the next sequence start using the transaction client so concurrent
+ * imports serialise (each call blocks until the prior commits, then sees the
+ * latest roll numbers). We do a numeric max over the parsed suffix rather
+ * than a lexicographic ORDER BY so the count stays correct past 999 students
+ * in a year (`FES-2026-1000` < `FES-2026-999` lexicographically).
  */
-async function nextRollNoStart(): Promise<{ prefix: string; next: number }> {
+async function nextRollNoStartTx(
+  tx: Prisma.TransactionClient,
+): Promise<{ prefix: string; next: number }> {
   const year = new Date().getFullYear();
   const prefix = `FES-${year}-`;
-  const latest = await db.student.findFirst({
+  const rows = await tx.student.findMany({
     where: { rollNo: { startsWith: prefix } },
-    orderBy: { rollNo: 'desc' },
     select: { rollNo: true },
   });
-  let next = 1;
-  if (latest) {
-    const numPart = latest.rollNo.slice(prefix.length);
-    const n = parseInt(numPart, 10);
-    if (!Number.isNaN(n)) next = n + 1;
+  let max = 0;
+  for (const { rollNo } of rows) {
+    const n = parseInt(rollNo.slice(prefix.length), 10);
+    if (!Number.isNaN(n) && n > max) max = n;
   }
-  return { prefix, next };
+  return { prefix, next: max + 1 };
 }
 
 export async function commitImport(validRows: ValidRow[]): Promise<CommitResult> {
@@ -276,13 +279,17 @@ export async function commitImport(validRows: ValidRow[]): Promise<CommitResult>
     }
   }
 
-  const { prefix, next: startNext } = await nextRollNoStart();
-  let counter = startNext;
   const assignedRollNos: string[] = [];
   const createdStudentIds: string[] = [];
 
   try {
     await db.$transaction(async (tx) => {
+      // Compute the sequence INSIDE the transaction so two concurrent imports
+      // serialise correctly. Outside the txn, two admins clicking Confirm
+      // would both receive the same starting counter and collide on the
+      // Student.rollNo unique constraint.
+      const { prefix, next: startNext } = await nextRollNoStartTx(tx);
+      let counter = startNext;
       for (const v of validRows) {
         const data = v.data;
 
@@ -311,7 +318,9 @@ export async function commitImport(validRows: ValidRow[]): Promise<CommitResult>
           guardianId = created.id;
         }
 
-        const rollNo = `${prefix}${String(counter).padStart(3, '0')}`;
+        // 4-digit padding matches every other roll-number emitter in the
+        // codebase (`students/[id]/_actions.ts`, `admissions/[id]/_actions.ts`).
+        const rollNo = `${prefix}${String(counter).padStart(4, '0')}`;
         counter += 1;
         assignedRollNos.push(rollNo);
 

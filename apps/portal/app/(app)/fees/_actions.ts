@@ -77,87 +77,108 @@ export async function recordPayment(
   }
   const { invoiceId, amount, method, reference, paidAt, notes } = parsed.data;
 
-  const invoice = await db.invoice.findUnique({
-    where: { id: invoiceId },
-    select: {
-      id: true,
-      invoiceNo: true,
-      studentId: true,
-      total: true,
-      amountPaid: true,
-      status: true,
-      dueDate: true,
-    },
-  });
-  if (!invoice) return { ok: false, error: 'Invoice not found' };
-  if (invoice.status === 'CANCELLED') {
-    return { ok: false, error: 'Cannot record payment on a cancelled invoice' };
-  }
+  // Read + compute + write happen inside a single interactive transaction so
+  // two concurrent payments against the same invoice serialise correctly.
+  // Previously the invoice was fetched outside, allowing two callers to read
+  // the same `amountPaid` snapshot and overwrite each other's updates — the
+  // second payment was permanently lost from the running balance.
+  let result: {
+    paymentId: string;
+    studentId: string;
+    invoiceNo: string;
+    nextStatus: InvoiceStatus;
+  };
+  try {
+    result = await db.$transaction(async (tx) => {
+      const invoice = await tx.invoice.findUnique({
+        where: { id: invoiceId },
+        select: {
+          id: true,
+          invoiceNo: true,
+          studentId: true,
+          total: true,
+          amountPaid: true,
+          status: true,
+          dueDate: true,
+        },
+      });
+      if (!invoice) throw new Error('Invoice not found');
+      if (invoice.status === 'CANCELLED') {
+        throw new Error('Cannot record payment on a cancelled invoice');
+      }
 
-  const total = Number(invoice.total);
-  const currentPaid = Number(invoice.amountPaid);
-  const nextPaid = currentPaid + amount;
+      const total = Number(invoice.total);
+      const currentPaid = Number(invoice.amountPaid);
+      const nextPaid = currentPaid + amount;
 
-  // Allow small overpayment? Block it — accountant should adjust discount.
-  if (nextPaid > total + 0.01) {
+      if (nextPaid > total + 0.01) {
+        throw new Error(
+          `Payment exceeds outstanding balance (₨${(total - currentPaid).toLocaleString(
+            'en-PK',
+          )} remaining).`,
+        );
+      }
+
+      const nextStatus = deriveStatus({
+        current: invoice.status,
+        total,
+        amountPaid: nextPaid,
+        dueDate: invoice.dueDate,
+      });
+
+      const payment = await tx.payment.create({
+        data: {
+          invoiceId,
+          amount,
+          method,
+          reference,
+          paidAt: paidAt ? new Date(paidAt) : new Date(),
+          notes,
+          recordedById: session.user.id,
+        },
+      });
+
+      await tx.invoice.update({
+        where: { id: invoiceId },
+        data: { amountPaid: nextPaid, status: nextStatus },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          actorId: session.user.id,
+          action: 'payment.record',
+          entityType: 'Payment',
+          entityId: payment.id,
+          diff: { invoiceId, amount, method, status: nextStatus },
+        },
+      });
+
+      return {
+        paymentId: payment.id,
+        studentId: invoice.studentId,
+        invoiceNo: invoice.invoiceNo,
+        nextStatus,
+      };
+    });
+  } catch (err) {
     return {
       ok: false,
-      error: `Payment exceeds outstanding balance (₨${(total - currentPaid).toLocaleString(
-        'en-PK',
-      )} remaining).`,
+      error: err instanceof Error ? err.message : 'Could not record payment',
     };
   }
 
-  const nextStatus = deriveStatus({
-    current: invoice.status,
-    total,
-    amountPaid: nextPaid,
-    dueDate: invoice.dueDate,
-  });
-
-  const result = await db.$transaction(async (tx) => {
-    const payment = await tx.payment.create({
-      data: {
-        invoiceId,
-        amount,
-        method,
-        reference,
-        paidAt: paidAt ? new Date(paidAt) : new Date(),
-        notes,
-        recordedById: session.user.id,
-      },
-    });
-
-    await tx.invoice.update({
-      where: { id: invoiceId },
-      data: { amountPaid: nextPaid, status: nextStatus },
-    });
-
-    await tx.auditLog.create({
-      data: {
-        actorId: session.user.id,
-        action: 'payment.record',
-        entityType: 'Payment',
-        entityId: payment.id,
-        diff: { invoiceId, amount, method, status: nextStatus },
-      },
-    });
-
-    return payment;
-  });
-
   // Best-effort parent notification — never block the action on a failure.
   try {
-    const parentUserIds = await getParentUserIdsForStudent(invoice.studentId);
+    const parentUserIds = await getParentUserIdsForStudent(result.studentId);
     if (parentUserIds.length > 0) {
       const amountLabel = `₨${amount.toLocaleString('en-PK')}`;
       await notifyUsers(parentUserIds, {
         kind: 'FEE',
         title: `Payment received · ${amountLabel}`,
-        body: `Invoice ${invoice.invoiceNo} · ${
-          nextStatus === 'PAID' ? 'Paid in full' : 'Partial payment'
+        body: `Invoice ${result.invoiceNo} · ${
+          result.nextStatus === 'PAID' ? 'Paid in full' : 'Partial payment'
         }`,
-        link: `/parent/kids/${invoice.studentId}/fees`,
+        link: `/parent/kids/${result.studentId}/fees`,
       });
     }
   } catch (err) {
@@ -167,7 +188,7 @@ export async function recordPayment(
   revalidatePath('/fees');
   revalidatePath(`/fees/${invoiceId}`);
   revalidatePath('/dashboard');
-  return { ok: true, data: { paymentId: result.id } };
+  return { ok: true, data: { paymentId: result.paymentId } };
 }
 
 // ── Apply discount ───────────────────────────────────────────────────
@@ -183,53 +204,76 @@ export async function applyDiscount(
   }
   const { invoiceId, discount } = parsed.data;
 
-  const invoice = await db.invoice.findUnique({
-    where: { id: invoiceId },
-    select: { id: true, amount: true, amountPaid: true, status: true, dueDate: true },
-  });
-  if (!invoice) return { ok: false, error: 'Invoice not found' };
-  if (invoice.status === 'CANCELLED') {
-    return { ok: false, error: 'Cannot apply discount to a cancelled invoice' };
-  }
+  // Same TOCTOU concern as recordPayment: a concurrent payment could change
+  // `amountPaid` between our read and our write, leading us to overwrite a
+  // correct PAID status with PARTIALLY_PAID. Read inside the txn so the two
+  // serialise.
+  let studentId: string;
+  try {
+    const txResult = await db.$transaction(async (tx) => {
+      const invoice = await tx.invoice.findUnique({
+        where: { id: invoiceId },
+        select: {
+          id: true,
+          studentId: true,
+          amount: true,
+          amountPaid: true,
+          status: true,
+          dueDate: true,
+        },
+      });
+      if (!invoice) throw new Error('Invoice not found');
+      if (invoice.status === 'CANCELLED') {
+        throw new Error('Cannot apply discount to a cancelled invoice');
+      }
 
-  const amount = Number(invoice.amount);
-  if (discount > amount) {
-    return { ok: false, error: 'Discount cannot exceed the invoice amount' };
-  }
+      const amount = Number(invoice.amount);
+      if (discount > amount) {
+        throw new Error('Discount cannot exceed the invoice amount');
+      }
+      const newTotal = amount - discount;
+      const amountPaid = Number(invoice.amountPaid);
+      if (amountPaid > newTotal + 0.01) {
+        throw new Error('Discount would make total less than already-paid amount');
+      }
+      const nextStatus = deriveStatus({
+        current: invoice.status,
+        total: newTotal,
+        amountPaid,
+        dueDate: invoice.dueDate,
+      });
 
-  const newTotal = amount - discount;
-  const amountPaid = Number(invoice.amountPaid);
-  if (amountPaid > newTotal + 0.01) {
+      await tx.invoice.update({
+        where: { id: invoiceId },
+        data: { discount, total: newTotal, status: nextStatus },
+      });
+      await tx.auditLog.create({
+        data: {
+          actorId: session.user.id,
+          action: 'invoice.discount',
+          entityType: 'Invoice',
+          entityId: invoiceId,
+          diff: { discount, newTotal, status: nextStatus },
+        },
+      });
+
+      return { studentId: invoice.studentId };
+    });
+    studentId = txResult.studentId;
+  } catch (err) {
     return {
       ok: false,
-      error: 'Discount would make total less than already-paid amount',
+      error: err instanceof Error ? err.message : 'Could not apply discount',
     };
   }
-  const nextStatus = deriveStatus({
-    current: invoice.status,
-    total: newTotal,
-    amountPaid,
-    dueDate: invoice.dueDate,
-  });
-
-  await db.$transaction([
-    db.invoice.update({
-      where: { id: invoiceId },
-      data: { discount, total: newTotal, status: nextStatus },
-    }),
-    db.auditLog.create({
-      data: {
-        actorId: session.user.id,
-        action: 'invoice.discount',
-        entityType: 'Invoice',
-        entityId: invoiceId,
-        diff: { discount, newTotal, status: nextStatus },
-      },
-    }),
-  ]);
 
   revalidatePath('/fees');
   revalidatePath(`/fees/${invoiceId}`);
+  // Parent fee view caches the outstanding balance via the parent layout —
+  // bust both the per-student fees route and the layout so the parent sees
+  // the new total without waiting for cache TTL.
+  revalidatePath(`/parent/kids/${studentId}/fees`);
+  revalidatePath('/parent', 'layout');
   return { ok: true };
 }
 
