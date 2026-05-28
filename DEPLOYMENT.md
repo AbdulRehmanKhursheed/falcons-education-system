@@ -168,60 +168,78 @@ curl https://<your-vercel-url>/api/health
 
 ---
 
-## Seed the database
+## Bootstrap the first admin (do NOT run seed.ts in production)
 
-The seed creates the initial set of users (admin, principal, teacher,
-accountant, parent) plus demo classroom and academic-year rows. **Run it
-once** after the first deploy.
+`npm run db:seed` creates 30+ demo students, fake guardians, mock invoices,
+and other fixture data. It is **strictly for local development**. The seed
+script refuses to run when `NODE_ENV=production` or when `DATABASE_URL` is
+not pointed at localhost — that guard is intentional. Don't bypass it.
 
-You have two options:
+For production, use **`npm run db:bootstrap`** instead. It creates exactly
+one SUPER_ADMIN user from environment variables and is idempotent — safe to
+run against a live DB.
 
-### Option A — Run from your laptop against production (recommended)
+### Go-Live runbook
 
 ```bash
-# 1. Pull the repo locally if you haven't
-git clone git@github.com:<your-org>/falcons-education-system.git
-cd falcons-education-system/apps/portal
-npm install
+# 1. Provision a fresh Neon project (or your Postgres host of choice).
+#    Copy BOTH connection strings — pooled and direct.
+#    Pooled string contains "-pooler" in the host; direct string does not.
 
-# 2. Create a .env file that points at the production DB
-#    Use the DIRECT Neon connection string (not the pooled one) — long-running
-#    seed runs better on a direct connection.
-cat > .env <<EOF
+# 2. In Vercel, set environment variables for the portal project:
+#      DATABASE_URL      = <Neon pooled connection string>     # runtime
+#      DIRECT_URL        = <Neon direct connection string>     # migrations
+#      AUTH_SECRET       = $(openssl rand -base64 32)
+#      AUTH_URL          = https://<portal-domain>
+#      AUTH_TRUST_HOST   = true
+
+# 3. Trigger a deploy. The build runs `prisma migrate deploy` and creates
+#    every table — but no rows. The DB is empty by design.
+
+# 4. From your laptop, create the first admin against the live DB:
+cd apps/portal
+
+cat > .env.production.local <<'EOF'
 DATABASE_URL="<Neon DIRECT connection string>"
-AUTH_SECRET="<same as Vercel>"
-SEED_ADMIN_EMAIL=admin@falconseducationsystem.com
-SEED_ADMIN_PASSWORD=<same as Vercel>
-SEED_PRINCIPAL_PASSWORD=<same as Vercel>
-SEED_TEACHER_PASSWORD=<same as Vercel>
-SEED_ACCOUNTS_PASSWORD=<same as Vercel>
-SEED_PARENT_PASSWORD=<same as Vercel>
 EOF
 
-# 3. Apply migrations (Vercel already did this, but it's idempotent)
-npx prisma migrate deploy
+BOOTSTRAP_ADMIN_EMAIL="you@school.com" \
+BOOTSTRAP_ADMIN_PASSWORD="$(openssl rand -base64 18)Ab1!" \
+BOOTSTRAP_ADMIN_NAME="Principal Sahib" \
+npm run db:bootstrap
 
-# 4. Run the seed
-npx prisma db seed
+# The script prints the SUPER_ADMIN it created/updated. Save the password
+# somewhere safe — you'll need it once.
 
-# 5. Delete the .env when done — it contains production secrets
-rm .env
+# 5. Delete the local env file — it contains production credentials.
+rm .env.production.local
+
+# 6. Sign in at https://<portal-domain>/login, immediately change the
+#    password from /settings/users, and start adding real teachers + students
+#    through the portal UI. No more scripts needed.
 ```
 
-The seed is idempotent (uses `upsert`) so re-running is safe, but in
-production it includes a guard that refuses to overwrite real data unless
-you set an explicit override flag. If you see a refusal, that's the safety
-check working — read the error message before forcing past it.
+### Why this design
 
-### Option B — Seed via a Vercel build hook (advanced, skip on first deploy)
+- **No demo data leaks into production.** The seed guard is a hard refusal,
+  not a warning.
+- **No `seed.ts` in the Vercel build pipeline.** The build only applies
+  migrations; data lives where it belongs.
+- **First admin is replaceable.** Once logged in, create your real admin
+  accounts via the UI and disable the bootstrap admin if you want — but it's
+  fine to keep using it.
 
-Not recommended for a first deploy. Use option A.
+### Wiping a development database
 
-### Verify the seed worked
+If your local dev DB has gotten messy and you want to start over:
 
-Open the deployed URL, click **Sign in**, log in as
-`admin@falconseducationsystem.com` with the `SEED_ADMIN_PASSWORD` you set.
-You should land on the dashboard.
+```bash
+cd apps/portal
+npm run db:reset      # drops every table, re-runs migrations, re-runs seed
+```
+
+Never run `db:reset` against a remote DB. The guard will block it, but the
+muscle memory is dangerous regardless.
 
 ---
 

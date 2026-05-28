@@ -8,8 +8,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Neon / Supabase / any pgBouncer-fronted host: set DIRECT_URL to the
+  // unpooled connection string so migrations bypass the pooler. Optional —
+  // safe to leave unset on plain Postgres.
+  directUrl = env("DIRECT_URL")
 }
 
 // ── Enums ──────────────────────────────────────────────────────────────────

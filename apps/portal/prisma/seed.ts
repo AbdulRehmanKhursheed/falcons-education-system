@@ -109,6 +109,34 @@ function resolveSeedPassword(envVar: string, devDefault: string): string {
 }
 
 async function main() {
+  // ── Production guard ─────────────────────────────────────────────────
+  // This seed creates 30+ demo students, fake guardians, mock invoices, etc.
+  // It must NEVER run against a production database. If you genuinely need
+  // demo data on a non-local DB (e.g., a staging environment), set
+  // SEED_ALLOW_NON_LOCAL=true explicitly to acknowledge the risk.
+  const dbUrl = process.env.DATABASE_URL ?? '';
+  const isLocalDb =
+    dbUrl.includes('localhost') ||
+    dbUrl.includes('127.0.0.1') ||
+    dbUrl.includes('@postgres:'); // docker-compose service name
+  if (process.env.NODE_ENV === 'production' && process.env.SEED_ALLOW_NON_LOCAL !== 'true') {
+    console.error(
+      '[seed] Refusing to run with NODE_ENV=production. This script creates ' +
+        'fake students and parents — running it against a live DB would corrupt ' +
+        'production data. Use `npm run db:bootstrap` instead to create the ' +
+        'first admin user.',
+    );
+    process.exit(1);
+  }
+  if (!isLocalDb && process.env.SEED_ALLOW_NON_LOCAL !== 'true') {
+    console.error(
+      '[seed] DATABASE_URL does not point at localhost or the docker postgres ' +
+        'service. Refusing to seed a remote database with demo data. If this ' +
+        'is intentional (e.g., a fresh staging DB), re-run with SEED_ALLOW_NON_LOCAL=true.',
+    );
+    process.exit(1);
+  }
+
   // ── Users ─────────────────────────────────────────────────────────────
   // Defaults are intentionally policy-compliant (10+ chars, upper/lower/digit/symbol)
   // so the seed works out of the box for local dev. Production must override
