@@ -13,6 +13,7 @@ import {
   BookOpen,
   CalendarRange,
   UserCheck,
+  Sparkles,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -48,6 +49,7 @@ export const navigation: NavSection[] = [
       { href: '/assessments', label: 'Assessments', Icon: ChartLine,      roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER'] },
       { href: '/homework',    label: 'Homework',    Icon: BookOpen,       roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER'] },
       { href: '/timetable',   label: 'Timetable',   Icon: CalendarRange,  roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'] },
+      { href: '/coaching',    label: 'Coaching',    Icon: Sparkles,       roles: ['SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER', 'ACCOUNTANT'] },
     ],
   },
   {

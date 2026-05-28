@@ -132,6 +132,7 @@ model User {
   auditLogs             AuditLog[]
   staffAttendance       StaffAttendance[] @relation("StaffAttendanceUser")
   staffAttendanceMarked StaffAttendance[] @relation("StaffAttendanceMarkedBy")
+  coachingAttendanceMarked CoachingAttendance[] @relation("CoachingAttendanceMarkedBy")
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -195,12 +196,14 @@ model Student {
   notes         String? // medical, allergies, etc — free-text, encrypted in Phase 2
 
   // Relations
-  guardians    StudentGuardian[]
-  enrollments  Enrollment[]
-  attendance   Attendance[]
-  invoices     Invoice[]
-  assessments  Assessment[]
-  applications Application[] // historical applications that became this student
+  guardians           StudentGuardian[]
+  enrollments         Enrollment[]
+  attendance          Attendance[]
+  invoices            Invoice[]
+  assessments         Assessment[]
+  applications        Application[] // historical applications that became this student
+  coachingEnrollments CoachingEnrollment[]
+  coachingAttendance  CoachingAttendance[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -359,6 +362,7 @@ model Teacher {
 
   homerooms        Classroom[]      @relation("HomeroomTeacher")
   timetableEntries TimetableEntry[]
+  coachingBatches  CoachingBatch[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -631,5 +635,111 @@ model StaffAttendance {
   createdAt DateTime @default(now())
 
   @@unique([userId, date])
+  @@index([date, status])
+}
+
+// ── Coaching center ────────────────────────────────────────────────────────
+// Falcons runs a coaching center in parallel to the school. Coaching has its
+// own batches (subject + level + time slot), enrollments (a student joins one
+// or more batches), per-batch attendance (separate from school attendance),
+// and per-batch monthly fees. Coaching invoices reuse the Invoice model with
+// a coachingBatchId pointer so the existing fees workflow (Payment, challan,
+// reminder, etc.) just works.
+
+enum CoachingLevel {
+  MATRIC_9
+  MATRIC_10
+  FSC_1
+  FSC_2
+  O_LEVEL
+  A_LEVEL
+  MDCAT
+  ECAT
+  GENERAL
+}
+
+enum CoachingWeekday {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+}
+
+enum CoachingEnrollmentStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  DROPPED
+}
+
+model CoachingBatch {
+  id        String            @id @default(cuid())
+  name      String // 'Matric Physics — Evening'
+  subject   String // 'Physics', 'Chemistry', 'Maths', etc.
+  level     CoachingLevel
+  weekdays  CoachingWeekday[]
+  startTime String // '17:30' — 24h, lexicographic comparison works
+  endTime   String // '19:00'
+
+  teacherId String?
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+
+  monthlyFee Decimal @db.Decimal(12, 2)
+  capacity   Int     @default(20)
+  isActive   Boolean @default(true)
+  notes      String?
+
+  enrollments CoachingEnrollment[]
+  attendance  CoachingAttendance[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([subject])
+  @@index([level])
+}
+
+model CoachingEnrollment {
+  id        String        @id @default(cuid())
+  batchId   String
+  studentId String
+  batch     CoachingBatch @relation(fields: [batchId], references: [id])
+  student   Student       @relation(fields: [studentId], references: [id])
+
+  status   CoachingEnrollmentStatus @default(ACTIVE)
+  joinedOn DateTime                 @db.Date
+  leftOn   DateTime?                @db.Date
+  notes    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([batchId, studentId])
+  @@index([batchId, status])
+  @@index([studentId])
+}
+
+model CoachingAttendance {
+  id        String        @id @default(cuid())
+  batchId   String
+  studentId String
+  batch     CoachingBatch @relation(fields: [batchId], references: [id])
+  student   Student       @relation(fields: [studentId], references: [id])
+
+  date   DateTime         @db.Date
+  status AttendanceStatus
+  remark String?
+
+  markedById String
+  markedBy   User   @relation("CoachingAttendanceMarkedBy", fields: [markedById], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([batchId, studentId, date])
+  @@index([batchId, date])
   @@index([date, status])
 }

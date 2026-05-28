@@ -46,6 +46,7 @@
 
 import {
   PrismaClient,
+  Prisma,
   Role,
   ProgramKind,
   StudentStatus,
@@ -57,6 +58,9 @@ import {
   AssessmentKind,
   AnnouncementAudience,
   NotificationKind,
+  CoachingLevel,
+  CoachingWeekday,
+  CoachingEnrollmentStatus,
 } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -1543,6 +1547,204 @@ async function main() {
     });
   }
   console.log(`✓ ${notificationSeeds.length} parent notifications`);
+
+  // ── Coaching center batches + enrollments ─────────────────────────────
+  // Four representative batches that cover the most common Falcons coaching
+  // offerings: Matric Physics, FSc Chemistry, O-Level Math, MDCAT. Teachers
+  // are picked from the active teacher pool by index — falls back to null
+  // when there aren't enough active teachers seeded.
+  const coachingTeacher = (idx: number): string | null =>
+    activeTeachers[idx % activeTeachers.length]?.id ?? null;
+
+  const coachingBatchSeeds: Array<{
+    name: string;
+    subject: string;
+    level: CoachingLevel;
+    weekdays: CoachingWeekday[];
+    startTime: string;
+    endTime: string;
+    teacherId: string | null;
+    monthlyFee: number;
+    capacity: number;
+    notes: string;
+  }> = [
+    {
+      name: 'Matric Physics — Evening',
+      subject: 'Physics',
+      level: CoachingLevel.MATRIC_10,
+      weekdays: [CoachingWeekday.MON, CoachingWeekday.WED, CoachingWeekday.FRI],
+      startTime: '17:00',
+      endTime: '18:30',
+      teacherId: coachingTeacher(0),
+      monthlyFee: 4500,
+      capacity: 20,
+      notes:
+        'Federal Board Class 10 Physics — full revision + numericals. Focuses on past-paper drills in the second half of the term.',
+    },
+    {
+      name: 'FSc Chemistry — Part 1',
+      subject: 'Chemistry',
+      level: CoachingLevel.FSC_1,
+      weekdays: [CoachingWeekday.TUE, CoachingWeekday.THU, CoachingWeekday.SAT],
+      startTime: '16:00',
+      endTime: '17:30',
+      teacherId: coachingTeacher(1),
+      monthlyFee: 5500,
+      capacity: 15,
+      notes:
+        'Pre-engineering / pre-medical FSc Part 1 Chemistry. Covers atomic structure, bonding, and stoichiometry in depth.',
+    },
+    {
+      name: 'O-Level Math — Edexcel',
+      subject: 'Mathematics',
+      level: CoachingLevel.O_LEVEL,
+      weekdays: [CoachingWeekday.MON, CoachingWeekday.WED],
+      startTime: '18:30',
+      endTime: '20:00',
+      teacherId: coachingTeacher(2),
+      monthlyFee: 6500,
+      capacity: 12,
+      notes:
+        'Small-group O-Level / IGCSE Maths prep — Edexcel + Cambridge syllabi. Mock exams once a month.',
+    },
+    {
+      name: 'MDCAT Intensive — Aug Cohort',
+      subject: 'MDCAT Prep',
+      level: CoachingLevel.MDCAT,
+      weekdays: [
+        CoachingWeekday.MON,
+        CoachingWeekday.TUE,
+        CoachingWeekday.WED,
+        CoachingWeekday.THU,
+        CoachingWeekday.FRI,
+      ],
+      startTime: '15:00',
+      endTime: '17:00',
+      teacherId: coachingTeacher(0),
+      monthlyFee: 12000,
+      capacity: 25,
+      notes:
+        'Full-week MDCAT prep — Biology + Chemistry + Physics + English + Logical Reasoning. Daily 2-hour blocks.',
+    },
+  ];
+
+  type SeededBatch = { id: string; name: string; capacity: number };
+  const seededBatches: SeededBatch[] = [];
+  for (const b of coachingBatchSeeds) {
+    // Upsert keyed on `name` — name is not a unique column in the schema, so
+    // we resolve by-name first, then create or update by id.
+    const existing = await prisma.coachingBatch.findFirst({
+      where: { name: b.name },
+      select: { id: true },
+    });
+    if (existing) {
+      const updated = await prisma.coachingBatch.update({
+        where: { id: existing.id },
+        data: {
+          subject: b.subject,
+          level: b.level,
+          weekdays: b.weekdays,
+          startTime: b.startTime,
+          endTime: b.endTime,
+          teacherId: b.teacherId,
+          monthlyFee: new Prisma.Decimal(b.monthlyFee),
+          capacity: b.capacity,
+          notes: b.notes,
+          isActive: true,
+        },
+        select: { id: true, name: true, capacity: true },
+      });
+      seededBatches.push(updated);
+    } else {
+      const created = await prisma.coachingBatch.create({
+        data: {
+          name: b.name,
+          subject: b.subject,
+          level: b.level,
+          weekdays: b.weekdays,
+          startTime: b.startTime,
+          endTime: b.endTime,
+          teacherId: b.teacherId,
+          monthlyFee: new Prisma.Decimal(b.monthlyFee),
+          capacity: b.capacity,
+          notes: b.notes,
+          isActive: true,
+        },
+        select: { id: true, name: true, capacity: true },
+      });
+      seededBatches.push(created);
+    }
+  }
+  console.log(`✓ ${seededBatches.length} coaching batches`);
+
+  // Distribute 12-15 enrollments across the batches. Most ACTIVE, a few
+  // PAUSED / DROPPED for realism. Pull from the seeded student roster
+  // skipping the ON_LEAVE (idx 11) and INACTIVE (idx 22) students.
+  const coachingStudentPool = students.filter(
+    (_, i) => i !== 11 && i !== 22,
+  );
+
+  const enrollmentPlan: Array<{
+    batchIdx: number;
+    studentIdx: number;
+    status: CoachingEnrollmentStatus;
+    daysAgo: number;
+  }> = [
+    // Matric Physics — 5 students
+    { batchIdx: 0, studentIdx: 0, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 60 },
+    { batchIdx: 0, studentIdx: 1, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 55 },
+    { batchIdx: 0, studentIdx: 2, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 50 },
+    { batchIdx: 0, studentIdx: 3, status: CoachingEnrollmentStatus.PAUSED, daysAgo: 45 },
+    { batchIdx: 0, studentIdx: 4, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 40 },
+    // FSc Chemistry — 3 students
+    { batchIdx: 1, studentIdx: 5, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 38 },
+    { batchIdx: 1, studentIdx: 6, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 35 },
+    { batchIdx: 1, studentIdx: 7, status: CoachingEnrollmentStatus.DROPPED, daysAgo: 30 },
+    // O-Level Math — 3 students
+    { batchIdx: 2, studentIdx: 8, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 28 },
+    { batchIdx: 2, studentIdx: 9, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 25 },
+    { batchIdx: 2, studentIdx: 10, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 20 },
+    // MDCAT Intensive — 3 students (cross-listed with Matric/FSc students)
+    { batchIdx: 3, studentIdx: 0, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 18 },
+    { batchIdx: 3, studentIdx: 11, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 15 },
+    { batchIdx: 3, studentIdx: 12, status: CoachingEnrollmentStatus.ACTIVE, daysAgo: 10 },
+    { batchIdx: 3, studentIdx: 13, status: CoachingEnrollmentStatus.PAUSED, daysAgo: 5 },
+  ];
+
+  let coachingEnrollmentCount = 0;
+  for (const plan of enrollmentPlan) {
+    const batch = seededBatches[plan.batchIdx];
+    const student = coachingStudentPool[plan.studentIdx];
+    if (!batch || !student) continue;
+
+    const joinedOn = new Date(today0);
+    joinedOn.setDate(joinedOn.getDate() - plan.daysAgo);
+    const leftOn =
+      plan.status === CoachingEnrollmentStatus.DROPPED ||
+      plan.status === CoachingEnrollmentStatus.COMPLETED
+        ? new Date(joinedOn.getTime() + 14 * 24 * 60 * 60 * 1000)
+        : null;
+
+    await prisma.coachingEnrollment.upsert({
+      where: {
+        batchId_studentId: { batchId: batch.id, studentId: student.id },
+      },
+      update: {
+        status: plan.status,
+        joinedOn,
+        leftOn,
+      },
+      create: {
+        batchId: batch.id,
+        studentId: student.id,
+        status: plan.status,
+        joinedOn,
+        leftOn,
+      },
+    });
+    coachingEnrollmentCount++;
+  }
+  console.log(`✓ ${coachingEnrollmentCount} coaching enrollments`);
 
   console.log('\nSeed complete.');
 }
