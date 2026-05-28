@@ -110,9 +110,13 @@ export default auth((req) => {
 
 export const config = {
   // Includes /api/auth/callback/credentials so we can rate-limit it; excludes
-  // the rest of /api plus static assets.
+  // the rest of /api, Next internals, and any path ending in a static-asset
+  // extension. The extension exclusion matters for /public/* assets that the
+  // server-side Image optimizer fetches without a session cookie — without
+  // it, the auth-gate redirects those fetches to /login and Next/Image rejects
+  // the response as "not a valid image".
   matcher: [
     '/api/auth/callback/credentials',
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|txt|xml|json|woff2?|ttf|otf)$).*)',
   ],
 };

@@ -14,28 +14,28 @@
   --color-ink-muted:    #5B6F8D;
   --color-ink-faint:    #93A4BD;
 
-  /* Surfaces */
-  --color-paper:        #FAF7F1;
-  --color-paper-warm:   #F3EEE3;
+  /* Surfaces — cool white admin canvas, navy + gold do the brand work */
+  --color-paper:        #FAFBFC;
+  --color-paper-warm:   #F3F5F8;
   --color-paper-pure:   #FFFFFF;
   --color-surface:      #FFFFFF;       /* portal default surface */
-  --color-surface-2:    #FAF7F1;       /* secondary surface */
-  --color-surface-3:    #F4F1EA;       /* tertiary, hover bg */
+  --color-surface-2:    #F7F9FC;       /* secondary surface — page bg */
+  --color-surface-3:    #EEF1F6;       /* tertiary, hover bg */
 
-  /* Lines */
-  --color-line:         #E5DCC8;
-  --color-line-soft:    #EFE9DB;
-  --color-line-strong:  #D5CAB2;
+  /* Lines — cool neutral hairlines */
+  --color-line:         #E2E7EE;
+  --color-line-soft:    #EDF0F5;
+  --color-line-strong:  #CBD2DC;
 
-  /* Brand */
-  --color-brand:        #1376C8;
-  --color-brand-dark:   #0A4A85;
-  --color-brand-soft:   #E8F2FA;
-  --color-brand-tint:   #C2DAEB;
+  /* Brand — deep royal navy from the shield */
+  --color-brand:        #163A75;
+  --color-brand-dark:   #0B2756;
+  --color-brand-soft:   #E9EDF6;
+  --color-brand-tint:   #B6C3DC;
 
-  /* Accent */
-  --color-accent:       #B98842;
-  --color-accent-soft:  #E9D9B6;
+  /* Accent — warm gold from the laurel + banner */
+  --color-accent:       #C9A03B;
+  --color-accent-soft:  #E8D599;
 
   /* Semantic — admin UI */
   --color-success:      #1B8E5E;
@@ -44,8 +44,8 @@
   --color-warn-soft:    #FBF1D7;
   --color-danger:       #B53A2A;
   --color-danger-soft:  #F8E2DE;
-  --color-info:         #1376C8;
-  --color-info-soft:    #E8F2FA;
+  --color-info:         #163A75;
+  --color-info-soft:    #E9EDF6;
 
   /* Typography */
   --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;

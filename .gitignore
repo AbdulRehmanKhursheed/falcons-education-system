@@ -38,3 +38,7 @@ next-env.d.ts
 # claude code workspace
 .claude/
 .queue/
+
+# python venvs (logo/asset build script)
+.venv*/
+__pycache__/

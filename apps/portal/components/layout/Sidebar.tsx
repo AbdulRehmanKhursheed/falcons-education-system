@@ -1,8 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { navigation } from '@/lib/nav';
 import { cn } from '@/lib/cn';
 import { Avatar } from '@/components/ui/Avatar';
@@ -56,18 +57,23 @@ export function SidebarContent({
           onClick={onNavigate}
           className="flex items-center gap-2.5 group"
         >
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-md bg-ink text-paper">
-            <GraduationCap className="w-4.5 h-4.5" strokeWidth={1.5} />
-          </span>
-          <span className="flex flex-col leading-none">
+          <Image
+            src="/logo.png"
+            alt="Falcons Education System crest"
+            width={48}
+            height={42}
+            priority
+            className="h-10 w-auto shrink-0"
+          />
+          <span className="flex flex-col leading-tight min-w-0">
             <span
-              className="font-display text-base text-ink tracking-[-0.02em] group-hover:text-brand transition-colors"
-              style={{ fontVariationSettings: '"opsz" 24' }}
+              className="font-display text-[13.5px] text-ink tracking-[-0.01em] group-hover:text-brand transition-colors"
+              style={{ fontVariationSettings: '"opsz" 20' }}
             >
-              Falcons
+              Falcons Education System
             </span>
-            <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-ink-faint">
-              School portal
+            <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-accent">
+              Staff portal
             </span>
           </span>
         </Link>

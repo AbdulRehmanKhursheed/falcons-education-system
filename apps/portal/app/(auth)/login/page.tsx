@@ -1,9 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState, FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
-import { ArrowUpRight, GraduationCap, KeyRound, Mail, Loader2 } from 'lucide-react';
+import { ArrowUpRight, KeyRound, Mail, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -71,16 +72,21 @@ export default function LoginPage() {
 
       {/* ── Brand panel ─────────────────────────────────────────────── */}
       <aside className="hidden lg:flex flex-col justify-between bg-ink text-paper p-12 xl:p-16 relative">
-        <Link href="/" className="inline-flex items-center gap-3 w-fit group">
-          <span className="inline-flex items-center justify-center w-10 h-10 rounded-md bg-paper/10">
-            <GraduationCap className="w-5 h-5 text-paper" strokeWidth={1.5} />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-xl text-paper tracking-[-0.02em]" style={{ fontVariationSettings: '"opsz" 24' }}>
-              Falcons
+        <Link href="/" className="inline-flex items-center gap-4 w-fit group">
+          <Image
+            src="/logo.png"
+            alt="Falcons Education System crest"
+            width={96}
+            height={84}
+            priority
+            className="h-20 w-auto shrink-0 drop-shadow-[0_6px_28px_rgba(201,160,59,0.22)]"
+          />
+          <span className="flex flex-col leading-tight max-w-[14rem]">
+            <span className="font-display text-[22px] text-paper tracking-[-0.015em]" style={{ fontVariationSettings: '"opsz" 28' }}>
+              Falcons Education System
             </span>
-            <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/60">
-              School portal
+            <span className="mt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent-soft/80">
+              Rawalpindi · Est. 2018
             </span>
           </span>
         </Link>
@@ -117,11 +123,16 @@ export default function LoginPage() {
 
           {/* Mobile-only brand */}
           <Link href="/" className="lg:hidden inline-flex items-center gap-3 mb-10">
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-md bg-ink text-paper">
-              <GraduationCap className="w-5 h-5" strokeWidth={1.5} />
-            </span>
-            <span className="font-display text-xl text-ink tracking-[-0.02em]" style={{ fontVariationSettings: '"opsz" 24' }}>
-              Falcons Portal
+            <Image
+              src="/logo.png"
+              alt="Falcons Education System crest"
+              width={64}
+              height={56}
+              priority
+              className="h-14 w-auto shrink-0"
+            />
+            <span className="font-display text-[17px] text-ink leading-tight tracking-[-0.01em] max-w-[12rem]" style={{ fontVariationSettings: '"opsz" 22' }}>
+              Falcons Education System
             </span>
           </Link>
 

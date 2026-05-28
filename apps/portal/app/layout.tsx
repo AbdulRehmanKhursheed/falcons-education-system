@@ -16,12 +16,21 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://portal.falconseducationsystem.com'),
   title: {
-    default: 'Falcons · Portal',
-    template: '%s · Falcons Portal',
+    default: 'Falcons Education System — School Portal',
+    template: '%s · Falcons Education System',
   },
-  description: 'School management portal for Falcons Education System.',
+  description:
+    'The internal school portal for Falcons Education System, Rawalpindi — admissions, attendance, fees, assessments, and parent communication in one place.',
+  applicationName: 'Falcons Education System',
   robots: { index: false, follow: false },
+  openGraph: {
+    title: 'Falcons Education System — School Portal',
+    description: 'Internal staff & parent portal for Falcons Education System, Rawalpindi.',
+    siteName: 'Falcons Education System',
+    type: 'website',
+  },
 };
 
 export const viewport: Viewport = {
