@@ -22,7 +22,7 @@ type Props = {
  */
 export function Sidebar({ role, userName, userEmail, signOutAction }: Props) {
   return (
-    <aside className="hidden lg:flex flex-col w-64 shrink-0 h-screen sticky top-0 bg-surface border-r border-line">
+    <aside className="hidden lg:flex flex-col w-64 shrink-0 h-screen sticky top-0 bg-ink border-r border-ink/40 text-paper">
       <SidebarContent
         role={role}
         userName={userName}
@@ -51,7 +51,7 @@ export function SidebarContent({
   return (
     <>
       {/* Brand */}
-      <div className="px-5 py-5 border-b border-line">
+      <div className="px-5 py-5 border-b border-paper/10">
         <Link
           href="/dashboard"
           onClick={onNavigate}
@@ -67,7 +67,7 @@ export function SidebarContent({
           />
           <span className="flex flex-col leading-tight min-w-0">
             <span
-              className="font-display text-[13.5px] text-ink tracking-[-0.01em] group-hover:text-brand transition-colors"
+              className="font-display text-[13.5px] text-paper tracking-[-0.01em] group-hover:text-accent-soft transition-colors"
               style={{ fontVariationSettings: '"opsz" 20' }}
             >
               Falcons Education System
@@ -88,9 +88,9 @@ export function SidebarContent({
           if (visible.length === 0) return null;
           return (
             <div key={section.label}>
-              <p className="px-3 mb-2 flex items-center gap-2 eyebrow text-ink-faint">
+              <p className="px-3 mb-2 flex items-center gap-2 eyebrow text-paper/40">
                 <span className="font-mono normal-case tracking-[0.16em]">{section.number}</span>
-                <span aria-hidden className="inline-block h-px w-3 bg-ink-faint/40" />
+                <span aria-hidden className="inline-block h-px w-3 bg-paper/20" />
                 {section.label}
               </p>
               <ul className="space-y-0.5">
@@ -116,17 +116,17 @@ export function SidebarContent({
       </nav>
 
       {/* User */}
-      <div className="border-t border-line p-3">
+      <div className="border-t border-paper/10 p-3">
         <div className="flex items-center gap-3 px-2 py-2">
-          <Avatar name={userName} size="sm" />
+          <Avatar name={userName} size="sm" className="!bg-paper/10 !text-paper" />
           <div className="flex-1 min-w-0">
-            <p className="text-[12.5px] font-semibold text-ink truncate">{userName}</p>
-            <p className="text-[10.5px] text-ink-faint truncate">{userEmail}</p>
+            <p className="text-[12.5px] font-semibold text-paper truncate">{userName}</p>
+            <p className="text-[10.5px] text-paper/50 truncate">{userEmail}</p>
           </div>
           <form action={signOutAction}>
             <button
               type="submit"
-              className="inline-flex items-center justify-center w-7 h-7 rounded text-ink-muted hover:bg-surface-3 hover:text-ink transition-colors"
+              className="inline-flex items-center justify-center w-7 h-7 rounded text-paper/60 hover:bg-paper/10 hover:text-paper transition-colors"
               aria-label="Sign out"
             >
               <LogOut className="w-3.5 h-3.5" strokeWidth={1.75} />
