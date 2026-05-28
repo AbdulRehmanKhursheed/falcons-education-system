@@ -15,6 +15,7 @@ import type { NotificationRow } from '@/lib/queries/notifications';
 function useBreadcrumbs(pathname: string) {
   const item = flatNav().find((i) => i.href === pathname || pathname.startsWith(`${i.href}/`));
   if (!item) return [{ label: 'Portal', href: '/dashboard' }];
+  if (item.href === '/dashboard') return [{ label: 'Dashboard', href: '/dashboard' }];
   return [
     { label: 'Portal', href: '/dashboard' },
     { label: item.label, href: item.href },
