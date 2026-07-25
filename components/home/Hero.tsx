@@ -121,10 +121,10 @@ export function Hero() {
       >
         <Parallax distance={26} className="overflow-hidden rounded-3xl shadow-rise">
           <Photo
-            alt="Falcons Education System classroom — children working in warm morning light"
-            label="Campus photo — coming soon"
-            tone="sky"
+            src="/images/hero.jpg"
+            alt="Falcons Education System classroom — children working with Montessori materials in warm morning light while a teacher guides one child"
             priority
+            sizes="(min-width: 1280px) 1216px, 100vw"
             className="aspect-[16/10] w-full sm:aspect-[21/10]"
           />
         </Parallax>
