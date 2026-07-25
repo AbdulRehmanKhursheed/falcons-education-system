@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { trackLead } from '@/components/MetaPixel';
 
 const PROGRAMS = [
   'Nursery (2.5 – 3.5)',
@@ -32,6 +33,7 @@ export function InquiryForm() {
       `Hi, I'd like to enquire about admission.\n\nParent name: ${name}\nPhone: ${phone}\nProgram: ${program}`,
     );
     window.open(`${SITE_CONFIG.whatsapp}?text=${message}`, '_blank', 'noopener,noreferrer');
+    trackLead('admissions-inquiry-form');
     setSent(true);
   }
 

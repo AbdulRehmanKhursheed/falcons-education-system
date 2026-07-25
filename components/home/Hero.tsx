@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import { Parallax } from '@/components/ui/Motion';
+import { trackLead } from '@/components/MetaPixel';
 import { Photo } from '@/components/ui/Photo';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -91,6 +92,7 @@ export function Hero() {
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackLead('hero-whatsapp')}
             className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-brand-dark hover:shadow-float"
           >
             Chat on WhatsApp

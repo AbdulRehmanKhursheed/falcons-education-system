@@ -7,6 +7,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { MobileActionBar } from '@/components/MobileActionBar';
+import { MetaPixel } from '@/components/MetaPixel';
 
 const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -112,6 +113,7 @@ export default function RootLayout({
         <Footer />
         <WhatsAppButton />
         <MobileActionBar />
+        <MetaPixel />
       </body>
     </html>
   );

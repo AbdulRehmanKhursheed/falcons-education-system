@@ -1,6 +1,9 @@
+'use client';
+
 import { MessageCircle, CalendarCheck, PenLine, ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { trackLead } from '@/components/MetaPixel';
 
 const STEPS = [
   {
@@ -78,6 +81,7 @@ export function AdmissionsStrip() {
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackLead('home-cta-band-whatsapp')}
                 className="group inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:brightness-105"
               >
                 Chat on WhatsApp

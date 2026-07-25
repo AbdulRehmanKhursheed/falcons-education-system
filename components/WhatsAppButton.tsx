@@ -1,6 +1,7 @@
 'use client';
 
 import { SITE_CONFIG } from '@/lib/constants';
+import { trackLead } from '@/components/MetaPixel';
 
 export function WhatsAppButton() {
   const whatsappUrl = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
@@ -11,6 +12,7 @@ export function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackLead('floating-whatsapp')}
       aria-label="Chat with us on WhatsApp"
       className="
         hidden sm:inline-flex

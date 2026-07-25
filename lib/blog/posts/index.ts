@@ -8,6 +8,13 @@ import { post as playgroupActivities } from './playgroup-activities-for-kids-at-
 import { post as saturdayCoaching } from './saturday-coaching-classes-rawalpindi';
 import { post as eveningAcademy } from './evening-academy-after-school-rawalpindi';
 
+// Cluster E: Choosing a School / From the School (July 2026)
+import { post as choseSchoolKamalabad } from './how-i-chose-a-school-near-kamalabad-road';
+import { post as goodSchoolPrincipalView } from './what-makes-a-good-school-rawalpindi-principal-view';
+import { post as schoolFeesQuestions } from './school-fees-rawalpindi-questions-to-ask';
+import { post as ourFirstYear } from './our-first-year-running-a-school';
+import { post as shiftingSchoolMidYear } from './shifting-school-mid-year-rawalpindi';
+
 // Cluster A: Brain Development
 import { post as howMemoryDevelops } from './how-memory-develops-in-children';
 import { post as earlyChildhoodBrain } from './early-childhood-brain-development-importance';
@@ -133,6 +140,11 @@ const allPosts: BlogArticle[] = [
   toiletTraining,
   shyChildren,
   firstWeekSchool,
+  choseSchoolKamalabad,
+  goodSchoolPrincipalView,
+  schoolFeesQuestions,
+  ourFirstYear,
+  shiftingSchoolMidYear,
 ];
 
 export const blogArticles: BlogArticle[] = [...allPosts].sort((a, b) =>
