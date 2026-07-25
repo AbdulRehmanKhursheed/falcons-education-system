@@ -3,16 +3,28 @@ import { ArrowRight } from 'lucide-react';
 import { FadeIn } from '@/components/ui/Motion';
 import { Photo } from '@/components/ui/Photo';
 
-const PROGRAMS = [
+type ProgramRow = {
+  href: string;
+  kicker: string;
+  kickerColor: string;
+  title: string;
+  body: string;
+  src?: string;
+  imageAlt: string;
+  imageLabel?: string;
+  tone: 'sky' | 'sun' | 'navy';
+};
+
+const PROGRAMS: ProgramRow[] = [
   {
     href: '/programs#montessori',
     kicker: 'Ages 2.5 – 6',
     kickerColor: 'text-brand',
     title: 'Montessori early years',
     body: 'Children learn by doing — practical life, sensorial materials, and language in a calm, prepared environment that lets each child move at their own pace.',
-    imageAlt: 'Montessori classroom with children working with wooden materials',
-    imageLabel: 'Montessori — photo coming soon',
-    tone: 'sky' as const,
+    src: '/images/montessori.jpg',
+    imageAlt: 'Child working with Montessori golden bead materials while a teacher guides her hands',
+    tone: 'sky',
   },
   {
     href: '/programs#class-1-2',
@@ -20,9 +32,9 @@ const PROGRAMS = [
     kickerColor: 'text-flame',
     title: 'Primary school',
     body: 'English, Urdu, Mathematics, Science and more — small classes, national syllabus, and teachers who know every child by name.',
-    imageAlt: 'Primary school students raising hands in a bright classroom',
-    imageLabel: 'Primary — photo coming soon',
-    tone: 'sun' as const,
+    src: '/images/primary.jpg',
+    imageAlt: 'Primary school students raising their hands eagerly in a bright classroom',
+    tone: 'sun',
   },
   {
     href: '/programs#evening-academy',
@@ -30,9 +42,9 @@ const PROGRAMS = [
     kickerColor: 'text-brand-dark',
     title: 'Coaching & computer courses',
     body: 'After-school help with homework and exams, plus hands-on computer classes — so school kids from anywhere in the area can catch up and get ahead.',
-    imageAlt: 'Students at evening coaching working on computers',
-    imageLabel: 'Coaching — photo coming soon',
-    tone: 'navy' as const,
+    src: '/images/coaching.jpg',
+    imageAlt: 'Evening coaching session — a tutor helping three children with homework under warm lamp light',
+    tone: 'navy',
   },
 ];
 
@@ -56,6 +68,7 @@ export function ProgramRows() {
                 }`}
               >
                 <Photo
+                  src={p.src}
                   alt={p.imageAlt}
                   label={p.imageLabel}
                   tone={p.tone}

@@ -26,7 +26,19 @@ type Chapter = {
   details: string[];
   schedule: string;
   tone: 'sky' | 'sun' | 'navy';
+  src?: string;
   imageAlt: string;
+};
+
+const CHAPTER_IMAGES: Record<string, string> = {
+  nursery: '/images/nursery.jpg',
+  montessori: '/images/montessori-level.jpg',
+  kg: '/images/kindergarten.jpg',
+  'class-1-2': '/images/class-1-2.jpg',
+  'class-3-4': '/images/class-3-4.jpg',
+  'class-5-6': '/images/class-5-6.jpg',
+  'evening-academy': '/images/evening-academy.jpg',
+  'saturday-coaching': '/images/saturday-coaching.jpg',
 };
 
 const CHAPTERS: Chapter[] = [
@@ -200,8 +212,9 @@ export default function ProgramsPage() {
                 }`}
               >
                 <Photo
+                  src={CHAPTER_IMAGES[c.id]}
                   alt={c.imageAlt}
-                  label="Photo coming soon"
+                  label={CHAPTER_IMAGES[c.id] ? undefined : 'Photo coming soon'}
                   tone={c.tone}
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="aspect-[4/3] w-full rounded-3xl shadow-card"

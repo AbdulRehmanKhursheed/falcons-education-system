@@ -19,38 +19,38 @@ export const metadata: Metadata = {
 
 const SECTIONS: Array<{
   title: string;
-  slots: Array<{ alt: string; tone: 'sky' | 'sun' | 'navy' }>;
+  slots: Array<{ src: string; alt: string }>;
 }> = [
   {
     title: 'Classrooms',
     slots: [
-      { alt: 'Bright Montessori classroom with low wooden shelves', tone: 'sky' },
-      { alt: 'Primary classroom during a morning lesson', tone: 'sun' },
-      { alt: 'Reading corner with cushions and picture books', tone: 'sky' },
+      { src: '/images/primary.jpg', alt: 'Primary classroom — students raising hands during a lesson' },
+      { src: '/images/kindergarten.jpg', alt: 'Kindergarten children reading a picture book together' },
+      { src: '/images/class-1-2.jpg', alt: 'A Class 1 student practising writing' },
     ],
   },
   {
     title: 'Montessori activities',
     slots: [
-      { alt: 'Child working with golden bead materials', tone: 'sun' },
-      { alt: 'Practical life activity — pouring and spooning', tone: 'sky' },
-      { alt: 'Sandpaper letters and movable alphabet work', tone: 'navy' },
+      { src: '/images/montessori.jpg', alt: 'Golden bead work with a teacher guiding small hands' },
+      { src: '/images/nursery.jpg', alt: 'Practical life — a nursery child pouring water between jugs' },
+      { src: '/images/gallery-6.jpg', alt: 'Montessori materials arranged on low wooden shelves' },
     ],
   },
   {
-    title: 'Outdoor & play',
+    title: 'Learning & creativity',
     slots: [
-      { alt: 'Children playing in the school courtyard', tone: 'sky' },
-      { alt: 'Sports day races', tone: 'sun' },
-      { alt: 'Morning assembly in the courtyard', tone: 'sky' },
+      { src: '/images/gallery-2.jpg', alt: 'Art class — bright posters and painted hands' },
+      { src: '/images/gallery-3.jpg', alt: 'The reading corner — a child lost in a story' },
+      { src: '/images/gallery-4.jpg', alt: 'Computer lab — two children sharing a keyboard' },
     ],
   },
   {
-    title: 'Events & celebrations',
+    title: 'Outdoor & school life',
     slots: [
-      { alt: 'Independence Day celebration', tone: 'navy' },
-      { alt: 'Art exhibition of student work', tone: 'sun' },
-      { alt: 'Prize distribution day', tone: 'sky' },
+      { src: '/images/gallery-1.jpg', alt: 'Cricket with a soft ball in the school courtyard' },
+      { src: '/images/gallery-5.jpg', alt: 'Sports day — racing to the yellow ribbon finish line' },
+      { src: '/images/class-5-6.jpg', alt: 'A senior student presenting confidently to the class' },
     ],
   },
 ];
@@ -67,8 +67,8 @@ export default function GalleryPage() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              Classrooms, courtyard, small hands at work. Real photos are being prepared — the
-              rooms below show what each frame will hold.
+              Classrooms, courtyard, small hands at work — a walk through the school in
+              pictures.
             </p>
           </FadeIn>
         </div>
@@ -84,9 +84,8 @@ export default function GalleryPage() {
               {section.slots.map((slot, i) => (
                 <StaggerItem key={i}>
                   <Photo
+                    src={slot.src}
                     alt={slot.alt}
-                    label="Photo coming soon"
-                    tone={slot.tone}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className="aspect-[4/3] w-full rounded-2xl shadow-paper"
                   />

@@ -4,12 +4,12 @@ import { FadeIn } from '@/components/ui/Motion';
 import { Photo } from '@/components/ui/Photo';
 
 const SLOTS = [
-  { alt: 'Children playing in the school courtyard', tone: 'sky' as const },
-  { alt: 'Art class — small hands painting', tone: 'sun' as const },
-  { alt: 'Reading corner with picture books', tone: 'sky' as const },
-  { alt: 'Computer lab session', tone: 'navy' as const },
-  { alt: 'Sports day on the school ground', tone: 'sun' as const },
-  { alt: 'Montessori materials on low shelves', tone: 'sky' as const },
+  { src: '/images/gallery-1.jpg', alt: 'Children playing cricket in the school courtyard', tone: 'sky' as const },
+  { src: '/images/gallery-2.jpg', alt: 'Art class — small hands painting bright posters', tone: 'sun' as const },
+  { src: '/images/gallery-3.jpg', alt: 'A child lost in a book in the reading corner', tone: 'sky' as const },
+  { src: '/images/gallery-4.jpg', alt: 'Two children sharing a keyboard in the computer lab', tone: 'navy' as const },
+  { src: '/images/gallery-5.jpg', alt: 'Sports day — children racing toward a yellow ribbon', tone: 'sun' as const },
+  { src: '/images/gallery-6.jpg', alt: 'Montessori materials neatly arranged on low wooden shelves', tone: 'sky' as const },
 ];
 
 export function GalleryMarquee() {
@@ -36,10 +36,10 @@ export function GalleryMarquee() {
           {strip.map((s, i) => (
             <Photo
               key={i}
+              src={s.src}
               alt={s.alt}
-              label="Photo coming soon"
               tone={s.tone}
-              sizes="320px"
+              sizes="384px"
               className="h-56 w-80 shrink-0 rounded-2xl shadow-paper md:h-64 md:w-96"
             />
           ))}
