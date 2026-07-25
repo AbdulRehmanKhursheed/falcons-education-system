@@ -19,7 +19,7 @@ export function GalleryMarquee() {
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <FadeIn className="flex flex-wrap items-end justify-between gap-4">
           <h2 id="gallery-heading" className="text-4xl font-extrabold text-ink sm:text-5xl">
-            A day at <span className="text-brand">Falcons</span>
+            A day at <span className="text-brand">Falcons Education System</span>
           </h2>
           <Link
             href="/gallery"

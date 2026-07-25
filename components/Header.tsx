@@ -51,7 +51,7 @@ export function Header() {
             className="h-9 w-9 object-contain md:h-10 md:w-10"
           />
           <span className="font-display text-lg font-extrabold tracking-tight text-ink md:text-xl">
-            Falcons
+            Falcons Education System
           </span>
         </Link>
 

@@ -62,7 +62,7 @@ export default function GalleryPage() {
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              Life at <span className="text-brand">Falcons</span>
+              Life at <span className="text-brand">Falcons Education System</span>
             </h1>
           </FadeIn>
           <FadeIn delay={0.1}>

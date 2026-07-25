@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FadeIn } from '@/components/ui/Motion';
@@ -25,13 +25,31 @@ const QUOTES = [
   },
 ];
 
+const AUTO_ADVANCE_MS = 5000;
+
 export function Quote() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const q = QUOTES[index];
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + QUOTES.length) % QUOTES.length);
 
+  // continuous rotation — pauses while the reader hovers, resets after manual nav
+  useEffect(() => {
+    if (paused) return;
+    timer.current = setInterval(() => go(1), AUTO_ADVANCE_MS);
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
+  }, [paused, index]);
+
   return (
-    <section className="bg-paper-warm py-20 md:py-28" aria-labelledby="parents-heading">
+    <section
+      className="bg-paper-warm py-20 md:py-28"
+      aria-labelledby="parents-heading"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="mx-auto max-w-4xl px-5 text-center md:px-8">
         <FadeIn>
           <h2 id="parents-heading" className="text-sm font-extrabold uppercase tracking-wide text-brand">

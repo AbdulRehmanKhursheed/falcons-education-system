@@ -32,7 +32,7 @@ type Chapter = {
 
 const CHAPTER_IMAGES: Record<string, string> = {
   nursery: '/images/nursery.jpg',
-  montessori: '/images/montessori-level.jpg',
+  montessori: '/images/montessori-level-1.jpg',
   kg: '/images/kindergarten.jpg',
   'class-1-2': '/images/class-1-2.jpg',
   'class-3-4': '/images/class-3-4.jpg',
