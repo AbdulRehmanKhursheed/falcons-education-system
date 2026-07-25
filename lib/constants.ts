@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: 'Falcons Education System',
   tagline: 'Quality Education from Nursery to Class 6 in Rawalpindi',
   description:
-    'Falcons Education System is a school in Rawalpindi offering education from Nursery to Class 6, plus Evening Coaching, Saturday Coaching, and Computer Courses. Admissions open 2026. Located on Kamalabad Road.',
+    'Falcons Education System — among the best schools in Rawalpindi for children aged 2.5–12: Montessori, Nursery to Class 6, Evening & Saturday Coaching, and Computer Courses. Small classes, individual attention. Admissions open 2026, Kamalabad Road.',
   url: 'https://falconseducationsystem.com',
   address: {
     street: 'Street No 14, Sonari Bank, Kamalabad Road',
@@ -34,6 +34,14 @@ export const SITE_CONFIG = {
 };
 
 export const SEO_KEYWORDS = [
+  'best school in Rawalpindi',
+  'best children school Rawalpindi',
+  'best school for class 1 to 6 Rawalpindi',
+  'best primary school in Rawalpindi',
+  'best Montessori school in Rawalpindi',
+  'best preschool in Rawalpindi',
+  'top schools in Rawalpindi',
+  'best school near me Rawalpindi',
   'school Rawalpindi',
   'primary school Rawalpindi',
   'school up to class 6 Rawalpindi',

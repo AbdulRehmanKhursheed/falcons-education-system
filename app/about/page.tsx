@@ -1,221 +1,190 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { SITE_CONFIG } from "@/lib/constants";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowRight, Heart, Users, Shield, Sprout, Globe, TrendingUp } from 'lucide-react';
+import { SITE_CONFIG } from '@/lib/constants';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
-  title: "About Us — School Nursery to Class 6 in Rawalpindi",
+  title: 'About Us — School Nursery to Class 6 in Rawalpindi',
   description:
-    "Learn about Falcons Education System — a school on Kamalabad Road, Rawalpindi offering classes from Nursery to Class 6, plus Evening Coaching and Computer Courses. Founded August 2024.",
+    'Learn about Falcons Education System — a school on Kamalabad Road, Rawalpindi offering classes from Nursery to Class 6, plus Evening Coaching and Computer Courses. Founded August 2024.',
   alternates: { canonical: `${SITE_CONFIG.url}/about` },
   openGraph: {
-    title: "About Falcons Education System — School Nursery to Class 6, Rawalpindi",
+    title: 'About Falcons Education System — School Nursery to Class 6, Rawalpindi',
     description:
-      "Quality school education from Nursery to Class 6, Saturday coaching, and evening academy on Kamalabad Road, Rawalpindi. Founded August 2024.",
+      'Quality school education from Nursery to Class 6, Saturday coaching, and evening academy on Kamalabad Road, Rawalpindi. Founded August 2024.',
     url: `${SITE_CONFIG.url}/about`,
   },
 };
 
-const milestones = [
-  { year: "2024", event: "Founded in August on Kamalabad Road, Rawalpindi" },
+const VALUES = [
   {
-    year: "2024",
-    event: "Launched Nursery, Montessori, KG, and primary Class 1–6 programs",
+    icon: Sprout,
+    title: 'Child-centered learning',
+    text: 'Every child learns at their own pace through hands-on exploration, not one-speed lectures.',
   },
-  { year: "2025", event: "Introduced Saturday Coaching and Evening Academy" },
-  { year: "2025", event: "Launched Computer Courses for Kids" },
   {
-    year: "2026",
-    event: "Expanding admissions — growing community of happy families",
+    icon: Heart,
+    title: 'Love & respect',
+    text: 'Warmth, patience and genuine care — children learn best where they feel safe being themselves.',
+  },
+  {
+    icon: Users,
+    title: 'Parent partnership',
+    text: 'Regular updates, open communication, and walk-in visits. You always know how your child is doing.',
+  },
+  {
+    icon: Globe,
+    title: 'Whole-child development',
+    text: 'Mind, body, creativity and character — we prepare children for life, not just exams.',
+  },
+  {
+    icon: Shield,
+    title: 'Safe environment',
+    text: 'Clean, secure, thoughtfully designed classrooms where children feel free to explore.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Continuous growth',
+    text: 'We keep improving our curriculum, materials and teaching — the school learns too.',
   },
 ];
 
-const values = [
-  {
-    icon: "🌱",
-    title: "Child-Centered Learning",
-    text: "Every child learns at their own pace through hands-on exploration and self-directed activity.",
-  },
-  {
-    icon: "❤️",
-    title: "Love & Respect",
-    text: "We treat every child with warmth, patience, and genuine care — like our own family.",
-  },
-  {
-    icon: "🤝",
-    title: "Parent Partnership",
-    text: "Parents are our partners. Regular updates, open communication, and walk-in visits keep you connected.",
-  },
-  {
-    icon: "🌍",
-    title: "Whole-Child Development",
-    text: "We develop mind, body, creativity, and character — preparing children for life, not just exams.",
-  },
-  {
-    icon: "🏡",
-    title: "Safe Environment",
-    text: "Clean, secure, and thoughtfully designed classrooms where children feel safe to explore.",
-  },
-  {
-    icon: "📈",
-    title: "Continuous Growth",
-    text: "We constantly improve our curriculum, materials, and teaching methods for better outcomes.",
-  },
+const MILESTONES = [
+  { year: '2024', event: 'Founded in August on Kamalabad Road — Nursery, Montessori, KG and Class 1–6 from day one' },
+  { year: '2025', event: 'Evening Coaching Academy and Saturday Coaching launched, open to children from any school' },
+  { year: '2025', event: 'Computer courses for kids added' },
+  { year: '2026', event: 'Session 2026 admissions open — a growing community of families' },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-falcon-cream to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">
-            About Us
-          </p>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Where Learning Begins with Joy
-          </h1>
-          <p className="text-falcon-earth text-lg leading-relaxed max-w-2xl mx-auto">
-            <strong>Falcons Education System</strong> was founded in August 2024
-            with a clear mission: to provide quality school education — from
-            Nursery all the way to Class 6 — rooted in love, respect, and a
-            genuine desire for every child to succeed.
-          </p>
+      <section className="bg-paper pb-6 pt-14 md:pt-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+              A small school with a <span className="text-brand">big promise</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+              Falcons Education System opened in August 2024 with one belief: every child deserves
+              a joyful start — and a teacher who actually knows them.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
-      {/* Story */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div>
-              <h2 className="font-display font-bold text-2xl text-falcon-sageDark mb-4">
-                Our Story
-              </h2>
-              <p className="text-falcon-earth leading-relaxed mb-4">
-                Located at{" "}
-                <strong>
-                  Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi,
-                  Rawalpindi
-                </strong>
-                , Falcons Education System started with a simple belief: every
-                child deserves a joyful start to their educational journey.
-              </p>
-              <p className="text-falcon-earth leading-relaxed mb-4">
-                Our school offers a complete education journey — starting with
-                Montessori early learning (Nursery, Montessori, KG) and
-                continuing through{" "}
-                <strong>primary school up to Class 6</strong>. Our qualified
-                teachers follow the national curriculum, delivering structured,
-                engaging lessons that build strong academic foundations.
-              </p>
-              <p className="text-falcon-earth leading-relaxed">
-                Beyond regular school hours, we also provide{" "}
-                <strong>Evening Coaching Academy</strong> (3:30 PM – 7:30 PM),{" "}
-                <strong>Saturday Coaching</strong>, and{" "}
-                <strong>Computer Courses for Kids</strong> — making Falcons
-                Education System a complete academic partner for families in
-                Rawalpindi.
-              </p>
-            </div>
-
-            {/* Image placeholder */}
-            <div
-              className="aspect-[4/3] rounded-3xl overflow-hidden bg-falcon-cream border-2 border-dashed border-falcon-sand flex items-center justify-center shadow-sm"
-              aria-label="School photo placeholder"
+      <section className="bg-paper py-14 md:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-2 md:gap-14 md:px-8">
+          <FadeIn>
+            <Photo
+              alt="Falcons Education System campus on Kamalabad Road, Rawalpindi"
+              label="Campus photo — coming soon"
+              tone="sky"
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="aspect-[4/3] w-full rounded-3xl shadow-card"
+            />
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <h2 className="text-3xl font-extrabold text-ink md:text-4xl">Our story</h2>
+            <p className="mt-4 leading-relaxed text-ink-muted">
+              We&apos;re on Street 14, Sonari Bank, Kamalabad Road — near Bakra Mandi, Rawalpindi. The
+              journey starts in our Montessori rooms (Nursery, Montessori Level, KG) and continues
+              through primary school to Class 6 on the national curriculum.
+            </p>
+            <p className="mt-4 leading-relaxed text-ink-muted">
+              After the school day ends, the building keeps teaching: the Evening Coaching Academy
+              runs 3:30–7:30 PM on weekdays, Saturday Coaching runs 9 AM–1 PM, and computer
+              courses give young students their first real digital skills — all open to children
+              from any school in the area.
+            </p>
+            <Link
+              href="/programs"
+              className="mt-6 inline-flex items-center gap-1.5 font-bold text-brand hover:text-brand-dark"
             >
-              <div className="text-center p-8">
-                <span className="text-6xl mb-3 block" aria-hidden>
-                  📸
-                </span>
-                <p className="text-falcon-earth/70 font-semibold">
-                  Add school photo
-                </p>
-                <p className="text-sm text-falcon-earth/50 mt-1">
-                  Campus, classroom, or team photo
-                </p>
-              </div>
-            </div>
-          </div>
+              See all programs
+              <ArrowRight size={17} />
+            </Link>
+          </FadeIn>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-16 bg-falcon-cream">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-10 text-center">
-            Our Values
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {values.map(({ icon, title, text }) => (
-              <div
-                key={title}
-                className="flex gap-4 p-5 rounded-2xl bg-white border border-falcon-sand hover:border-falcon-sage/50 hover:shadow-sm transition-all"
-              >
-                <span className="text-3xl shrink-0 mt-0.5" aria-hidden>
-                  {icon}
-                </span>
-                <div>
-                  <h3 className="font-display font-bold text-falcon-sageDark mb-1">
-                    {title}
-                  </h3>
-                  <p className="text-falcon-earth text-sm leading-relaxed">
-                    {text}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-16 bg-white">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-10 text-center">
-            Our Journey
-          </h2>
-          <div className="space-y-6">
-            {milestones.map(({ year, event }, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-10 h-10 rounded-full bg-falcon-sage text-white flex items-center justify-center text-xs font-bold shrink-0">
-                    {year}
+      <section className="bg-paper-warm py-16 md:py-24" aria-labelledby="values-heading">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h2 id="values-heading" className="text-3xl font-extrabold text-ink md:text-4xl">
+              What we <span className="text-brand">stand for</span>
+            </h2>
+          </FadeIn>
+          <Stagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {VALUES.map((v) => (
+              <StaggerItem key={v.title}>
+                <div className="h-full rounded-2xl bg-white p-6 shadow-paper">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-soft text-brand">
+                    <v.icon size={21} />
                   </div>
-                  {i < milestones.length - 1 && (
-                    <div className="w-0.5 flex-1 bg-falcon-sand mt-2" />
-                  )}
+                  <h3 className="mt-4 text-lg font-extrabold text-ink">{v.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-muted">{v.text}</p>
                 </div>
-                <p className="text-falcon-earth pt-2">{event}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-falcon-sageDark text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display font-bold text-3xl mb-4">
-            Join the Falcons Family
-          </h2>
-          <p className="text-white/80 text-lg mb-8">
-            Give your child the best start in life. Admissions are open for 2026
-            — limited seats available.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/admissions"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg hover:bg-falcon-cream transition-all shadow-lg tap-target"
-            >
-              <span aria-hidden>🎓</span> Apply for Admission
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 text-white rounded-2xl font-bold text-lg hover:bg-white/10 transition-all tap-target"
-            >
-              <span aria-hidden>📍</span> Visit Our Campus
-            </Link>
-          </div>
+      <section className="bg-paper py-16 md:py-24" aria-labelledby="journey-heading">
+        <div className="mx-auto max-w-3xl px-5 md:px-8">
+          <FadeIn>
+            <h2 id="journey-heading" className="text-3xl font-extrabold text-ink md:text-4xl">
+              The journey so far
+            </h2>
+          </FadeIn>
+          <Stagger className="mt-10 flex flex-col gap-8">
+            {MILESTONES.map((m, i) => (
+              <StaggerItem key={i} className="flex gap-5">
+                <div className="flex flex-col items-center">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-extrabold text-white">
+                    {m.year}
+                  </span>
+                  {i < MILESTONES.length - 1 && <span className="mt-2 w-0.5 flex-1 bg-line" />}
+                </div>
+                <p className="pt-3 leading-relaxed text-ink-soft">{m.event}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      <section className="bg-paper pb-20 md:pb-28">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <div className="rounded-3xl bg-navy px-7 py-12 text-center md:px-16 md:py-14">
+              <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+                Come see it for yourself
+              </h2>
+              <p className="mx-auto mt-3 max-w-lg text-white/65">
+                The best way to judge a school is to walk through it on a working morning.
+                You&apos;re welcome any day.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5">
+                <Link
+                  href="/admissions"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-dark"
+                >
+                  Apply for admission
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-white/25 px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:border-white/50"
+                >
+                  Plan a visit
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </>

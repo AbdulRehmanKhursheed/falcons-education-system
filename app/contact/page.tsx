@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import { Contact } from '@/components/Contact';
+import { FadeIn } from '@/components/ui/Motion';
 
 export const metadata: Metadata = {
   title: 'Contact Us — Visit Falcons Education System Rawalpindi',
@@ -18,36 +21,45 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="py-16 sm:py-20 bg-gradient-to-b from-falcon-cream to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">Get In Touch</p>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Visit Falcons Education System
-          </h1>
-          <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            We&apos;d love to meet you and your child. Come for a free campus tour, or reach out
-            via WhatsApp, phone, or email. No appointment needed during school hours.
-          </p>
+      <section className="bg-paper pb-2 pt-14 md:pt-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+              Come say <span className="text-brand">salaam</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+              Message, call, or just walk in during school hours — no appointment needed for a
+              campus tour.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
       <Contact />
 
-      {/* FAQ link */}
-      <section className="py-12 bg-falcon-cream text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display font-bold text-2xl text-falcon-sageDark mb-4">
-            Have Questions Before Visiting?
-          </h2>
-          <p className="text-falcon-earth mb-6">
-            Check our frequently asked questions page for quick answers about admissions, timings, programs, and more.
-          </p>
-          <a
-            href="/faq"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-falcon-sage text-white rounded-xl font-bold hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
-          >
-            <span aria-hidden>❓</span> View FAQ
-          </a>
+      <section className="bg-paper pb-20 md:pb-28">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <div className="flex flex-col items-start justify-between gap-4 rounded-3xl bg-paper-warm px-7 py-9 sm:flex-row sm:items-center md:px-10">
+              <div>
+                <h2 className="text-xl font-extrabold text-ink md:text-2xl">
+                  Questions before visiting?
+                </h2>
+                <p className="mt-1 text-ink-muted">
+                  Admissions, timings, fees, Montessori — quick answers on the FAQ page.
+                </p>
+              </div>
+              <Link
+                href="/faq"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-brand px-6 py-3 font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-dark"
+              >
+                View FAQ
+                <ArrowRight size={17} />
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </>

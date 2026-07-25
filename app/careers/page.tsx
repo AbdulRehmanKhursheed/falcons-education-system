@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Heart, TrendingUp, Home, HandHeart, ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import careersData from '@/lib/careers-data.json';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
 
 export const metadata: Metadata = {
   title: 'Careers — Join Our Teaching Team',
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_CONFIG.url}/careers` },
   openGraph: {
     title: 'Careers at Falcons Education System — Teaching Jobs Rawalpindi',
-    description: 'Join our growing team. We are hiring Montessori teachers, tutors, and support staff.',
+    description:
+      'Join our growing team. We are hiring Montessori teachers, tutors, and support staff.',
     url: `${SITE_CONFIG.url}/careers`,
   },
 };
@@ -23,112 +25,135 @@ interface Position {
   active: boolean;
 }
 
+const PERKS = [
+  {
+    icon: Heart,
+    title: 'A team, not a hierarchy',
+    text: 'Small staff, honest room culture, and salaries paid on time — every time.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Real growth',
+    text: 'Montessori training and development opportunities as the school grows.',
+  },
+  {
+    icon: Home,
+    title: 'A campus you can be proud of',
+    text: 'Clean, well-maintained school on Kamalabad Road, Rawalpindi.',
+  },
+  {
+    icon: HandHeart,
+    title: 'Work that matters',
+    text: 'Your patience on a Tuesday morning shapes someone’s whole life.',
+  },
+];
+
 export default function CareersPage() {
   const openings = (careersData as Position[]).filter((p) => p.active);
-  const hasOpenings = openings.length > 0;
+  const waHref = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+apply+for+a+teaching+position+at+Falcons+Education+System.+My+CV+is+attached.`;
 
   return (
     <>
-      <section className="py-16 sm:py-20 bg-gradient-to-b from-falcon-cream to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">Careers</p>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Join the Falcons Team
-          </h1>
-          <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            We are a growing school with a mission to transform early childhood education in Rawalpindi.
-            If you share our passion for children and learning, we would love to hear from you.
-          </p>
+      <section className="bg-paper pb-6 pt-14 md:pt-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+              Teach where you&apos;re <span className="text-brand">known by name</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+              We&apos;re a young school in Rawalpindi building something worth belonging to. If
+              children and learning are your thing, we&apos;d like to meet you.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="py-12 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-2xl text-falcon-sageDark mb-8 text-center">
-            Why Work at Falcons Education System?
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-6">
-            {[
-              { icon: '❤️', text: 'A supportive, family-like team that values every member' },
-              { icon: '📈', text: 'Professional growth — Montessori training and development opportunities' },
-              { icon: '🏡', text: 'Clean, well-maintained campus on Kamalabad Road, Rawalpindi' },
-              { icon: '🤝', text: 'Meaningful work that makes a real difference in children\'s lives' },
-            ].map(({ icon, text }) => (
-              <div key={text} className="flex items-start gap-3 p-4 bg-falcon-cream rounded-xl border border-falcon-sand">
-                <span className="text-2xl shrink-0" aria-hidden>{icon}</span>
-                <p className="text-falcon-earth text-sm">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-falcon-cream">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-10 text-center">
-            {hasOpenings ? 'Open Positions' : 'No Open Positions Right Now'}
-          </h2>
-
-          {hasOpenings ? (
-            <div className="space-y-6">
-              {openings.map(({ title, type, description, requirements }) => (
-                <article key={title} className="bg-white rounded-2xl p-6 sm:p-8 border border-falcon-sand shadow-sm">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                    <h3 className="font-display font-bold text-xl text-falcon-sageDark">{title}</h3>
-                    <span className="inline-block px-3 py-1 bg-falcon-sage/10 text-falcon-sage rounded-full text-xs font-bold">
-                      {type}
-                    </span>
+      <section className="bg-paper-warm py-16 md:py-24" aria-labelledby="perks-heading">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h2 id="perks-heading" className="text-3xl font-extrabold text-ink md:text-4xl">
+              Why teachers <span className="text-brand">stay with us</span>
+            </h2>
+          </FadeIn>
+          <Stagger className="mt-10 grid gap-6 sm:grid-cols-2">
+            {PERKS.map((p) => (
+              <StaggerItem key={p.title}>
+                <div className="flex h-full gap-4 rounded-2xl bg-white p-6 shadow-paper">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
+                    <p.icon size={21} />
                   </div>
-                  <p className="text-falcon-earth mb-4">{description}</p>
-                  <h4 className="font-bold text-falcon-sageDark text-sm mb-2">Requirements</h4>
-                  <ul className="space-y-1.5 mb-5">
-                    {requirements.map((r) => (
-                      <li key={r} className="flex items-start gap-2 text-sm text-falcon-earth">
-                        <span className="text-falcon-sage mt-0.5">•</span>
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={`mailto:${SITE_CONFIG.email}?subject=Application: ${encodeURIComponent(title)}`}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-falcon-sage text-white rounded-xl font-bold text-sm hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
-                  >
-                    <span aria-hidden>✉️</span> Apply via Email
-                  </a>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-white rounded-2xl border border-falcon-sand">
-              <span className="text-5xl mb-4 block" aria-hidden>📭</span>
-              <p className="text-falcon-earth text-lg mb-2">We don&apos;t have openings at the moment.</p>
-              <p className="text-falcon-earth/70 text-sm">
-                But we are always happy to hear from talented people. Send your CV below!
-              </p>
-            </div>
-          )}
+                  <div>
+                    <h3 className="text-lg font-extrabold text-ink">{p.title}</h3>
+                    <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-muted">{p.text}</p>
+                  </div>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
-      <section className="py-16 bg-falcon-sageDark text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display font-bold text-3xl mb-4">
-            {hasOpenings ? 'Don\u2019t See Your Role?' : 'Interested in Future Openings?'}
-          </h2>
-          <p className="text-white/80 text-lg mb-8">
-            Send your CV and a brief introduction. We will keep you in mind for future opportunities.
-          </p>
-          <a
-            href={`mailto:${SITE_CONFIG.email}?subject=General Application — Falcons Education System`}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg hover:bg-falcon-cream transition-all shadow-lg tap-target"
-          >
-            <span aria-hidden>✉️</span> Send Your CV
-          </a>
-          <p className="text-white/50 text-sm mt-4">
-            <Link href="/" className="hover:text-white transition-colors underline underline-offset-2">
-              ← Back to Home
-            </Link>
-          </p>
+      <section className="bg-paper py-16 md:py-24" aria-labelledby="openings-heading">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h2 id="openings-heading" className="text-3xl font-extrabold text-ink md:text-4xl">
+              {openings.length > 0 ? 'Open positions' : 'No openings right now'}
+            </h2>
+          </FadeIn>
+
+          {openings.length > 0 ? (
+            <Stagger className="mt-10 grid gap-6 md:grid-cols-2">
+              {openings.map((job) => (
+                <StaggerItem key={job.title}>
+                  <div className="h-full rounded-2xl border border-line bg-white p-7 shadow-paper">
+                    <p className="text-xs font-extrabold uppercase tracking-wide text-brand">{job.type}</p>
+                    <h3 className="mt-2 text-xl font-extrabold text-ink">{job.title}</h3>
+                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">{job.description}</p>
+                    <ul className="mt-4 flex flex-col gap-2">
+                      {job.requirements.map((r) => (
+                        <li key={r} className="flex items-start gap-2.5 text-sm text-ink-soft">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          ) : (
+            <FadeIn delay={0.1}>
+              <p className="mt-5 max-w-2xl leading-relaxed text-ink-muted">
+                But good teachers don&apos;t appear on schedule — so we keep every strong CV on
+                file and call when a seat opens. If you teach Montessori, primary subjects, or
+                computer skills, introduce yourself anyway.
+              </p>
+            </FadeIn>
+          )}
+
+          <FadeIn delay={0.15}>
+            <div className="mt-12 rounded-3xl bg-navy px-7 py-12 text-center md:px-16 md:py-14">
+              <h3 className="text-2xl font-extrabold text-white sm:text-3xl">
+                Send us your CV
+              </h3>
+              <p className="mx-auto mt-3 max-w-lg text-white/65">
+                WhatsApp your CV with a few lines about yourself, or email{' '}
+                <span className="font-semibold text-white/90">{SITE_CONFIG.email}</span>. We read
+                everything and reply to everyone.
+              </p>
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-7 inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-dark"
+              >
+                Apply on WhatsApp
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </>

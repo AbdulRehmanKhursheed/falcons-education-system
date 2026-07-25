@@ -1,92 +1,104 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import { blogArticles } from '@/lib/blog-data';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
 
 export const metadata: Metadata = {
-  title: 'Blog — Parenting Tips, Montessori Education & School News',
+  title: 'Journal — Parenting Tips, Montessori Education & School News',
   description:
     'Read articles on Montessori education, parenting tips, preschool activities, and school updates from Falcons Education System Rawalpindi.',
   alternates: { canonical: `${SITE_CONFIG.url}/blog` },
   openGraph: {
-    title: 'Blog — Falcons Education System Rawalpindi',
+    title: 'Journal — Falcons Education System Rawalpindi',
     description: 'Parenting tips, Montessori insights, and school news for Rawalpindi parents.',
     url: `${SITE_CONFIG.url}/blog`,
   },
 };
 
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('en-PK', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
 export default function BlogPage() {
+  const [featured, ...rest] = blogArticles;
+
   return (
     <>
-      <section className="py-16 sm:py-20 bg-gradient-to-b from-falcon-cream to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">Blog</p>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Parenting Tips & Montessori Insights
-          </h1>
-          <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            Helpful articles for parents in Rawalpindi — from choosing the right school to
-            Montessori activities you can do at home.
-          </p>
+      <section className="bg-paper pb-6 pt-14 md:pt-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+              The <span className="text-brand">Journal</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+              Honest writing for Rawalpindi parents — choosing schools, Montessori at home,
+              health, and how children actually learn.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-8">
-            {blogArticles.map((article) => (
-              <article
-                key={article.slug}
-                className="bg-falcon-cream rounded-2xl p-6 sm:p-8 border border-falcon-sand hover:border-falcon-sage/40 hover:shadow-md transition-all"
+      {featured && (
+        <section className="bg-paper py-12 md:py-16" aria-label="Latest article">
+          <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <FadeIn>
+              <Link
+                href={`/blog/${featured.slug}`}
+                className="group block rounded-3xl bg-navy p-8 shadow-rise transition-transform hover:-translate-y-1 md:p-12"
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="px-3 py-0.5 bg-falcon-sage/10 text-falcon-sage rounded-full text-xs font-bold">
-                    {article.category}
-                  </span>
-                  <span className="text-falcon-earth/50 text-xs">{article.readTime}</span>
-                </div>
-                <Link href={`/blog/${article.slug}`}>
-                  <h2 className="font-display font-bold text-xl text-falcon-sageDark mb-3 hover:text-falcon-sage transition-colors">
+                <p className="text-sm font-extrabold text-sun">
+                  Latest · {featured.category} · {featured.readTime}
+                </p>
+                <h2 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight text-white md:text-4xl">
+                  {featured.title}
+                </h2>
+                <p className="mt-4 max-w-2xl leading-relaxed text-white/65">{featured.excerpt}</p>
+                <span className="mt-6 inline-flex items-center gap-1.5 font-bold text-brand-tint group-hover:text-white">
+                  Read the article
+                  <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
+            </FadeIn>
+          </div>
+        </section>
+      )}
+
+      <section className="bg-paper pb-20 md:pb-28" aria-label="All articles">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" gap={0.04}>
+            {rest.map((article) => (
+              <StaggerItem key={article.slug}>
+                <Link
+                  href={`/blog/${article.slug}`}
+                  className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 shadow-paper transition-all hover:-translate-y-1 hover:shadow-card"
+                >
+                  <p className="text-xs font-extrabold text-brand">
+                    {article.category} · {article.readTime}
+                  </p>
+                  <h2 className="mt-2.5 text-lg font-extrabold leading-snug text-ink group-hover:text-brand-dark">
                     {article.title}
                   </h2>
-                </Link>
-                <p className="text-falcon-earth mb-4">{article.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <time className="text-xs text-falcon-earth/50" dateTime={article.publishedDate}>
-                    {new Date(article.publishedDate).toLocaleDateString('en-PK', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-                  <Link
-                    href={`/blog/${article.slug}`}
-                    className="text-falcon-sage font-bold text-sm hover:text-falcon-sageDark transition-colors"
+                  <p className="mt-2.5 line-clamp-3 text-sm leading-relaxed text-ink-muted">
+                    {article.excerpt}
+                  </p>
+                  <time
+                    className="mt-auto pt-4 text-xs font-semibold text-ink-faint"
+                    dateTime={article.publishedDate}
                   >
-                    Read More →
-                  </Link>
-                </div>
-              </article>
+                    {formatDate(article.publishedDate)}
+                  </time>
+                </Link>
+              </StaggerItem>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-falcon-sageDark text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display font-bold text-3xl mb-4">
-            Ready for the Next Step?
-          </h2>
-          <p className="text-white/80 text-lg mb-8">
-            Give your child the best start with Montessori education. Admissions open for 2026.
-          </p>
-          <Link
-            href="/admissions"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg hover:bg-falcon-cream transition-all shadow-lg tap-target"
-          >
-            <span aria-hidden>🎓</span> Apply for Admission
-          </Link>
+          </Stagger>
         </div>
       </section>
     </>
