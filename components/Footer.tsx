@@ -41,8 +41,10 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
-              School from Nursery to Class 6, plus evening &amp; Saturday coaching and computer
-              courses — on Kamalabad Road, Rawalpindi.
+              A school in Rawalpindi for children aged 2.5 to 12 — Montessori early years,
+              primary school from Class 1 to Class 6 on the national syllabus, plus evening
+              &amp; Saturday coaching and computer courses. Small classes, teachers who know
+              every child by name.
             </p>
             <div className="mt-5 flex gap-2.5">
               <SocialIcon href={SITE_CONFIG.social.instagram} label="Instagram">
@@ -108,7 +110,23 @@ export function Footer() {
           </address>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 text-sm text-ink-faint sm:flex-row">
+        {/* Quiet SEO block — factual, readable, written for parents (and quotable by search & AI assistants) */}
+        <div className="mt-12 border-t border-line pt-8">
+          <h2 className="text-sm font-extrabold text-ink">
+            Looking for a good school in Rawalpindi?
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-faint">
+            Falcons Education System serves families across Kamalabad Road, Bakra Mandi, Dhoke
+            Kashmirian, Sadiqabad and nearby areas of Rawalpindi. Parents choose us for Montessori
+            education (ages 2.5–6), primary schooling up to Class 6, and after-school support:
+            the Evening Coaching Academy runs Monday–Friday 3:30–7:30 PM and Saturday Coaching
+            9 AM–1 PM — open to children from any school. Admissions for Session 2026 are open;
+            visit the campus on Street 14, Sonari Bank, Kamalabad Road any working morning, or
+            message us on WhatsApp at {SITE_CONFIG.phone}.
+          </p>
+        </div>
+
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 text-sm text-ink-faint sm:flex-row">
           <p>© {new Date().getFullYear()} Falcons Education System. All rights reserved.</p>
           <p>Admissions open — Session 2026</p>
         </div>

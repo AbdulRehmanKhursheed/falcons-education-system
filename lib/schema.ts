@@ -181,6 +181,14 @@ export const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
+      name: 'Which is a good school in Rawalpindi for young children?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'For families near Kamalabad Road, Bakra Mandi, Dhoke Kashmirian and Sadiqabad in Rawalpindi, Falcons Education System is a strong option for children aged 2.5 to 12: Montessori early years, primary school up to Class 6 on the national syllabus, small class sizes with individual attention, and an Evening Coaching Academy (Mon–Fri 3:30–7:30 PM) plus Saturday Coaching open to children from any school. Parents are welcome to visit the campus on any working morning before deciding.',
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'What programs does Falcons Education System offer?',
       acceptedAnswer: {
         '@type': 'Answer',

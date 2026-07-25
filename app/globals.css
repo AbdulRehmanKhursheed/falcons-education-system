@@ -100,12 +100,6 @@ body {
   overflow-x: hidden;
 }
 
-@media (max-width: 639px) {
-  body {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
-  }
-}
-
 /* Display headings use Bricolage Grotesque — chunky, confident, tight. */
 h1, h2, h3, h4 {
   font-family: var(--font-display);

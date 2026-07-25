@@ -6,7 +6,6 @@ import { SITE_CONFIG, SEO_KEYWORDS } from '@/lib/constants';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
-import { MobileActionBar } from '@/components/MobileActionBar';
 import { MetaPixel } from '@/components/MetaPixel';
 
 const bricolage = Bricolage_Grotesque({
@@ -112,7 +111,6 @@ export default function RootLayout({
         <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <Footer />
         <WhatsAppButton />
-        <MobileActionBar />
         <MetaPixel />
       </body>
     </html>
