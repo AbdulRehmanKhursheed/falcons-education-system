@@ -11,9 +11,9 @@ import { Photo } from '@/components/ui/Photo';
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const rise = (delay: number) => ({
-  initial: { opacity: 0, y: 28 },
+  initial: { opacity: 0, y: 14 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: EASE, delay },
+  transition: { duration: 0.6, ease: EASE, delay },
 });
 
 export function Hero() {
@@ -32,13 +32,13 @@ export function Hero() {
         <motion.path
           d="M-60 380 C 240 330, 420 120, 760 150 S 1260 60, 1520 20"
           stroke="#1CA7E8"
-          strokeOpacity="0.35"
-          strokeWidth="2.5"
+          strokeOpacity="0.18"
+          strokeWidth="2"
           strokeDasharray="1 12"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 2.2, ease: 'easeOut', delay: 0.4 }}
+          transition={{ duration: 2.6, ease: 'easeOut', delay: 0.5 }}
         />
       </svg>
 
@@ -59,22 +59,13 @@ export function Hero() {
           Where curious minds{' '}
           <span className="relative inline-block text-brand">
             take flight
-            <svg
-              className="absolute -bottom-2 left-0 w-full md:-bottom-3"
-              viewBox="0 0 300 14"
-              fill="none"
+            <motion.span
               aria-hidden="true"
-            >
-              <motion.path
-                d="M4 10 C 80 2, 220 2, 296 8"
-                stroke="#FFC53D"
-                strokeWidth="7"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.7, ease: 'easeOut', delay: 1.0 }}
-              />
-            </svg>
+              className="absolute -bottom-1.5 left-0 h-[5px] w-full origin-left rounded-full bg-sun md:-bottom-2.5 md:h-1.5"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.9 }}
+            />
           </span>
           .
         </motion.h1>
@@ -114,9 +105,9 @@ export function Hero() {
 
       {/* Cinematic hero image */}
       <motion.div
-        initial={{ opacity: 0, y: 60, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1, ease: EASE, delay: 0.45 }}
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
         className="mx-auto max-w-7xl px-5 pb-16 md:px-8 md:pb-24"
       >
         <Parallax distance={26} className="overflow-hidden rounded-3xl shadow-rise">

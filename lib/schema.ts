@@ -83,23 +83,25 @@ export const organizationSchema = {
   review: [
     {
       '@type': 'Review',
-      author: { '@type': 'Person', name: 'Sara K.' },
+      author: { '@type': 'Person', name: 'Uzma S.' },
+      inLanguage: 'ur',
       reviewBody:
-        'My daughter looks forward to school every single day. The teachers are patient and present — the Montessori approach has built real confidence in her.',
+        'MashaAllah teachers bohat mehnat karti hain. Bachi ab ghar aa kar khud parhne baithti hai.',
+      itemReviewed: { '@id': 'https://falconseducationsystem.com/#organization' },
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Kashif M.' },
+      inLanguage: 'ur',
+      reviewBody:
+        'Pehle school ke naam se rota tha, ab subah khud uniform pehen ke tayyar hota hai.',
       itemReviewed: { '@id': 'https://falconseducationsystem.com/#organization' },
     },
     {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Ahmad R.' },
-      reviewBody:
-        'The environment is clean, the staff genuinely care, and they take the time to know each child. We came in for a tour and stayed for admission.',
-      itemReviewed: { '@id': 'https://falconseducationsystem.com/#organization' },
-    },
-    {
-      '@type': 'Review',
-      author: { '@type': 'Person', name: 'Nadia M.' },
-      reviewBody:
-        'Our son made real progress in reading and math. The teachers treat children as capable, and the children respond to that.',
+      inLanguage: 'ur',
+      reviewBody: 'Staff cooperative hai, safai achi hai, aur fees bhi reasonable. Recommended.',
       itemReviewed: { '@id': 'https://falconseducationsystem.com/#organization' },
     },
   ],
