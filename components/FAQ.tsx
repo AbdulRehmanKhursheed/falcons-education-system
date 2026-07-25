@@ -10,12 +10,12 @@ const FAQS = [
   {
     question: 'What programs does Falcons Education System offer?',
     answer:
-      'A complete school education from Nursery to Class 6: Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG (4–6 yrs), and Class 1 through Class 6. We also run an Evening Coaching Academy (Mon–Fri, 3:30–7:30 PM), Saturday Coaching, and computer courses for kids.',
+      'A complete school education from Play Group to Class 6: Montessori early years (Play Group, Nursery, KG — ages 3–6) and Class 1 through Class 6. We also run an Evening Coaching Academy (Mon–Sat, 3:30–7:00 PM) for Play Group to Matric, plus Spoken English and computer courses for kids.',
   },
   {
     question: 'Up to which class does the school teach?',
     answer:
-      'Nursery through Class 6. Our primary school follows the national curriculum — English, Urdu, Mathematics, Science, Islamic Studies, and General Knowledge — taught in small classes.',
+      'Play Group through Class 6. Our primary school covers English, Urdu, Mathematics, Science, Islamic Studies, and General Knowledge — taught in small classes. The Evening Coaching Academy additionally supports students up to Matric.',
   },
   {
     question: 'Where is the school located in Rawalpindi?',
@@ -30,12 +30,12 @@ const FAQS = [
   {
     question: 'What are the school and coaching timings?',
     answer:
-      'School: Monday–Friday, 8:00 AM – 2:00 PM. Evening Coaching: Monday–Friday, 3:30 – 7:30 PM. Saturday Coaching: 9:00 AM – 1:00 PM. Sunday closed.',
+      'School: Monday–Saturday, 8:00 AM – 2:00 PM. Evening Coaching Academy: Monday–Saturday, 3:30 – 7:00 PM. Sunday closed.',
   },
   {
     question: 'What is the Evening Coaching Academy?',
     answer:
-      'After-school coaching for children attending any school — subject understanding, exam preparation, and supervised homework completion. Monday to Friday, 3:30–7:30 PM, with Saturday sessions also available.',
+      'After-school coaching for children attending any school, from Play Group up to Matric — subject understanding, exam preparation, and supervised homework completion. Monday to Saturday, 3:30–7:00 PM. All updates are posted on our Coaching Academy page.',
   },
   {
     question: 'What computer courses do you offer for kids?',
@@ -50,7 +50,7 @@ const FAQS = [
   {
     question: 'What is the best age to start Montessori or preschool?',
     answer:
-      'Between 2.5 and 3 years. Our Nursery welcomes children from age 2.5 — a sensitive period for language, order, and sensorial exploration.',
+      'Around 3 years. Our Play Group welcomes children from age 3 — a sensitive period for language, order, and sensorial exploration.',
   },
   {
     question: 'How do fees work?',

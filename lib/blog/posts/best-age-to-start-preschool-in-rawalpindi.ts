@@ -37,7 +37,7 @@ Look for these readiness signals:
 
 ## The Falcons Education System Approach
 
-At **Falcons Education System** on Kamalabad Road, Rawalpindi, we welcome children from 2.5 years into our **Nursery program**. Our prepared Montessori classrooms, trained teachers, and gentle approach help even the youngest learners feel safe and excited to explore.
+At **Falcons Education System** on Kamalabad Road, Rawalpindi, we welcome children from 3 years into our **Play Group**. Our prepared Montessori classrooms, trained teachers, and gentle approach help even the youngest learners feel safe and excited to explore.
 
 We also offer **Montessori Level** (3–6 years) and **KG** programs, plus **Saturday Coaching** and an **Evening Academy** for school-going children.
 

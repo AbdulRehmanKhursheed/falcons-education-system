@@ -6,14 +6,14 @@ import { SITE_CONFIG } from '@/lib/constants';
 import { trackLead } from '@/components/MetaPixel';
 
 const PROGRAMS = [
-  'Nursery (2.5 – 3.5)',
-  'Montessori Level (3 – 6)',
-  'Kindergarten (4 – 6)',
+  'Play Group',
+  'Nursery',
+  'Kindergarten',
   'Class 1 & 2',
   'Class 3 & 4',
   'Class 5 & 6',
-  'Evening Academy',
-  'Saturday Coaching',
+  'Evening Coaching Academy (Play Group – Matric)',
+  'Spoken English',
   'Computer Courses',
 ];
 

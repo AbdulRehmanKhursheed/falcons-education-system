@@ -10,7 +10,7 @@ export const organizationSchema = {
   "@id": `${BASE_URL}/#organization`,
   name: "Falcons Education System",
   description:
-    "Falcons Education System is a school in Rawalpindi offering education from Nursery to Class 6, plus Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.",
+    "Falcons Education System is a school in Rawalpindi offering education from Play Group to Class 6, plus an Evening Coaching Academy (Mon–Sat, 3:30–7:00 PM) for Play Group to Matric, Spoken English, and Computer Courses for kids.",
   url: BASE_URL,
   logo: {
     "@type": "ImageObject",
@@ -46,24 +46,31 @@ export const organizationSchema = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       opens: "08:00",
       closes: "14:00",
       description: "Regular school hours",
     },
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       opens: "15:30",
-      closes: "19:30",
-      description: "Evening Coaching Academy",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Saturday",
-      opens: "09:00",
-      closes: "13:00",
-      description: "Saturday Coaching classes",
+      closes: "19:00",
+      description: "Evening Coaching Academy — Play Group to Matric",
     },
   ],
   areaServed: {
@@ -79,8 +86,8 @@ export const organizationSchema = {
     "Montessori education",
     "Early childhood education",
     "Primary school education (Class 1–6)",
-    "National curriculum of Pakistan",
-    "After-school coaching",
+    "Evening coaching (Play Group to Matric)",
+    "Spoken English for children",
     "Computer courses for children",
   ],
   // Parent testimonials displayed on the site (see homepage "From parents" section).
@@ -125,17 +132,18 @@ export const organizationSchema = {
         "@type": "Offer",
         itemOffered: {
           "@type": "Course",
-          name: "Nursery Program",
-          description: "Montessori Nursery for children aged 3 to 6 years",
+          name: "Play Group",
+          description:
+            "Montessori Play Group — a child's gentle first step into school, from age 3",
         },
       },
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Course",
-          name: "Montessori Level",
+          name: "Nursery",
           description:
-            "Full Montessori curriculum for children aged 3 to 6 years",
+            "Montessori Nursery — early learning through practical life and sensorial materials",
         },
       },
       {
@@ -143,7 +151,8 @@ export const organizationSchema = {
         itemOffered: {
           "@type": "Course",
           name: "KG / Kindergarten",
-          description: "Kindergarten program for children aged 4 to 6 years",
+          description:
+            "Kindergarten — the bridge to formal schooling: reading, writing and numbers",
         },
       },
       {
@@ -179,16 +188,16 @@ export const organizationSchema = {
           "@type": "Course",
           name: "Evening Coaching Academy",
           description:
-            "Evening coaching classes Monday–Friday, 3:30 PM to 7:30 PM, for school-going children",
+            "Evening coaching Monday–Saturday, 3:30 to 7:00 PM, for children from Play Group up to Matric — open to students of any school",
         },
       },
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Course",
-          name: "Saturday Coaching",
+          name: "Spoken English",
           description:
-            "Weekend coaching and tutoring every Saturday, 9:00 AM to 1:00 PM",
+            "Spoken English course for school-age children — conversation and confidence building",
         },
       },
       {
@@ -211,7 +220,7 @@ export const websiteSchema = {
   url: BASE_URL,
   name: "Falcons Education System",
   description:
-    "Official website of Falcons Education System — school education from Nursery to Class 6 and evening coaching in Rawalpindi. Admissions open for 2026.",
+    "Official website of Falcons Education System — school education from Play Group to Class 6 and evening coaching up to Matric in Rawalpindi. Admissions open for 2026.",
   publisher: { "@id": `${BASE_URL}/#organization` },
   inLanguage: "en-PK",
 };
@@ -232,6 +241,12 @@ export const breadcrumbSchema = {
       position: 3,
       name: "Programs",
       item: `${BASE_URL}/programs`,
+    },
+    {
+      "@type": "ListItem",
+      position: 8,
+      name: "Coaching Academy",
+      item: `${BASE_URL}/coaching`,
     },
     {
       "@type": "ListItem",
@@ -269,7 +284,7 @@ export const faqSchema = {
       name: "Which is a good school in Rawalpindi for young children?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "For families near Kamalabad Road, Bakra Mandi, Dhoke Kashmirian and Sadiqabad in Rawalpindi, Falcons Education System is a strong option for children aged 3 to 12: Montessori early years, primary school up to Class 6 on the national syllabus, small class sizes with individual attention, and an Evening Coaching Academy (Mon–Fri 3:30–7:30 PM) plus Saturday Coaching open to children from any school. Parents are welcome to visit the campus on any working morning before deciding.",
+        text: "For families near Kamalabad Road, Bakra Mandi, Dhoke Kashmirian and Sadiqabad in Rawalpindi, Falcons Education System is a strong option for children aged 3 to 12: Montessori early years (Play Group, Nursery, KG), primary school up to Class 6, small class sizes with individual attention, and an Evening Coaching Academy (Mon–Sat 3:30–7:00 PM) for Play Group to Matric, open to children from any school. Parents are welcome to visit the campus on any working morning before deciding.",
       },
     },
     {
@@ -277,7 +292,7 @@ export const faqSchema = {
       name: "What programs does Falcons Education System offer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We offer Nursery (2.5–3.5 yrs), Montessori Level (3–6 yrs), KG (4–6 yrs), Primary School Class 1 through Class 6, Evening Coaching Academy (3:30–7:30 PM), Saturday Coaching, and Computer Courses for kids.",
+        text: "We offer Montessori early years — Play Group, Nursery and KG (ages 3–6) — Primary School Class 1 through Class 6, an Evening Coaching Academy (Mon–Sat, 3:30–7:00 PM) for Play Group to Matric, Spoken English, and Computer Courses for kids.",
       },
     },
     {
@@ -285,7 +300,7 @@ export const faqSchema = {
       name: "Up to which class does Falcons Education System teach?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Falcons Education System provides school education from Nursery all the way up to Class 6. We also offer evening coaching, Saturday coaching, and computer courses.",
+        text: "Falcons Education System provides school education from Play Group all the way up to Class 6. The Evening Coaching Academy additionally supports students from Play Group up to Matric, from any school.",
       },
     },
     {
@@ -309,7 +324,7 @@ export const faqSchema = {
       name: "What are the evening coaching class timings?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Evening Coaching Academy: Monday–Friday, 3:30 PM to 7:30 PM. Also open on Saturdays 9:00 AM to 1:00 PM.",
+        text: "Evening Coaching Academy: Monday to Saturday, 3:30 PM to 7:00 PM — for children from Play Group up to Matric, from any school. Sunday closed.",
       },
     },
     {

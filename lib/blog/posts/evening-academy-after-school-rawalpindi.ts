@@ -29,7 +29,7 @@ Many parents in Rawalpindi work during the day and find it difficult to help chi
 
 ## Schedule
 
-- **Days:** Monday – Friday
+- **Days:** Monday – Saturday
 - **Time:** After school hours (afternoon/evening sessions)
 - **Location:** Falcons Education System, Kamalabad Road, Rawalpindi
 

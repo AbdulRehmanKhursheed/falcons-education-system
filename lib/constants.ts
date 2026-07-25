@@ -1,8 +1,8 @@
 export const SITE_CONFIG = {
   name: "Falcons Education System",
-  tagline: "Quality Education from Nursery to Class 6 in Rawalpindi",
+  tagline: "Quality Education from Play Group to Class 6 in Rawalpindi",
   description:
-    "Falcons Education System — among the best schools in Rawalpindi for children aged 2.5–12: Montessori, Nursery to Class 6, Evening & Saturday Coaching, and Computer Courses. Small classes, individual attention. Admissions open 2026, Kamalabad Road.",
+    "Falcons Education System — among the best schools in Rawalpindi for children aged 3–12: Montessori early years, Play Group to Class 6, Evening Coaching Academy up to Matric, Spoken English and Computer Courses. Small classes, individual attention. Admissions open 2026, Kamalabad Road.",
   url: "https://falconseducationsystem.com",
   address: {
     street: "Street No 14, Sonari Bank, Kamalabad Road",
@@ -28,9 +28,9 @@ export const SITE_CONFIG = {
   email: "falconseducationsystem@gmail.com",
   founded: "August 2024",
   mapEmbedUrl:
-    "https://maps.google.com/maps?q=Street+14+Sonari+Bank+Kamalabad+Road+Rawalpindi+Pakistan&output=embed",
+    "https://maps.google.com/maps?q=Falcons+Education+System+Kamalabad+Rawalpindi&z=16&output=embed",
   mapDirectUrl:
-    "https://www.google.com/maps/search/?api=1&query=Street+14+Sonari+Bank+Kamalabad+Road+Rawalpindi+Pakistan",
+    "https://www.google.com/maps/search/?api=1&query=Falcons+Education+System+Kamalabad+Rawalpindi",
 };
 
 export const SEO_KEYWORDS = [

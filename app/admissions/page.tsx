@@ -6,14 +6,14 @@ import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
 import { InquiryForm } from '@/components/admissions/InquiryForm';
 
 export const metadata: Metadata = {
-  title: 'Admissions Open 2026 — School Nursery to Class 6 | Falcons Education System Rawalpindi',
+  title: 'Admissions Open 2026 — School Play Group to Class 6 | Falcons Education System Rawalpindi',
   description:
-    'Apply for admission at Falcons Education System Rawalpindi. School from Nursery to Class 6, Saturday Coaching & Evening Academy. Limited seats for 2026. Apply today!',
+    'Apply for admission at Falcons Education System Rawalpindi. School from Play Group to Class 6, plus Evening Coaching Academy up to Matric. Limited seats for 2026. Apply today!',
   alternates: { canonical: `${SITE_CONFIG.url}/admissions` },
   openGraph: {
     title: 'Admissions Open 2026 — Falcons Education System Rawalpindi',
     description:
-      'Enroll your child in school from Nursery to Class 6, plus coaching & evening classes at Falcons Education System, Rawalpindi. Limited seats!',
+      'Enroll your child in school from Play Group to Class 6, plus evening coaching up to Matric at Falcons Education System, Rawalpindi. Limited seats!',
     url: `${SITE_CONFIG.url}/admissions`,
   },
 };
@@ -44,14 +44,12 @@ const DOCUMENTS = [
 ];
 
 const PROGRAM_LIST = [
-  { name: 'Nursery', age: '2.5 – 3.5 yrs' },
-  { name: 'Montessori Level', age: '3 – 6 yrs' },
-  { name: 'Kindergarten', age: '4 – 6 yrs' },
+  { name: 'Play Group · Nursery · KG', age: '3 – 6 yrs' },
   { name: 'Class 1 & 2', age: '5 – 7 yrs' },
   { name: 'Class 3 & 4', age: '7 – 9 yrs' },
   { name: 'Class 5 & 6', age: '9 – 12 yrs' },
-  { name: 'Evening Academy', age: 'School-going' },
-  { name: 'Saturday Coaching', age: 'School-going' },
+  { name: 'Evening Coaching Academy', age: 'Play Group – Matric' },
+  { name: 'Spoken English', age: 'School-going' },
   { name: 'Computer Courses', age: 'Young students' },
 ];
 

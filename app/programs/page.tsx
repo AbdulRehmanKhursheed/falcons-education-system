@@ -5,14 +5,14 @@ import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
 import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
-  title: 'Programs & Courses — School Nursery to Class 6, Coaching & Evening Academy',
+  title: 'Programs & Courses — School Play Group to Class 6, Coaching up to Matric',
   description:
-    'Explore all programs at Falcons Education System Rawalpindi: school from Nursery to Class 6, Saturday Coaching, Evening Coaching Academy, and Computer Courses. Admissions open 2026.',
+    'Explore all programs at Falcons Education System Rawalpindi: school from Play Group to Class 6, Evening Coaching Academy (Play Group to Matric), Spoken English, and Computer Courses. Admissions open 2026.',
   alternates: { canonical: `${SITE_CONFIG.url}/programs` },
   openGraph: {
     title: 'Programs & Courses — Falcons Education System Rawalpindi',
     description:
-      'School Nursery to Class 6, Saturday Coaching, Evening Academy, Computer Courses — Kamalabad Road, Rawalpindi. Admissions open.',
+      'School Play Group to Class 6, Evening Coaching up to Matric, Spoken English, Computer Courses — Kamalabad Road, Rawalpindi. Admissions open.',
     url: `${SITE_CONFIG.url}/programs`,
   },
 };
@@ -44,9 +44,9 @@ const CHAPTER_IMAGES: Record<string, string> = {
 const CHAPTERS: Chapter[] = [
   {
     id: 'nursery',
-    kicker: 'Ages 2.5 – 3.5',
+    kicker: 'The first step · from age 3',
     kickerClass: 'text-brand',
-    title: 'Nursery',
+    title: 'Play Group & Nursery',
     overview:
       'A gentle first step. Little ones learn to pour, button, share and speak up — real skills, built through play in a calm Montessori room.',
     details: [
@@ -146,37 +146,37 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: 'evening-academy',
-    kicker: 'Evening · school-going children',
+    kicker: 'Evening · Play Group to Matric · any school',
     kickerClass: 'text-brand-dark',
-    title: 'Evening Academy',
+    title: 'Evening Coaching Academy',
     overview:
-      'After school, before dinner — supervised homework, subject reinforcement and reading practice in a safe place until pickup.',
+      'After school, before dinner — subject coaching, exam preparation and supervised homework for children from any school, Play Group up to Matric. Updates live on the Coaching Academy page.',
     details: [
+      'Subject coaching, arranged by level',
+      'Exam preparation and practice tests',
       'Supervised homework completion',
-      'Extra practice in weak subjects',
-      'Daily reading and writing sessions',
-      'Art, craft and project time',
+      'Small groups, individual attention',
     ],
-    schedule: 'Mon – Fri · afternoon & evening sessions',
+    schedule: 'Mon – Sat · 3:30 – 7:00 PM',
     tone: 'navy',
     imageAlt: 'Evening academy students getting homework help',
   },
   {
     id: 'saturday-coaching',
-    kicker: 'Saturday · school-going children',
+    kicker: 'Within academy hours · school-going children',
     kickerClass: 'text-brand-dark',
-    title: 'Saturday Coaching',
+    title: 'Spoken English & Computer Courses',
     overview:
-      'One focused morning a week for children from any school who need to catch up — or want to get ahead — in the core subjects.',
+      'Confidence with words and with keyboards — speaking practice that starts with conversation, and computer classes that start with real hands-on use.',
     details: [
-      'English, Math, Science and Urdu tutoring',
-      'Exam preparation and practice tests',
+      'Spoken English: conversation and confidence',
+      'Basic computer knowledge and typing',
+      'MS Word and internet fundamentals',
       'Small groups, individual attention',
-      'Reading and writing improvement',
     ],
-    schedule: 'Every Saturday · 9:00 AM – 1:00 PM',
+    schedule: 'Within evening academy hours · Mon – Sat',
     tone: 'sun',
-    imageAlt: 'Saturday coaching class in session',
+    imageAlt: 'Students in a spoken English and computer class',
   },
 ];
 
@@ -194,8 +194,8 @@ export default function ProgramsPage() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              From a two-and-a-half-year-old&apos;s first morning to a Class 6 student&apos;s last
-              exam — eight programs under one roof on Kamalabad Road.
+              From a three-year-old&apos;s first morning to a matric student&apos;s board exams
+              — school and coaching under one roof on Kamalabad Road.
             </p>
           </FadeIn>
         </div>

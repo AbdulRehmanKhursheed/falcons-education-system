@@ -169,6 +169,6 @@ The parents who choose timing thoughtfully, rather than by social pressure, tend
 
 For related reading, see [how to prepare your child for their first day of school](/blog/how-to-prepare-child-for-school) and [the first week of school: what really happens](/blog/first-week-of-school-what-happens).
 
-At Falcons Education System we welcome children from 2.5 years into our Nursery programme, and we work closely with parents to support gentle transitions. If you would like to discuss whether your child is ready, you are welcome to [contact us](/contact) or [explore our programs](/programs).
+At Falcons Education System we welcome children from 3 years into our Play Group, and we work closely with parents to support gentle transitions. If you would like to discuss whether your child is ready, you are welcome to [contact us](/contact) or [explore our programs](/programs).
   `,
 };

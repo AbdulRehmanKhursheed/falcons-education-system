@@ -17,7 +17,7 @@ export const post: BlogArticle = {
   content: `
 ## Weekend Learning at Falcons Education System
 
-We understand that school-going children sometimes need extra academic support beyond their regular school hours. That is why **Falcons Education System** now offers **Saturday Coaching** — dedicated weekend classes to help your child excel.
+We understand that school-going children sometimes need extra academic support beyond their regular school hours. That is why **Falcons Education System** now offers **Saturday Coaching** — our Evening Coaching Academy runs on Saturdays too, so the week never has to end with a backlog. Children from **Play Group up to Matric**, from any school, are welcome.
 
 ## What We Offer
 
@@ -32,7 +32,7 @@ Our Saturday Coaching program includes:
 ## Schedule
 
 - **Day:** Every Saturday
-- **Time:** 9:00 AM – 1:00 PM
+- **Time:** 3:30 – 7:00 PM (the academy runs Monday to Saturday)
 - **Location:** Falcons Education System, Street No 14, Sonari Bank, Kamalabad Road, Rawalpindi
 
 ## Why Choose Saturday Coaching at Falcons?

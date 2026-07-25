@@ -39,11 +39,11 @@ const PROGRAMS: ProgramRow[] = [
     tone: "sun",
   },
   {
-    href: "/programs#evening-academy",
-    kicker: "Evening · Monday to Saturday",
+    href: "/coaching",
+    kicker: "Evening · Mon – Sat · Play Group to Matric",
     kickerColor: "text-brand-dark",
-    title: "Coaching, Computer classes, and english spoken classes",
-    body: "After-school help with homework and exams, plus hands-on computer classes — so  kids from anywhere in the area can catch up and get ahead.",
+    title: "Coaching, computer & spoken English classes",
+    body: "After-school help with homework and exams, plus computer and spoken English classes — so kids from any school can catch up and get ahead. All updates on the Coaching Academy page.",
     src: "/images/coaching.jpg",
     imageAlt:
       "Evening coaching session — a tutor helping three children with homework under warm lamp light",

@@ -6,6 +6,7 @@ import { SITE_CONFIG } from '@/lib/constants';
 const NAV = [
   { href: '/about', label: 'About' },
   { href: '/programs', label: 'Programs' },
+  { href: '/coaching', label: 'Coaching Academy' },
   { href: '/admissions', label: 'Admissions' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/blog', label: 'Journal' },
@@ -41,10 +42,10 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
-              A school in Rawalpindi for children aged 3 to 12 — Montessori early years,
-              primary school from Class 1 to Class 6 on the national syllabus, plus evening
-              &amp; Coaching, Spoken and Computer courses. Small classes, teachers who know
-              every child by name.
+              A school in Rawalpindi for children aged 3 to 12 — Montessori early years and
+              primary school from Class 1 to Class 6, plus an Evening Coaching Academy (Play
+              Group to Matric), Spoken English and computer courses. Small classes, teachers
+              who know every child by name.
             </p>
             <div className="mt-5 flex gap-2.5">
               <SocialIcon href={SITE_CONFIG.social.instagram} label="Instagram">
@@ -118,11 +119,12 @@ export function Footer() {
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-faint">
             Falcons Education System serves families across Kamalabad Road, Bakra Mandi, Dhoke
             Kashmirian, Sadiqabad and nearby areas of Rawalpindi. Parents choose us for Montessori
-            education (ages 2.5–6), primary schooling up to Class 6, and after-school support:
-            the Evening Coaching Academy runs Monday–Friday 3:30–7:30 PM and Saturday Coaching
-            9 AM–1 PM — open to children from any school. Admissions for Session 2026 are open;
-            visit the campus on Street 14, Sonari Bank, Kamalabad Road any working morning, or
-            message us on WhatsApp at {SITE_CONFIG.phone}.
+            education (Play Group, Nursery and KG — ages 3–6), primary schooling up to Class 6,
+            and after-school support: the Evening Coaching Academy runs Monday–Saturday,
+            3:30–7:00 PM, coaching children from Play Group up to Matric — open to students of
+            any school. Admissions for Session 2026 are open; visit the campus on Street 14,
+            Sonari Bank, Kamalabad Road any working morning, or message us on WhatsApp at{' '}
+            {SITE_CONFIG.phone}.
           </p>
         </div>
 

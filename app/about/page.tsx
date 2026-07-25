@@ -15,15 +15,15 @@ import { FadeIn, Stagger, StaggerItem } from "@/components/ui/Motion";
 import { Photo } from "@/components/ui/Photo";
 
 export const metadata: Metadata = {
-  title: "About Us — School Nursery to Class 6 in Rawalpindi",
+  title: "About Us — School Play Group to Class 6 in Rawalpindi",
   description:
-    "Learn about Falcons Education System — a school on Kamalabad Road, Rawalpindi offering classes from Nursery to Class 6, plus Evening Coaching and Computer Courses. Founded August 2024.",
+    "Learn about Falcons Education System — a school on Kamalabad Road, Rawalpindi offering classes from Play Group to Class 6, plus an Evening Coaching Academy up to Matric, Spoken English and Computer Courses.",
   alternates: { canonical: `${SITE_CONFIG.url}/about` },
   openGraph: {
     title:
-      "About Falcons Education System — School Nursery to Class 6, Rawalpindi",
+      "About Falcons Education System — School Play Group to Class 6, Rawalpindi",
     description:
-      "Quality school education from Nursery to Class 6, Saturday coaching, and evening academy on Kamalabad Road, Rawalpindi. Founded August 2024.",
+      "Quality school education from Play Group to Class 6, with evening coaching up to Matric, on Kamalabad Road, Rawalpindi.",
     url: `${SITE_CONFIG.url}/about`,
   },
 };
@@ -72,7 +72,7 @@ const WHY_CHOOSE = [
   },
   {
     title: "Support after the bell",
-    text: "Evening Coaching Academy (3:30–7:00 PM, Mon–Sat), spoken English and computer courses — under the same roof.",
+    text: "Evening Coaching classes Play Group to Matriculation (3:30–7:00 PM, Mon–Sat), spoken English and computer courses — under the same roof.",
   },
   {
     title: "Parents always welcome",

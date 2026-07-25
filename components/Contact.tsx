@@ -6,9 +6,10 @@ import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
 import { trackLead } from '@/components/MetaPixel';
 
 const HOURS = [
-  { label: 'School', value: 'Mon – Fri · 8:00 AM – 2:00 PM' },
-  { label: 'Evening Coaching', value: 'Mon – Fri · 3:30 – 7:30 PM' },
-  { label: 'Saturday Coaching', value: 'Sat · 9:00 AM – 1:00 PM' },
+  { label: 'School (P.G – Class 6)', value: 'Mon – Thu & Sat · 8:00 AM – 2:00 PM' },
+  { label: 'School (Play Group - Class 6)', value: 'Friday · 8:00 AM – 12:30 PM' },
+
+  { label: 'Evening Coaching (P.G – Matric)', value: 'Mon – Sat · 3:30 – 7:00 PM' },
   { label: 'Sunday', value: 'Closed' },
 ];
 
