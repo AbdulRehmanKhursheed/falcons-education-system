@@ -44,9 +44,9 @@ const CHAPTER_IMAGES: Record<string, string> = {
 const CHAPTERS: Chapter[] = [
   {
     id: 'nursery',
-    kicker: 'The first step · from age 3',
+    kicker: 'From Age 3 - 6',
     kickerClass: 'text-brand',
-    title: 'Play Group & Nursery',
+    title: 'Play Group',
     overview:
       'A gentle first step. Little ones learn to pour, button, share and speak up — real skills, built through play in a calm Montessori room.',
     details: [
@@ -61,9 +61,9 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: 'montessori',
-    kicker: 'Ages 3 – 6',
+    kicker: 'Ages 4 – 6',
     kickerClass: 'text-brand',
-    title: 'Montessori Level',
+    title: 'Nursery',
     overview:
       'The full Montessori curriculum — children choose real materials and teach their own hands: golden beads for math, sandpaper letters for words.',
     details: [
@@ -78,7 +78,7 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: 'kg',
-    kicker: 'Ages 4 – 6',
+    kicker: 'Ages 5 – 6',
     kickerClass: 'text-flame',
     title: 'Kindergarten',
     overview:
