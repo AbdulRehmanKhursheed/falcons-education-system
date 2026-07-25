@@ -30,7 +30,7 @@ const FAQS = [
   {
     question: 'What are the school and coaching timings?',
     answer:
-      'School: Monday–Saturday, 8:00 AM – 2:00 PM. Evening Coaching Academy: Monday–Saturday, 3:30 – 7:00 PM. Sunday closed.',
+      'School: Monday–Thursday & Saturday, 8:00 AM – 2:00 PM; Friday, 8:00 AM – 12:30 PM. Evening Coaching Academy: Monday–Saturday, 3:30 – 7:00 PM. Sunday closed.',
   },
   {
     question: 'What is the Evening Coaching Academy?',
