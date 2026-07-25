@@ -43,7 +43,7 @@ Five principles run through the method.
 
 **Children pass through sensitive periods.** Windows when specific skills (language, order, movement, fine motor, social development) are absorbed with little effort. The classroom and teacher respond to these. See [sensitive periods in child development](/blog/sensitive-periods-child-development).
 
-**Mixed-age classrooms work better than single ages.** Children of 2.5 to 6 (and again 6 to 12) learn together. Younger watch and absorb. Older teach and consolidate. See [why mixed-age classrooms work better than you think](/blog/why-mixed-age-classrooms-work).
+**Mixed-age classrooms work better than single ages.** Children of 3 to 6 (and again 6 to 12) learn together. Younger watch and absorb. Older teach and consolidate. See [why mixed-age classrooms work better than you think](/blog/why-mixed-age-classrooms-work).
 
 **The teacher observes more than directs.** The role is not lecturer. It is more like a gardener — preparing soil, watching the plant, intervening only when needed. We have written more in [the real role of a Montessori teacher](/blog/role-of-montessori-teacher).
 

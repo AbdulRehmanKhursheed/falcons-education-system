@@ -4,7 +4,7 @@ export const post: BlogArticle = {
   slug: 'best-age-to-start-preschool-in-rawalpindi',
   title: 'What Is the Best Age to Start Preschool? A Guide for Rawalpindi Parents',
   excerpt:
-    'Wondering when to enroll your child in preschool? Learn why ages 2.5 to 3 years is the ideal window and how Montessori education gives children a head start.',
+    'Wondering when to enroll your child in preschool? Learn why ages 3 to 4 years is the ideal window and how Montessori education gives children a head start.',
   publishedDate: '2026-01-15',
   readTime: '5 min read',
   category: 'Parenting',
@@ -18,7 +18,7 @@ Research in early childhood development consistently shows that children between
 
 ## Why 2.5 Years Is Ideal for Montessori
 
-In the Montessori method, children aged 2.5 to 6 are grouped together in what Dr. Maria Montessori called the "first plane of development." During this stage:
+In the Montessori method, children aged 3 to 6 are grouped together in what Dr. Maria Montessori called the "first plane of development." During this stage:
 
 - **Language skills** develop rapidly — children absorb vocabulary, sentence structure, and communication patterns
 - **Motor skills** become refined — pouring, threading, buttoning, and writing preparation

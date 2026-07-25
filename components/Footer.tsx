@@ -41,9 +41,9 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
-              A school in Rawalpindi for children aged 2.5 to 12 — Montessori early years,
+              A school in Rawalpindi for children aged 3 to 12 — Montessori early years,
               primary school from Class 1 to Class 6 on the national syllabus, plus evening
-              &amp; Saturday coaching and computer courses. Small classes, teachers who know
+              &amp; Coaching, Spoken and Computer courses. Small classes, teachers who know
               every child by name.
             </p>
             <div className="mt-5 flex gap-2.5">

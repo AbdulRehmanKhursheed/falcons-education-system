@@ -49,7 +49,7 @@ The list below is not exhaustive. Children vary. But these are the windows resea
 
 **Small objects, around 1 to 4 years.** A toddler who picks up every crumb on the floor is not being annoying. They are training fine motor precision and visual discrimination.
 
-**Social development, from about 2.5 to 6 years.** Children become intensely interested in manners, customs, and how people behave with one another. This is the window for teaching gentle conventions — saying salaam, helping with the table, waiting one's turn.
+**Social development, from about 3 to 6 years.** Children become intensely interested in manners, customs, and how people behave with one another. This is the window for teaching gentle conventions — saying salaam, helping with the table, waiting one's turn.
 
 **Refinement of the senses, around 3 to 6 years.** Children begin to make finer and finer distinctions. They notice that the chai is one shade darker today, that the new puppy smells different from the older one.
 
