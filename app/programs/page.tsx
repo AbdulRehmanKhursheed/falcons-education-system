@@ -55,7 +55,7 @@ const CHAPTERS: Chapter[] = [
       'Language through stories, songs and conversation',
       'Sharing, turn-taking and empathy',
     ],
-    schedule: 'Mon – Sat · 8:00 AM – 12:00 PM (Fri till 12:30)',
+    schedule: 'Mon – Sat · 8:00 AM – 2:00 PM (Fri till 12:30)',
     tone: 'sky',
     imageAlt: 'Nursery children doing practical life activities',
   },
