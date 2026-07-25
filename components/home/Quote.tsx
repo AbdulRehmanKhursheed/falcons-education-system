@@ -1,0 +1,93 @@
+'use client';
+
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { FadeIn } from '@/components/ui/Motion';
+
+const QUOTES = [
+  {
+    name: 'Sara K.',
+    role: 'Mother of a Nursery student',
+    quote:
+      'My daughter looks forward to school every single day. The teachers are patient and present — the Montessori approach has built real confidence in her.',
+  },
+  {
+    name: 'Ahmad R.',
+    role: 'Father of a KG student',
+    quote:
+      'The environment is clean, the staff genuinely care, and they take the time to know each child. We came in for a tour and stayed for admission.',
+  },
+  {
+    name: 'Nadia M.',
+    role: 'Mother of a Montessori Level student',
+    quote:
+      'Our son made real progress in reading and math. The teachers treat children as capable, and the children respond to that.',
+  },
+];
+
+export function Quote() {
+  const [index, setIndex] = useState(0);
+  const q = QUOTES[index];
+  const go = (dir: 1 | -1) => setIndex((i) => (i + dir + QUOTES.length) % QUOTES.length);
+
+  return (
+    <section className="bg-paper-warm py-20 md:py-28" aria-labelledby="parents-heading">
+      <div className="mx-auto max-w-4xl px-5 text-center md:px-8">
+        <FadeIn>
+          <h2 id="parents-heading" className="text-sm font-extrabold uppercase tracking-wide text-brand">
+            From parents
+          </h2>
+        </FadeIn>
+
+        <FadeIn className="relative mt-8 min-h-[220px] md:min-h-[190px]">
+          <AnimatePresence mode="wait">
+            <motion.figure
+              key={index}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35 }}
+            >
+              <blockquote className="font-display text-2xl font-bold leading-snug text-ink sm:text-3xl md:text-[2.15rem]">
+                “{q.quote}”
+              </blockquote>
+              <figcaption className="mt-6 font-semibold text-ink-muted">
+                {q.name} · <span className="text-ink-faint">{q.role}</span>
+              </figcaption>
+            </motion.figure>
+          </AnimatePresence>
+        </FadeIn>
+
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => go(-1)}
+            aria-label="Previous quote"
+            className="tap-target rounded-full border border-line bg-white text-ink-muted transition-colors hover:border-brand hover:text-brand"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <div className="flex gap-2" aria-hidden="true">
+            {QUOTES.map((_, i) => (
+              <span
+                key={i}
+                className={`h-2 rounded-full transition-all ${
+                  i === index ? 'w-6 bg-brand' : 'w-2 bg-ink-faint/40'
+                }`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => go(1)}
+            aria-label="Next quote"
+            className="tap-target rounded-full border border-line bg-white text-ink-muted transition-colors hover:border-brand hover:text-brand"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { SITE_CONFIG } from '@/lib/constants';
-import { Admissions } from '@/components/Admissions';
-import { Testimonials } from '@/components/Testimonials';
 import Link from 'next/link';
+import { MessageCircle, CalendarCheck, PenLine, FileText, ArrowRight } from 'lucide-react';
+import { SITE_CONFIG } from '@/lib/constants';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { InquiryForm } from '@/components/admissions/InquiryForm';
 
 export const metadata: Metadata = {
   title: 'Admissions Open 2026 — School Nursery to Class 6 | Falcons Education System Rawalpindi',
@@ -17,124 +18,174 @@ export const metadata: Metadata = {
   },
 };
 
-const reasons = [
-  { icon: '🌱', text: 'Montessori early learning — Nursery, Montessori Level, KG' },
-  { icon: '📚', text: 'Primary school from Class 1 to Class 6 following national curriculum' },
-  { icon: '👩‍🏫', text: 'Trained, caring teachers who know every child by name' },
-  { icon: '🏡', text: 'Safe, clean classrooms designed for learning and exploration' },
-  { icon: '🌙', text: 'Evening Coaching Academy & Saturday Coaching for extra support' },
-  { icon: '📍', text: 'Conveniently located on Kamalabad Road, Rawalpindi' },
+const STEPS = [
+  {
+    icon: MessageCircle,
+    title: 'Say salaam',
+    body: 'Send the inquiry form below, or message us directly on WhatsApp. We reply the same day.',
+  },
+  {
+    icon: CalendarCheck,
+    title: 'Visit the school',
+    body: 'Book a time, walk through the classrooms, meet the teachers, and ask everything.',
+  },
+  {
+    icon: PenLine,
+    title: 'Enrol your child',
+    body: 'A short admission form and your child’s documents — usually done in one visit.',
+  },
+];
+
+const DOCUMENTS = [
+  'Child’s B-Form (birth registration)',
+  'Parent/guardian CNIC copy',
+  '2 passport-size photographs',
+  'Previous school report card (Class 1 onwards)',
+];
+
+const PROGRAM_LIST = [
+  { name: 'Nursery', age: '2.5 – 3.5 yrs' },
+  { name: 'Montessori Level', age: '3 – 6 yrs' },
+  { name: 'Kindergarten', age: '4 – 6 yrs' },
+  { name: 'Class 1 & 2', age: '5 – 7 yrs' },
+  { name: 'Class 3 & 4', age: '7 – 9 yrs' },
+  { name: 'Class 5 & 6', age: '9 – 12 yrs' },
+  { name: 'Evening Academy', age: 'School-going' },
+  { name: 'Saturday Coaching', age: 'School-going' },
+  { name: 'Computer Courses', age: 'Young students' },
 ];
 
 export default function AdmissionsPage() {
+  const waHref = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
+
   return (
     <>
-      {/* Hero */}
-      <section className="py-16 sm:py-20 bg-gradient-to-b from-falcon-cream to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2 bg-falcon-sage text-white rounded-full text-sm font-bold shadow-md animate-pulse mb-6">
-            <span aria-hidden>🎉</span>
-            <span>Admissions Open 2026 — Limited Seats!</span>
-          </div>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Apply for Admission at Falcons Education System
-          </h1>
-          <p className="text-falcon-earth text-lg max-w-2xl mx-auto mb-8">
-            Give your child the best educational foundation in Rawalpindi. Our school runs from
-            Nursery through Class 6, with Saturday coaching and an evening academy to help every
-            child thrive.
-          </p>
-          <a
-            href="#admissions"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-falcon-sage text-white rounded-2xl font-bold text-lg hover:bg-falcon-sageDark transition-all shadow-lg tap-target"
-          >
-            <span aria-hidden>📋</span>
-            <span>Fill the Inquiry Form Below</span>
-          </a>
+      <section className="bg-paper pb-6 pt-14 md:pt-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <p className="inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink">
+              <span className="inline-block h-2 w-2 rounded-full bg-flame" />
+              Session 2026 · Limited seats
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.08}>
+            <h1 className="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+              Admission, <span className="text-brand">without the hassle</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.16}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+              No test anxiety, no long queues. One message starts it; one visit usually finishes
+              it.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
-      {/* Why Choose Us - quick persuasion */}
-      <section className="py-12 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-2xl text-falcon-sageDark mb-8 text-center">
-            Why Parents Choose Falcons Education System
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {reasons.map(({ icon, text }) => (
-              <div key={text} className="flex items-start gap-3 p-4 bg-falcon-cream rounded-xl border border-falcon-sand">
-                <span className="text-2xl shrink-0" aria-hidden>{icon}</span>
-                <p className="text-falcon-earth text-sm">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Available Programs - quick reference */}
-      <section className="py-12 bg-falcon-cream">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-2xl text-falcon-sageDark mb-6 text-center">
-            Programs Available for Admission
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            {[
-              { name: 'Nursery', age: 'Age 2.5–3.5', icon: '🌱' },
-              { name: 'Montessori Level', age: 'Age 3–6', icon: '📚' },
-              { name: 'KG (Kindergarten)', age: 'Age 4–6', icon: '🎓' },
-              { name: 'Class 1 & 2', age: 'Age 5–7', icon: '✏️' },
-              { name: 'Class 3 & 4', age: 'Age 7–9', icon: '🔬' },
-              { name: 'Class 5 & 6', age: 'Age 9–12', icon: '🏆' },
-              { name: 'Saturday Coaching', age: 'School-going', icon: '📝' },
-              { name: 'Evening Academy', age: 'School-going', icon: '🌙' },
-              { name: 'Computer Courses', age: 'Young students', icon: '💻' },
-            ].map(({ name, age, icon }) => (
-              <div key={name} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-falcon-sand">
-                <span className="text-2xl" aria-hidden>{icon}</span>
-                <div>
-                  <p className="font-bold text-falcon-sageDark text-sm">{name}</p>
-                  <p className="text-falcon-earth/70 text-xs">{age}</p>
+      <section className="bg-paper py-14 md:py-20" aria-label="How admission works">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <Stagger className="relative grid gap-10 md:grid-cols-3 md:gap-8">
+            <div className="absolute left-6 top-6 hidden h-0.5 w-[calc(100%-3rem)] bg-line md:block" aria-hidden="true" />
+            {STEPS.map((s) => (
+              <StaggerItem key={s.title} className="relative">
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-paper">
+                  <s.icon size={22} />
                 </div>
-              </div>
+                <h2 className="mt-5 text-xl font-extrabold text-ink">{s.title}</h2>
+                <p className="mt-2 max-w-xs text-[0.9375rem] leading-relaxed text-ink-muted">{s.body}</p>
+              </StaggerItem>
             ))}
-          </div>
-          <p className="text-center">
-            <Link href="/programs" className="text-falcon-sage font-semibold text-sm hover:text-falcon-sageDark transition-colors">
-              View detailed program information →
-            </Link>
-          </p>
+          </Stagger>
         </div>
       </section>
 
-      {/* The Admission Form (reused component) */}
-      <Admissions />
+      <section className="bg-paper-warm py-16 md:py-24" aria-label="Inquiry form">
+        <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-5 md:gap-16 md:px-8">
+          <FadeIn className="md:col-span-3">
+            <h2 className="text-3xl font-extrabold text-ink md:text-4xl">Start with one message</h2>
+            <p className="mt-3 max-w-md text-ink-muted">
+              Fill this in and it opens WhatsApp with your details ready to send — nothing is
+              stored on the website.
+            </p>
+            <div className="mt-8">
+              <InquiryForm />
+            </div>
+          </FadeIn>
 
-      {/* Testimonials for social proof */}
-      <Testimonials />
+          <div className="md:col-span-2">
+            <FadeIn>
+              <div className="rounded-3xl border border-line bg-white p-7 shadow-paper">
+                <h3 className="flex items-center gap-2 text-lg font-extrabold text-ink">
+                  <FileText size={19} className="text-brand" />
+                  Documents to bring
+                </h3>
+                <ul className="mt-4 flex flex-col gap-2.5">
+                  {DOCUMENTS.map((d) => (
+                    <li key={d} className="flex items-start gap-2.5 text-[0.9375rem] text-ink-soft">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 text-sm text-ink-faint">
+                  Fee details are shared at the school or on WhatsApp — they differ by program.
+                </p>
+              </div>
+            </FadeIn>
 
-      {/* Final CTA */}
-      <section className="py-16 bg-falcon-sageDark text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display font-bold text-3xl mb-4">
-            Don&apos;t Wait — Seats Are Filling Fast
-          </h2>
-          <p className="text-white/80 text-lg mb-8">
-            The best investment you can make is in your child&apos;s education. Join the growing Falcons family today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#admissions"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg hover:bg-falcon-cream transition-all shadow-lg tap-target"
-            >
-              <span aria-hidden>📋</span> Apply Now
-            </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 text-white rounded-2xl font-bold text-lg hover:bg-white/10 transition-all tap-target"
-            >
-              <span aria-hidden>📞</span> Contact Us
-            </Link>
+            <FadeIn delay={0.1}>
+              <div className="mt-6 rounded-3xl border border-line bg-white p-7 shadow-paper">
+                <h3 className="text-lg font-extrabold text-ink">Open for admission</h3>
+                <ul className="mt-4 grid grid-cols-1 gap-2">
+                  {PROGRAM_LIST.map((p) => (
+                    <li key={p.name} className="flex items-center justify-between text-[0.9375rem]">
+                      <span className="font-semibold text-ink-soft">{p.name}</span>
+                      <span className="text-ink-faint">{p.age}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/programs"
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-dark"
+                >
+                  Program details
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
+            </FadeIn>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-paper py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <div className="rounded-3xl bg-navy px-7 py-12 text-center md:px-16 md:py-14">
+              <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+                Prefer to just talk?
+              </h2>
+              <p className="mx-auto mt-3 max-w-lg text-white/65">
+                Call {SITE_CONFIG.phone} or {SITE_CONFIG.phonePTCL} — or walk in any school-day
+                morning.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5">
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:brightness-105"
+                >
+                  Chat on WhatsApp
+                </a>
+                <a
+                  href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-white/25 px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:border-white/50"
+                >
+                  Call the school
+                </a>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </>

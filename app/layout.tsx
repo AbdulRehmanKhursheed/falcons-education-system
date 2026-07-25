@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
+import { Bricolage_Grotesque, Manrope } from 'next/font/google';
 import './globals.css';
 import { organizationSchema, websiteSchema, breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { SITE_CONFIG, SEO_KEYWORDS } from '@/lib/constants';
@@ -8,16 +8,16 @@ import { Footer } from '@/components/Footer';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { MobileActionBar } from '@/components/MobileActionBar';
 
-const fraunces = Fraunces({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-fraunces',
+  variable: '--font-bricolage',
   display: 'swap',
-  axes: ['opsz', 'SOFT'],
+  axes: ['opsz', 'wdth'],
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const manrope = Manrope({
   subsets: ['latin'],
-  variable: '--font-jakarta',
+  variable: '--font-manrope',
   display: 'swap',
 });
 
@@ -85,7 +85,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#00a3fe',
+  themeColor: '#1CA7E8',
 };
 
 export default function RootLayout({
@@ -96,7 +96,7 @@ export default function RootLayout({
   const jsonLd = [organizationSchema, websiteSchema, breadcrumbSchema, faqSchema];
 
   return (
-    <html lang="en-PK" className={`${fraunces.variable} ${jakarta.variable}`}>
+    <html lang="en-PK" className={`${bricolage.variable} ${manrope.variable}`}>
       <head>
         {jsonLd.map((schema, i) => (
           <script
@@ -108,7 +108,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-paper text-ink-soft">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <Footer />
         <WhatsAppButton />
         <MobileActionBar />

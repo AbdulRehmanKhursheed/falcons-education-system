@@ -1,27 +1,19 @@
-import { Hero } from '@/components/Hero';
-import { About } from '@/components/About';
-import { Programs } from '@/components/Programs';
-import { Gallery } from '@/components/Gallery';
-import { Testimonials } from '@/components/Testimonials';
-import { Admissions } from '@/components/Admissions';
-import { Contact } from '@/components/Contact';
-import { FAQ } from '@/components/FAQ';
-import { SocialLinks } from '@/components/SocialLinks';
-import { JournalTeaser } from '@/components/JournalTeaser';
+import { Hero } from '@/components/home/Hero';
+import { ProgramRows } from '@/components/home/ProgramRows';
+import { StatsBand } from '@/components/home/StatsBand';
+import { GalleryMarquee } from '@/components/home/GalleryMarquee';
+import { Quote } from '@/components/home/Quote';
+import { AdmissionsStrip } from '@/components/home/AdmissionsStrip';
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <About />
-      <Programs />
-      <Gallery />
-      <Testimonials />
-      <JournalTeaser />
-      <Admissions />
-      <Contact />
-      <SocialLinks />
-      <FAQ />
+      <ProgramRows />
+      <StatsBand />
+      <GalleryMarquee />
+      <Quote />
+      <AdmissionsStrip />
     </>
   );
 }

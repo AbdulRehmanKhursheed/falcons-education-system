@@ -1,70 +1,79 @@
 @import "tailwindcss";
 
 /* ── Design tokens ─────────────────────────────────────────────────────────
- * Falcons Education System — refined editorial Montessori brand system.
- * Surfaces: warm cream paper. Text: ink navy. Brand: refined blue.
- * Accent: muted warm gold (used sparingly).
+ * Falcons Education System — premium-playful system.
+ * Canvas: pure white. Text: ink navy. Accents: crest colors —
+ * sky (primary), sun yellow + flame crimson (small pops), deep navy
+ * for full-bleed dark sections. Gold lives only in the crest artwork.
  *
- * Legacy `falcon-*` token names are preserved so unrefactored components
- * keep rendering — values have been retuned to fit the warmer system.
- * New refactored components should prefer the semantic tokens below
- * (ink-*, paper-*, brand-*, accent-*, line-*).
+ * Legacy `falcon-*` and paper/brand/accent token names are preserved so
+ * not-yet-redesigned pages keep rendering — values retuned to this system.
  * ────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* — Semantic palette (preferred) — */
-  --color-ink:          #0F1F3A;   /* primary text, dark surfaces */
-  --color-ink-soft:     #2A3F60;   /* body */
-  --color-ink-muted:    #5B6F8D;   /* secondary */
-  --color-ink-faint:    #93A4BD;   /* tertiary, meta */
-  --color-line:         #E5DCC8;   /* warm hairline border */
-  --color-line-soft:    #EFE9DB;   /* very subtle border */
+  /* — Semantic palette — */
+  --color-ink:          #0A1F44;   /* headlines, primary text */
+  --color-ink-soft:     #36476A;   /* body */
+  --color-ink-muted:    #66748F;   /* secondary */
+  --color-ink-faint:    #9AA6BC;   /* tertiary, meta */
+  --color-line:         #E7EBF2;   /* cool hairline border */
+  --color-line-soft:    #F1F4F9;   /* very subtle border */
 
-  --color-paper:        #FAF7F1;   /* warm cream — primary surface */
-  --color-paper-warm:   #F3EEE3;   /* slightly deeper cream */
-  --color-paper-sand:   #ECE3CE;   /* sand */
+  --color-paper:        #FFFFFF;   /* pure white — primary canvas */
+  --color-paper-warm:   #F6F9FC;   /* cool off-white section tint */
+  --color-paper-sand:   #EAF6FD;   /* sky-tinted block */
   --color-paper-pure:   #FFFFFF;
 
-  --color-brand:        #163A75;   /* deep royal navy — matches shield */
-  --color-brand-dark:   #0B2756;
-  --color-brand-soft:   #E9EDF6;
-  --color-brand-tint:   #B6C3DC;
+  --color-navy:         #081A38;   /* full-bleed dark sections */
+  --color-navy-soft:    #12294F;   /* raised surfaces on navy */
 
-  --color-accent:       #C9A03B;   /* rich warm gold — matches laurel */
-  --color-accent-soft:  #E8D599;
+  --color-brand:        #1CA7E8;   /* crest sky blue — primary accent */
+  --color-brand-dark:   #0E7FBF;
+  --color-brand-soft:   #E3F4FD;
+  --color-brand-tint:   #A9DDF7;
+
+  --color-sun:          #FFC53D;   /* crest yellow — playful pop */
+  --color-sun-soft:     #FFEDBE;
+  --color-flame:        #E4405F;   /* crest crimson — rare, tiny pop */
+  --color-flame-soft:   #FBE3E9;
+
+  /* accent kept as alias of sun for legacy classes */
+  --color-accent:       #FFC53D;
+  --color-accent-soft:  #FFEDBE;
 
   /* — Legacy aliases (retuned values) — */
-  --color-falcon-sage:      #163A75;
-  --color-falcon-sageLight: #3D6CB0;
-  --color-falcon-sageDark:  #0B2756;
-  --color-falcon-cream:     #FAF7F1;
-  --color-falcon-warm:      #F3EEE3;
-  --color-falcon-sand:      #E5DCC8;
-  --color-falcon-earth:     #2A3F60;
-  --color-falcon-sky:       #E9EDF6;
-  --color-falcon-skyDark:   #B6C3DC;
+  --color-falcon-sage:      #1CA7E8;
+  --color-falcon-sageLight: #5BC2F0;
+  --color-falcon-sageDark:  #0E7FBF;
+  --color-falcon-cream:     #FFFFFF;
+  --color-falcon-warm:      #F6F9FC;
+  --color-falcon-sand:      #E7EBF2;
+  --color-falcon-earth:     #36476A;
+  --color-falcon-sky:       #EAF6FD;
+  --color-falcon-skyDark:   #A9DDF7;
 
   /* — Typography — */
-  --font-display: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
-  --font-body:    var(--font-jakarta), "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --font-body:    var(--font-manrope), "Manrope", system-ui, -apple-system, sans-serif;
   --font-mono:    ui-monospace, "SF Mono", Menlo, Monaco, monospace;
 
   /* — Breakpoints — */
   --breakpoint-xs: 375px;
 
-  /* — Radius — */
-  --radius-xs:  4px;
-  --radius-sm:  8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  20px;
-  --radius-2xl: 28px;
+  /* — Radius — friendly, generous — */
+  --radius-xs:  6px;
+  --radius-sm:  10px;
+  --radius-md:  14px;
+  --radius-lg:  18px;
+  --radius-xl:  24px;
+  --radius-2xl: 32px;
+  --radius-3xl: 40px;
 
-  /* — Shadow — soft, paper-like — */
-  --shadow-paper:  0 1px 2px rgba(15, 31, 58, 0.04), 0 2px 8px rgba(15, 31, 58, 0.04);
-  --shadow-card:   0 1px 2px rgba(15, 31, 58, 0.05), 0 8px 24px -8px rgba(15, 31, 58, 0.08);
-  --shadow-float:  0 4px 12px -2px rgba(15, 31, 58, 0.06), 0 16px 40px -8px rgba(15, 31, 58, 0.12);
-  --shadow-rise:   0 24px 60px -20px rgba(15, 31, 58, 0.18);
+  /* — Shadow — cool, airy — */
+  --shadow-paper:  0 1px 2px rgba(10, 31, 68, 0.04), 0 2px 10px rgba(10, 31, 68, 0.04);
+  --shadow-card:   0 1px 2px rgba(10, 31, 68, 0.05), 0 10px 28px -8px rgba(10, 31, 68, 0.10);
+  --shadow-float:  0 4px 14px -2px rgba(10, 31, 68, 0.08), 0 20px 48px -12px rgba(10, 31, 68, 0.16);
+  --shadow-rise:   0 28px 70px -24px rgba(10, 31, 68, 0.24);
 
   /* — Easing — */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -72,6 +81,9 @@
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */
+/* Layered so Tailwind utilities (text-white etc.) always win over these. */
+
+@layer base {
 
 html {
   scroll-behavior: smooth;
@@ -85,7 +97,6 @@ body {
   font-family: var(--font-body);
   background: var(--color-paper);
   color: var(--color-ink-soft);
-  font-feature-settings: "cv11", "ss01", "ss03";
   overflow-x: hidden;
 }
 
@@ -95,21 +106,21 @@ body {
   }
 }
 
-/* Display headings use Fraunces with optical sizing. */
+/* Display headings use Bricolage Grotesque — chunky, confident, tight. */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   color: var(--color-ink);
-  font-feature-settings: "ss01", "ss02", "calt";
   font-optical-sizing: auto;
+  font-weight: 700;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-/* Editorial tracking on big display sizes. */
-h1 { letter-spacing: -0.035em; }
+h1 { letter-spacing: -0.03em; }
 h2 { letter-spacing: -0.025em; }
 
 p, li, address {
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 ::selection {
@@ -144,6 +155,17 @@ select {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+} /* end @layer base */
+
 /* ── Utilities ─────────────────────────────────────────────────────────── */
 
 @utility tap-target {
@@ -158,17 +180,16 @@ select {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Eyebrow text — small caps, warm gold, used above section headings. */
+/* Kicker — small bold sky label above headings (replaces old gold eyebrow). */
 @utility eyebrow {
   font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--color-brand);
 }
 
-/* Hairline rule used to flank eyebrows / divide editorial blocks. */
+/* Hairline rule (legacy) */
 @utility rule {
   display: inline-block;
   width: 28px;
@@ -178,23 +199,22 @@ select {
   vertical-align: middle;
 }
 
-/* Subtle paper grain — applied to large surfaces for tactile warmth. */
+/* Legacy grain — now a no-op-ish subtle cool wash so old pages stay clean */
 @utility grain {
   position: relative;
   isolation: isolate;
 }
-@utility grain {
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    background-image:
-      radial-gradient(rgba(15, 31, 58, 0.022) 1px, transparent 1px);
-    background-size: 3px 3px;
-    mix-blend-mode: multiply;
+
+/* Marquee — continuous horizontal scroll strip (gallery). */
+@utility animate-marquee {
+  animation: marquee 42s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* ── Scrollbar (desktop only) ──────────────────────────────────────────── */

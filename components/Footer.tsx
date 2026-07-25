@@ -1,327 +1,116 @@
-import Image from "next/image";
-import Link from "next/link";
-import { MapPin, Phone, ArrowUpRight, Mail } from "lucide-react";
-import { SITE_CONFIG } from "@/lib/constants";
+import Image from 'next/image';
+import Link from 'next/link';
+import { MapPin, Phone, Mail } from 'lucide-react';
+import { SITE_CONFIG } from '@/lib/constants';
 
-const navLinks = [
-  { href: "/about", label: "About" },
-  { href: "/programs", label: "Programs" },
-  { href: "/admissions", label: "Admissions" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/blog", label: "Journal" },
-  { href: "/contact", label: "Contact" },
-  { href: "/careers", label: "Careers" },
-  { href: "/faq", label: "FAQ" },
+const NAV = [
+  { href: '/about', label: 'About' },
+  { href: '/programs', label: 'Programs' },
+  { href: '/admissions', label: 'Admissions' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/blog', label: 'Journal' },
+  { href: '/careers', label: 'Careers' },
+  { href: '/faq', label: 'FAQ' },
+  { href: '/contact', label: 'Contact' },
 ];
 
-const programs = [
-  { label: "Nursery (2.5 – 3.5)", href: "/programs#nursery" },
-  { label: "Montessori Level (3 – 6)", href: "/programs#montessori" },
-  { label: "Kindergarten (4 – 6)", href: "/programs#kg" },
-  { label: "Primary (Class 1 – 6)", href: "/programs#class-1-2" },
-  { label: "Evening Coaching", href: "/programs#evening-academy" },
-  { label: "Saturday Coaching", href: "/programs#saturday-coaching" },
-];
-
-/* Brand glyphs — lucide removed brand icons in v1, so we inline minimal marks. */
-
-function InstagramIcon({ className = "" }: { className?: string }) {
+function SocialIcon({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="tap-target rounded-full border border-line text-ink-muted transition-colors hover:border-brand hover:text-brand"
     >
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" />
-    </svg>
-  );
-}
-
-function FacebookIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
-  );
-}
-
-function TikTokIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-    </svg>
+      {children}
+    </a>
   );
 }
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="relative bg-ink text-paper/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-20 pb-10">
-        {/* ── Editorial banner row ──────────────────────────────────────── */}
-        <div className="grid lg:grid-cols-12 gap-10 pb-14 border-b border-paper/15">
-          <div className="lg:col-span-7">
-            <p className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-soft">
-              <span
-                className="inline-block h-px w-7 bg-accent-soft/60"
-                aria-hidden
-              />
-              Admissions Open · 2026
-            </p>
-            <h2
-              className="mt-6 font-display text-4xl sm:text-5xl lg:text-6xl text-paper leading-[1.05] tracking-[-0.025em]"
-              style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50' }}
-            >
-              Bring your child for a{" "}
-              <span
-                className="italic text-accent-soft"
-                style={{ fontVariationSettings: '"opsz" 144, "SOFT" 100' }}
-              >
-                quiet visit
+    <footer className="border-t border-line bg-paper-warm">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:px-8">
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-sm">
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image src="/logo.png" alt="" width={44} height={44} className="h-11 w-11 object-contain" />
+              <span className="font-display text-xl font-extrabold text-ink">
+                Falcons Education System
               </span>
-              .
-            </h2>
-            <p className="mt-6 max-w-lg text-paper/70 text-base sm:text-lg">
-              We&apos;d rather you see the rooms than read about them. Call
-              ahead and we&apos;ll walk you through the classrooms, programs,
-              and fee structure.
+            </Link>
+            <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+              School from Nursery to Class 6, plus evening &amp; Saturday coaching and computer
+              courses — on Kamalabad Road, Rawalpindi.
             </p>
+            <div className="mt-5 flex gap-2.5">
+              <SocialIcon href={SITE_CONFIG.social.instagram} label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <circle cx="12" cy="12" r="4.5" />
+                  <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+                </svg>
+              </SocialIcon>
+              <SocialIcon href={SITE_CONFIG.social.facebook} label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13.5 21v-7h2.6l.4-3h-3V9.1c0-.9.3-1.5 1.6-1.5H16.7V4.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4V11H8v3h2.5v7h3z" />
+                </svg>
+              </SocialIcon>
+              <SocialIcon href={SITE_CONFIG.social.tiktok} label="TikTok">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16.6 3c.4 2.1 1.8 3.6 3.9 3.9v3c-1.5 0-2.8-.5-3.9-1.3v6.6c0 3.4-2.7 5.8-6 5.8-3.2 0-5.6-2.4-5.6-5.5 0-3.2 2.6-5.6 6-5.5.3 0 .7 0 1 .1v3.1c-.3-.1-.7-.2-1-.2-1.6 0-2.9 1.2-2.9 2.6 0 1.5 1.2 2.5 2.6 2.5 1.6 0 2.9-1.2 2.9-2.9V3h3z" />
+                </svg>
+              </SocialIcon>
+            </div>
           </div>
 
-          <div className="lg:col-span-5 lg:pl-8 flex flex-col gap-4 lg:items-end justify-end">
-            <Link
-              href="/admissions"
-              className="group inline-flex items-center gap-2 rounded-full bg-paper text-ink px-7 py-4 text-[14px] font-semibold hover:bg-accent hover:text-ink transition-colors"
-            >
-              Begin application
-              <ArrowUpRight
-                className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                strokeWidth={2.25}
-              />
-            </Link>
+          <nav className="grid grid-cols-2 gap-x-12 gap-y-2.5" aria-label="Footer">
+            {NAV.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-[0.9375rem] font-semibold text-ink-soft transition-colors hover:text-brand"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
+          <address className="flex flex-col gap-3 not-italic">
             <a
-              href={SITE_CONFIG.whatsapp}
+              href={SITE_CONFIG.mapDirectUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[14px] text-paper/70 hover:text-paper transition-colors underline decoration-paper/30 underline-offset-[6px]"
+              className="flex items-start gap-2.5 text-[0.9375rem] text-ink-soft transition-colors hover:text-brand"
             >
-              Or send a WhatsApp message
-            </a>
-          </div>
-        </div>
-
-        {/* ── Columns ────────────────────────────────────────────────────── */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 py-14">
-          {/* Brand */}
-          <div className="col-span-2 lg:col-span-4">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-3 group"
-              aria-label="Falcons Education System — home"
-            >
-              <Image
-                src="/logo.png"
-                alt=""
-                width={36}
-                height={36}
-                className="shrink-0 object-contain"
-              />
-              <span className="flex flex-col leading-none">
-                <span
-                  className="font-display text-xl text-paper tracking-[-0.02em]"
-                  style={{ fontVariationSettings: '"opsz" 24' }}
-                >
-                  Falcons
-                </span>
-                <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/50">
-                  Education System
-                </span>
+              <MapPin size={18} className="mt-0.5 shrink-0 text-brand" />
+              <span>
+                Street 14, Sonari Bank, Kamalabad Road,
+                <br />
+                Near Bakra Mandi, Rawalpindi
               </span>
-            </Link>
-
-            <p className="mt-6 max-w-xs text-sm text-paper/60 leading-relaxed">
-              A Montessori-rooted school in Rawalpindi — nursery through Class
-              6, plus evening and Saturday coaching. Founded{" "}
-              {SITE_CONFIG.founded}.
-            </p>
-
-            <div className="mt-6 flex gap-2">
-              {[
-                {
-                  href: SITE_CONFIG.social.instagram,
-                  label: "Instagram",
-                  Icon: InstagramIcon,
-                },
-                {
-                  href: SITE_CONFIG.social.facebook,
-                  label: "Facebook",
-                  Icon: FacebookIcon,
-                },
-                {
-                  href: SITE_CONFIG.social.tiktok,
-                  label: "TikTok",
-                  Icon: TikTokIcon,
-                },
-              ].map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-paper/15 text-paper/70 hover:border-paper hover:text-paper transition-colors"
-                  aria-label={label}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Site map */}
-          <div className="lg:col-span-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-paper/40 mb-5">
-              The school
-            </p>
-            <ul className="space-y-3">
-              {navLinks.map(({ href, label }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className="text-[15px] text-paper/75 hover:text-paper transition-colors"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Programs */}
-          <div className="lg:col-span-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-paper/40 mb-5">
-              Programs
-            </p>
-            <ul className="space-y-3">
-              {programs.map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-[15px] text-paper/75 hover:text-paper transition-colors"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div className="col-span-2 lg:col-span-2">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-paper/40 mb-5">
-              Contact
-            </p>
-            <address className="not-italic text-[15px] text-paper/75 leading-relaxed">
-              <span className="block text-paper">Falcons Education System</span>
-              <span className="block mt-1">Street No 14, Sonari Bank</span>
-              <span className="block">Kamalabad Road</span>
-              <span className="block">Rawalpindi 46000</span>
-            </address>
-
-            <div className="mt-5 space-y-2.5 text-[14px]">
-              <a
-                href={`tel:${SITE_CONFIG.phone}`}
-                className="flex items-center gap-2 text-paper/75 hover:text-paper transition-colors"
-              >
-                <Phone
-                  className="h-3.5 w-3.5 text-accent-soft"
-                  strokeWidth={1.75}
-                />
-                <span className="font-mono tracking-tight">
-                  {SITE_CONFIG.phone}
-                </span>
-              </a>
-              <a
-                href={`tel:${SITE_CONFIG.phonePTCL}`}
-                className="flex items-center gap-2 text-paper/75 hover:text-paper transition-colors"
-              >
-                <Phone
-                  className="h-3.5 w-3.5 text-accent-soft"
-                  strokeWidth={1.75}
-                />
-                <span className="font-mono tracking-tight">
-                  {SITE_CONFIG.phonePTCL}
-                </span>
-              </a>
-              <a
-                href={`mailto:${SITE_CONFIG.email}`}
-                className="flex items-center gap-2 text-paper/75 hover:text-paper transition-colors break-all"
-              >
-                <Mail
-                  className="h-3.5 w-3.5 text-accent-soft"
-                  strokeWidth={1.75}
-                />
-                <span>{SITE_CONFIG.email}</span>
-              </a>
-              <a
-                href={SITE_CONFIG.mapDirectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-paper/75 hover:text-paper transition-colors"
-              >
-                <MapPin
-                  className="h-3.5 w-3.5 text-accent-soft"
-                  strokeWidth={1.75}
-                />
-                <span>Get directions</span>
-              </a>
-            </div>
-
-            <div className="mt-6 text-[11px] text-paper/45 leading-relaxed">
-              <p className="font-mono uppercase tracking-[0.18em] text-paper/40 mb-1">
-                Hours
-              </p>
-              <p>School · Mon – Fri · 8:00 – 14:00</p>
-              <p>Coaching · Mon – Fri · 15:30 – 19:30</p>
-              <p>Saturday · 09:00 – 13:00</p>
-            </div>
-          </div>
+            </a>
+            <a
+              href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}
+              className="flex items-center gap-2.5 text-[0.9375rem] text-ink-soft transition-colors hover:text-brand"
+            >
+              <Phone size={18} className="shrink-0 text-brand" />
+              {SITE_CONFIG.phone}
+            </a>
+            <a
+              href={`mailto:${SITE_CONFIG.email}`}
+              className="flex items-center gap-2.5 text-[0.9375rem] text-ink-soft transition-colors hover:text-brand"
+            >
+              <Mail size={18} className="shrink-0 text-brand" />
+              {SITE_CONFIG.email}
+            </a>
+          </address>
         </div>
 
-        {/* ── Baseline ────────────────────────────────────────────────────── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 border-t border-paper/15 text-[12px] text-paper/45">
-          <p>
-            © {currentYear} {SITE_CONFIG.name}. All rights reserved.
-          </p>
-          <p>
-            Made with❤️ by{" "}
-            <span className="text-paper/70">Abdul Rehman Khursheed</span>
-          </p>
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 text-sm text-ink-faint sm:flex-row">
+          <p>© {new Date().getFullYear()} Falcons Education System. All rights reserved.</p>
+          <p>Admissions open — Session 2026</p>
         </div>
       </div>
     </footer>

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { ArrowRight, Clock } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
   title: 'Programs & Courses — School Nursery to Class 6, Coaching & Evening Academy',
@@ -15,319 +17,242 @@ export const metadata: Metadata = {
   },
 };
 
-const montessoriPrograms = [
+type Chapter = {
+  id: string;
+  kicker: string;
+  kickerClass: string;
+  title: string;
+  overview: string;
+  details: string[];
+  schedule: string;
+  tone: 'sky' | 'sun' | 'navy';
+  imageAlt: string;
+};
+
+const CHAPTERS: Chapter[] = [
   {
     id: 'nursery',
-    title: 'Nursery Program',
-    age: '2.5 – 3.5 years',
-    icon: '🌱',
-    overview: 'A gentle introduction to the Montessori environment for the youngest learners.',
+    kicker: 'Ages 2.5 – 3.5',
+    kickerClass: 'text-brand',
+    title: 'Nursery',
+    overview:
+      'A gentle first step. Little ones learn to pour, button, share and speak up — real skills, built through play in a calm Montessori room.',
     details: [
-      'Practical life activities: pouring, spooning, buttoning, and self-care',
+      'Practical life: pouring, spooning, self-care',
       'Sensorial exploration with Montessori materials',
-      'Language development through stories, songs, and conversation',
-      'Social-emotional skills: sharing, turn-taking, and empathy',
-      'Fine and gross motor development through movement and outdoor play',
+      'Language through stories, songs and conversation',
+      'Sharing, turn-taking and empathy',
     ],
-    schedule: 'Monday – Friday, 8:00 AM – 12:00 PM',
+    schedule: 'Mon – Fri · 8:00 AM – 12:00 PM',
+    tone: 'sky',
+    imageAlt: 'Nursery children doing practical life activities',
   },
   {
     id: 'montessori',
+    kicker: 'Ages 3 – 6',
+    kickerClass: 'text-brand',
     title: 'Montessori Level',
-    age: '3 – 6 years',
-    icon: '📚',
-    overview: 'The full Montessori curriculum with prepared environments and self-directed learning.',
+    overview:
+      'The full Montessori curriculum — children choose real materials and teach their own hands: golden beads for math, sandpaper letters for words.',
     details: [
-      'Complete Montessori materials for all five areas of learning',
-      'Mathematics: number rods, spindle boxes, golden beads, operations',
-      'Language: sandpaper letters, movable alphabet, reading, writing',
-      'Cultural studies: geography, science, botany, history',
-      'Practical life and sensorial refinement at advanced levels',
+      'All five Montessori learning areas',
+      'Math: number rods, golden beads, operations',
+      'Language: movable alphabet, early reading & writing',
+      'Culture: geography, science, botany',
     ],
-    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+    schedule: 'Mon – Fri · 8:00 AM – 2:00 PM',
+    tone: 'sun',
+    imageAlt: 'Montessori classroom with children using golden bead materials',
   },
   {
     id: 'kg',
-    title: 'KG (Kindergarten)',
-    age: '4 – 6 years',
-    icon: '🎓',
-    overview: 'Bridges Montessori foundations to formal schooling and early academics.',
+    kicker: 'Ages 4 – 6',
+    kickerClass: 'text-flame',
+    title: 'Kindergarten',
+    overview:
+      'The bridge to formal school. Montessori confidence meets structure — reading fluently, writing sentences, working with numbers.',
     details: [
       'Reading fluency and comprehension',
-      'Writing: sentence construction, creative writing, handwriting',
-      'Number concepts, addition, subtraction, problem-solving',
-      'Basic science and environmental awareness',
-      'School readiness: following instructions, time management, group work',
+      'Handwriting and creative writing',
+      'Addition, subtraction, problem-solving',
+      'School readiness: instructions, groups, time',
     ],
-    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+    schedule: 'Mon – Fri · 8:00 AM – 2:00 PM',
+    tone: 'sky',
+    imageAlt: 'Kindergarten students reading together',
   },
-];
-
-const primaryPrograms = [
   {
     id: 'class-1-2',
-    title: 'Class 1 & 2',
-    age: '5 – 7 years',
-    icon: '✏️',
-    overview: 'Building strong foundations in core subjects through engaging, structured lessons.',
+    kicker: 'Class 1 & 2 · Ages 5 – 7',
+    kickerClass: 'text-brand',
+    title: 'Foundations',
+    overview:
+      'English, Urdu, Math, Islamic Studies and Science — taught in small classes where the teacher knows exactly where each child stands.',
     details: [
-      'English: phonics, reading fluency, creative writing',
-      'Urdu: reading, writing, and comprehension',
-      'Mathematics: number recognition, addition, subtraction, basic concepts',
-      'Islamic Studies & General Knowledge',
-      'Science: basic concepts through fun experiments',
+      'English phonics, reading and writing',
+      'Urdu reading and comprehension',
+      'Core math concepts',
+      'Science through simple experiments',
     ],
-    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+    schedule: 'Mon – Fri · 8:00 AM – 2:00 PM',
+    tone: 'sun',
+    imageAlt: 'Class 1 students writing at their desks',
   },
   {
     id: 'class-3-4',
-    title: 'Class 3 & 4',
-    age: '7 – 9 years',
-    icon: '🔬',
-    overview: 'Expanding knowledge and developing critical thinking through challenging, age-appropriate content.',
+    kicker: 'Class 3 & 4 · Ages 7 – 9',
+    kickerClass: 'text-brand',
+    title: 'Growing minds',
+    overview:
+      'The thinking years. Fractions and geometry, composition and grammar, Pakistan and the world — with problem-solving at the centre.',
     details: [
-      'English: comprehension, composition, grammar',
-      'Urdu: advanced reading, writing, and literature',
-      'Mathematics: fractions, geometry, problem-solving',
-      'Science: plants, animals, materials, the environment',
-      'Social Studies: Pakistan, world geography, history',
+      'English comprehension and composition',
+      'Math: fractions, geometry, word problems',
+      'Science: plants, animals, materials',
+      'Social studies: Pakistan and world geography',
     ],
-    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
+    schedule: 'Mon – Fri · 8:00 AM – 2:00 PM',
+    tone: 'navy',
+    imageAlt: 'Class 3 students doing a science experiment',
   },
   {
     id: 'class-5-6',
-    title: 'Class 5 & 6',
-    age: '9 – 12 years',
-    icon: '🏆',
-    overview: 'Preparing students for secondary education with a comprehensive, exam-focused curriculum.',
+    kicker: 'Class 5 & 6 · Ages 9 – 12',
+    kickerClass: 'text-flame',
+    title: 'Ready for what’s next',
+    overview:
+      'Secondary school preparation, done properly — algebra, the sciences, computer studies, and the exam habits that carry students forward.',
     details: [
-      'Advanced English and Urdu language skills',
-      'Mathematics: algebra, geometry, data handling',
-      'Science: physics, chemistry, biology fundamentals',
-      'Computer Studies: basic hardware, software, MS Office',
-      'Exam preparation, practice tests, and study skills',
+      'Advanced English and Urdu',
+      'Algebra, geometry, data handling',
+      'Physics, chemistry, biology fundamentals',
+      'Computer studies and exam practice',
     ],
-    schedule: 'Monday – Friday, 8:00 AM – 2:00 PM',
-  },
-];
-
-const additionalPrograms = [
-  {
-    id: 'saturday-coaching',
-    title: 'Saturday Coaching',
-    target: 'School-going children',
-    icon: '📝',
-    badge: 'NEW',
-    overview: 'Weekend coaching and tutoring for children who need extra academic support.',
-    details: [
-      'Core subject tutoring: English, Math, Science, Urdu',
-      'Exam preparation and practice tests',
-      'Guided homework completion',
-      'Reading and writing improvement',
-      'Small group sizes for individual attention',
-    ],
-    schedule: 'Every Saturday, 9:00 AM – 1:00 PM',
+    schedule: 'Mon – Fri · 8:00 AM – 2:00 PM',
+    tone: 'sky',
+    imageAlt: 'Class 6 students working in the computer lab',
   },
   {
     id: 'evening-academy',
+    kicker: 'Evening · school-going children',
+    kickerClass: 'text-brand-dark',
     title: 'Evening Academy',
-    target: 'School-going children',
-    icon: '🌙',
-    badge: 'NEW',
-    overview: 'After-school evening program for homework help, academic support, and skill building.',
+    overview:
+      'After school, before dinner — supervised homework, subject reinforcement and reading practice in a safe place until pickup.',
     details: [
       'Supervised homework completion',
-      'Subject reinforcement and extra practice',
+      'Extra practice in weak subjects',
       'Daily reading and writing sessions',
-      'Creative activities: art, craft, and projects',
-      'Safe, supervised environment until parent pickup',
+      'Art, craft and project time',
     ],
-    schedule: 'Monday – Friday, afternoon/evening sessions',
+    schedule: 'Mon – Fri · afternoon & evening sessions',
+    tone: 'navy',
+    imageAlt: 'Evening academy students getting homework help',
+  },
+  {
+    id: 'saturday-coaching',
+    kicker: 'Saturday · school-going children',
+    kickerClass: 'text-brand-dark',
+    title: 'Saturday Coaching',
+    overview:
+      'One focused morning a week for children from any school who need to catch up — or want to get ahead — in the core subjects.',
+    details: [
+      'English, Math, Science and Urdu tutoring',
+      'Exam preparation and practice tests',
+      'Small groups, individual attention',
+      'Reading and writing improvement',
+    ],
+    schedule: 'Every Saturday · 9:00 AM – 1:00 PM',
+    tone: 'sun',
+    imageAlt: 'Saturday coaching class in session',
   },
 ];
 
 export default function ProgramsPage() {
+  const waHref = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+ask+about+programs+at+Falcons+Education+System.`;
+
   return (
     <>
-      {/* Hero */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-falcon-cream to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-falcon-sage font-semibold uppercase tracking-wider text-sm mb-3">Our Programs</p>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl text-falcon-sageDark mb-6">
-            Programs & Courses — Nursery to Class 6
-          </h1>
-          <p className="text-falcon-earth text-lg max-w-2xl mx-auto">
-            Complete school education from Nursery to Class 6, plus evening coaching, Saturday
-            classes, and Computer Courses — all under one roof in Rawalpindi.
-          </p>
+      <section className="bg-paper pb-6 pt-14 md:pt-24">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+              Every age. <span className="text-brand">Every pace.</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+              From a two-and-a-half-year-old&apos;s first morning to a Class 6 student&apos;s last
+              exam — eight programs under one roof on Kamalabad Road.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
-      {/* Montessori Programs */}
-      <section className="py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-4 text-center">
-            Early Years &amp; Montessori Education
-          </h2>
-          <p className="text-falcon-earth text-center max-w-2xl mx-auto mb-12">
-            Authentic Montessori programs for children aged 2.5 to 6 years — designed to nurture
-            curiosity, independence, and a lifelong love of learning.
-          </p>
-
-          <div className="space-y-12">
-            {montessoriPrograms.map(({ id, title, age, icon, overview, details, schedule }) => (
-              <article key={id} id={id} className="bg-falcon-cream rounded-3xl p-8 border border-falcon-sand">
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-4xl" aria-hidden>{icon}</span>
-                  <div>
-                    <h3 className="font-display font-bold text-2xl text-falcon-sageDark">{title}</h3>
-                    <span className="text-falcon-sage font-semibold text-sm">Ages {age}</span>
-                  </div>
-                </div>
-                <p className="text-falcon-earth mb-6 text-lg">{overview}</p>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-bold text-falcon-sageDark mb-3">What Your Child Will Learn</h4>
-                    <ul className="space-y-2">
-                      {details.map((d) => (
-                        <li key={d} className="flex items-start gap-2 text-sm text-falcon-earth">
-                          <span className="text-falcon-sage mt-1">✓</span>
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="bg-white rounded-xl p-5 border border-falcon-sand">
-                    <h4 className="font-bold text-falcon-sageDark mb-2">Schedule</h4>
-                    <p className="text-falcon-earth text-sm mb-4">{schedule}</p>
-                    <Link
-                      href="/admissions"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-falcon-sage text-white rounded-xl font-bold text-sm hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
-                    >
-                      <span aria-hidden>📋</span> Apply Now
-                    </Link>
-                  </div>
+      <section className="bg-paper py-14 md:py-20" aria-label="All programs">
+        <div className="mx-auto flex max-w-6xl flex-col gap-20 px-5 md:gap-28 md:px-8">
+          {CHAPTERS.map((c, i) => (
+            <FadeIn key={c.id}>
+              <article
+                id={c.id}
+                className={`grid scroll-mt-28 items-center gap-8 md:grid-cols-2 md:gap-14 ${
+                  i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''
+                }`}
+              >
+                <Photo
+                  alt={c.imageAlt}
+                  label="Photo coming soon"
+                  tone={c.tone}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="aspect-[4/3] w-full rounded-3xl shadow-card"
+                />
+                <div>
+                  <p className={`text-sm font-extrabold ${c.kickerClass}`}>{c.kicker}</p>
+                  <h2 className="mt-2 text-3xl font-extrabold text-ink md:text-4xl">{c.title}</h2>
+                  <p className="mt-4 max-w-md text-[1.0625rem] leading-relaxed text-ink-muted">
+                    {c.overview}
+                  </p>
+                  <Stagger className="mt-5 flex flex-col gap-2" gap={0.05}>
+                    {c.details.map((d) => (
+                      <StaggerItem key={d} className="flex items-start gap-2.5 text-[0.9375rem] text-ink-soft">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                        {d}
+                      </StaggerItem>
+                    ))}
+                  </Stagger>
+                  <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-paper-warm px-4 py-2 text-sm font-bold text-ink-soft">
+                    <Clock size={15} className="text-brand" />
+                    {c.schedule}
+                  </p>
                 </div>
               </article>
-            ))}
-          </div>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
-      {/* Primary School Classes 1–6 */}
-      <section className="py-16 bg-falcon-cream">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-4 text-center">
-            Primary School — Class 1 to Class 6
-          </h2>
-          <p className="text-falcon-earth text-center max-w-2xl mx-auto mb-12">
-            A structured, national curriculum primary school — giving children a strong academic
-            foundation from Class 1 all the way through Class 6.
-          </p>
-
-          <div className="space-y-12">
-            {primaryPrograms.map(({ id, title, age, icon, overview, details, schedule }) => (
-              <article key={id} id={id} className="bg-white rounded-3xl p-8 border border-falcon-sand">
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-4xl" aria-hidden>{icon}</span>
-                  <div>
-                    <h3 className="font-display font-bold text-2xl text-falcon-sageDark">{title}</h3>
-                    <span className="text-falcon-sage font-semibold text-sm">Ages {age}</span>
-                  </div>
-                </div>
-                <p className="text-falcon-earth mb-6 text-lg">{overview}</p>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-bold text-falcon-sageDark mb-3">Subjects Covered</h4>
-                    <ul className="space-y-2">
-                      {details.map((d) => (
-                        <li key={d} className="flex items-start gap-2 text-sm text-falcon-earth">
-                          <span className="text-falcon-sage mt-1">✓</span>
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="bg-falcon-cream rounded-xl p-5 border border-falcon-sand">
-                    <h4 className="font-bold text-falcon-sageDark mb-2">Schedule</h4>
-                    <p className="text-falcon-earth text-sm mb-4">{schedule}</p>
-                    <Link
-                      href="/admissions"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-falcon-sage text-white rounded-xl font-bold text-sm hover:bg-falcon-sageDark transition-colors shadow-sm tap-target"
-                    >
-                      <span aria-hidden>📋</span> Apply Now
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Programs */}
-      <section className="py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display font-bold text-3xl text-falcon-sageDark mb-4 text-center">
-            Evening Coaching &amp; Academic Support
-          </h2>
-          <p className="text-falcon-earth text-center max-w-2xl mx-auto mb-12">
-            Beyond school hours — we support children with expert evening coaching, weekend
-            tutoring, and computer courses.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {additionalPrograms.map(({ id, title, target, icon, badge, overview, details, schedule }) => (
-              <article key={id} id={id} className="bg-white rounded-3xl p-8 border border-falcon-sand">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-4xl" aria-hidden>{icon}</span>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-display font-bold text-xl text-falcon-sageDark">{title}</h3>
-                      <span className="px-2 py-0.5 bg-falcon-sage/15 text-falcon-sage rounded-full text-xs font-bold">{badge}</span>
-                    </div>
-                    <span className="text-falcon-earth/70 text-sm">{target}</span>
-                  </div>
-                </div>
-                <p className="text-falcon-earth mb-5">{overview}</p>
-                <ul className="space-y-2 mb-5">
-                  {details.map((d) => (
-                    <li key={d} className="flex items-start gap-2 text-sm text-falcon-earth">
-                      <span className="text-falcon-sage mt-1">✓</span>
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex items-center justify-between pt-4 border-t border-falcon-sand">
-                  <p className="text-sm text-falcon-earth/70">{schedule}</p>
-                  <Link
-                    href="/admissions"
-                    className="text-falcon-sage font-bold text-sm hover:text-falcon-sageDark transition-colors"
-                  >
-                    Enroll →
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-falcon-sageDark text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display font-bold text-3xl mb-4">
-            Ready to Enroll Your Child?
-          </h2>
-          <p className="text-white/80 text-lg mb-8">
-            Admissions open for all programs — limited seats for 2026. Apply early to secure your spot.
-          </p>
-          <Link
-            href="/admissions"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-falcon-sageDark rounded-2xl font-bold text-lg hover:bg-falcon-cream transition-all shadow-lg tap-target"
-          >
-            <span aria-hidden>🎓</span> Apply for Admission
-          </Link>
+      <section className="bg-paper pb-20 md:pb-28">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <FadeIn>
+            <div className="rounded-3xl bg-navy px-7 py-12 text-center md:px-16 md:py-14">
+              <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+                Not sure which program fits?
+              </h2>
+              <p className="mx-auto mt-3 max-w-lg text-white/65">
+                Tell us your child&apos;s age and school history — we&apos;ll suggest the right
+                starting point.
+              </p>
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-7 inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-dark"
+              >
+                Ask on WhatsApp
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </>
