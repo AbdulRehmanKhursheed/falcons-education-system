@@ -8,6 +8,7 @@ const NAV = [
   { href: '/programs', label: 'Programs' },
   { href: '/coaching', label: 'Coaching Academy' },
   { href: '/admissions', label: 'Admissions' },
+  { href: '/syllabus', label: 'Syllabus & Date Sheets' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/blog', label: 'Blogs' },
   { href: '/careers', label: 'Careers' },

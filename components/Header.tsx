@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: '/programs', label: 'Programs' },
   { href: '/coaching', label: 'Coaching' },
   { href: '/admissions', label: 'Admissions' },
+  { href: '/syllabus', label: 'Syllabus' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/blog', label: 'Blogs' },
   { href: '/contact', label: 'Contact' },
@@ -56,14 +57,14 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Main">
           {NAV_LINKS.map((link) => {
             const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-full px-4 py-2 text-[0.9375rem] font-semibold transition-colors ${
+                className={`rounded-full px-3 py-2 text-[0.875rem] font-semibold transition-colors ${
                   active
                     ? 'bg-brand-soft text-brand-dark'
                     : 'text-ink-soft hover:bg-paper-warm hover:text-ink'
@@ -85,7 +86,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="tap-target rounded-full text-ink lg:hidden"
+            className="tap-target rounded-full text-ink xl:hidden"
             aria-expanded={open}
             aria-label={open ? 'Close menu' : 'Open menu'}
           >
@@ -101,7 +102,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-line bg-white/95 backdrop-blur-xl lg:hidden"
+            className="border-t border-line bg-white/95 backdrop-blur-xl xl:hidden"
             aria-label="Mobile"
           >
             <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4">

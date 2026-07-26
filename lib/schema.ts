@@ -247,6 +247,12 @@ export const breadcrumbSchema = {
     },
     {
       "@type": "ListItem",
+      position: 9,
+      name: "Syllabus & Date Sheets",
+      item: `${BASE_URL}/syllabus`,
+    },
+    {
+      "@type": "ListItem",
       position: 4,
       name: "Admissions",
       item: `${BASE_URL}/admissions`,
