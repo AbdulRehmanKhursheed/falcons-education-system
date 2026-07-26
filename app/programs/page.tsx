@@ -95,7 +95,7 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: 'class-1-2',
-    kicker: 'Class 1 & 2 · Ages 5 – 7',
+    kicker: 'Class 1 & 2 · Ages 6 – 7',
     kickerClass: 'text-brand',
     title: 'Foundations',
     overview:
@@ -163,18 +163,18 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: 'saturday-coaching',
-    kicker: 'Within academy hours · school-going children',
+    kicker: 'Separate short courses · own admission & fee',
     kickerClass: 'text-brand-dark',
     title: 'Spoken English & Computer Courses',
     overview:
-      'Confidence with words and with keyboards — speaking practice that starts with conversation, and computer classes that start with real hands-on use.',
+      'Two standalone short courses, separate from the Evening Coaching Academy — a child can join a course, the academy, or both. Speaking practice that starts with conversation, and computer classes that start with real hands-on use.',
     details: [
       'Spoken English: conversation and confidence',
       'Basic computer knowledge and typing',
       'MS Word and internet fundamentals',
-      'Small groups, individual attention',
+      'Own batches — separate from academy coaching',
     ],
-    schedule: 'Within evening academy hours · Mon – Sat',
+    schedule: 'Separate batches · timings on the Coaching page',
     tone: 'sun',
     imageAlt: 'Students in a spoken English and computer class',
   },

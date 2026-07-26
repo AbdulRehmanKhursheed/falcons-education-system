@@ -31,8 +31,8 @@ export const COACHING = {
     },
   ],
 
-  // Courses currently offered / upcoming
-  courses: [
+  // THE ACADEMY — the main evening coaching plan (one plan, one fee)
+  academy: [
     {
       name: 'Evening Coaching — Play Group to Matric',
       status: 'open' as const,
@@ -40,17 +40,24 @@ export const COACHING = {
       description:
         'Homework help, subject coaching and exam preparation for children from any school — small groups, arranged by level.',
     },
+  ],
+
+  // SHORT COURSES — separate from the academy: apni alag admission,
+  // apna alag plan aur fee. Batch timings yahan update karo.
+  shortCoursesNote:
+    'These are separate courses with their own admission and fee — not part of the Evening Coaching plan. A child can join a course, the academy, or both.',
+  shortCourses: [
     {
       name: 'Spoken English',
       status: 'open' as const,
-      timing: 'Within evening academy hours',
+      timing: 'Separate batches — current timings on WhatsApp',
       description:
         'Speaking practice and confidence-building for school-age children — conversation first, grammar through use.',
     },
     {
-      name: 'Computer Courses for Kids',
+      name: 'Computer Course for Kids',
       status: 'open' as const,
-      timing: 'Within evening academy hours',
+      timing: 'Separate batches — current timings on WhatsApp',
       description:
         'Basic computer knowledge, typing, MS Word and internet fundamentals for young students.',
     },

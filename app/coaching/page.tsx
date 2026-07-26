@@ -89,11 +89,44 @@ export default function CoachingPage() {
           <div className="md:col-span-2">
             <FadeIn>
               <h2 id="courses-heading" className="text-2xl font-extrabold text-ink md:text-3xl">
-                Courses right now
+                The Academy
               </h2>
             </FadeIn>
             <Stagger className="mt-6 flex flex-col gap-4">
-              {COACHING.courses.map((c) => {
+              {COACHING.academy.map((c) => {
+                const status = STATUS_STYLES[c.status];
+                return (
+                  <StaggerItem key={c.name}>
+                    <article className="rounded-2xl border-2 border-brand-tint bg-white p-6 shadow-paper">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h3 className="text-lg font-extrabold text-ink">{c.name}</h3>
+                        <span className={`rounded-full px-3 py-1 text-xs font-extrabold ${status.classes}`}>
+                          {status.label}
+                        </span>
+                      </div>
+                      <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-muted">
+                        {c.description}
+                      </p>
+                      <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-ink-soft">
+                        <Clock size={15} className="text-brand" />
+                        {c.timing}
+                      </p>
+                    </article>
+                  </StaggerItem>
+                );
+              })}
+            </Stagger>
+
+            <FadeIn>
+              <h2 className="mt-12 text-2xl font-extrabold text-ink md:text-3xl">
+                Short courses <span className="text-brand">— separate from the academy</span>
+              </h2>
+              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-muted">
+                {COACHING.shortCoursesNote}
+              </p>
+            </FadeIn>
+            <Stagger className="mt-6 flex flex-col gap-4">
+              {COACHING.shortCourses.map((c) => {
                 const status = STATUS_STYLES[c.status];
                 return (
                   <StaggerItem key={c.name}>
