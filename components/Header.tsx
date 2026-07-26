@@ -12,9 +12,8 @@ const NAV_LINKS = [
   { href: '/programs', label: 'Programs' },
   { href: '/coaching', label: 'Coaching' },
   { href: '/admissions', label: 'Admissions' },
-  { href: '/syllabus', label: 'Syllabus' },
+  { href: '/syllabus', label: 'Downloads' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/blog', label: 'Blogs' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -52,7 +51,7 @@ export function Header() {
             height={40}
             className="h-9 w-9 object-contain md:h-10 md:w-10"
           />
-          <span className="font-display text-lg font-extrabold tracking-tight text-ink lg:text-base xl:text-xl">
+          <span className="font-display text-lg font-extrabold tracking-tight text-ink lg:text-[1.0625rem] xl:text-xl">
             Falcons Education System
           </span>
         </Link>
@@ -64,7 +63,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-full px-2.5 py-2 text-[0.8125rem] font-semibold transition-colors xl:px-3.5 xl:text-[0.9375rem] ${
+                className={`rounded-full px-3 py-2 text-[0.875rem] font-semibold transition-colors xl:px-4 xl:text-[0.9375rem] ${
                   active
                     ? 'bg-brand-soft text-brand-dark'
                     : 'text-ink-soft hover:bg-paper-warm hover:text-ink'

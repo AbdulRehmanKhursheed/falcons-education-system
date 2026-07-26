@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { MessageCircle, ArrowRight, Paperclip } from 'lucide-react';
+import { MessageCircle, ArrowRight, Paperclip, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import { SITE_CONFIG } from '@/lib/constants';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
@@ -67,6 +67,7 @@ const PROGRAM_LIST = [
 
 export default function AdmissionsPage() {
   const waHref = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
+  const feeWaHref = `${SITE_CONFIG.whatsapp}?text=Hi%2C+could+you+please+share+the+fee+structure%3F+My+child+is+going+into+class%3A+`;
 
   return (
     <>
@@ -251,10 +252,31 @@ export default function AdmissionsPage() {
                     </li>
                   ))}
                 </ul>
-                <p className="mt-5 text-sm text-ink-faint">
-                  The complete fee structure is shared in writing — on WhatsApp or at the
-                  school, before admission.
+              </div>
+            </FadeIn>
+
+            {/* Fees is one of the two things parents look for most, so it gets
+                its own card instead of a footnote. */}
+            <FadeIn delay={0.06}>
+              <div className="mt-6 rounded-lg border border-line bg-brand-soft p-7">
+                <h3 className="flex items-center gap-2 text-lg font-extrabold text-ink">
+                  <Wallet size={19} className="text-brand-dark" />
+                  What about the fees?
+                </h3>
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
+                  Fees depend on the class. We send you the complete structure in writing —
+                  admission fee, monthly fee and yearly charges together — before you enrol,
+                  so nothing surprises you later.
                 </p>
+                <a
+                  href={feeWaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-dark hover:underline"
+                >
+                  Ask for the fee structure
+                  <ArrowRight size={15} />
+                </a>
               </div>
             </FadeIn>
 
