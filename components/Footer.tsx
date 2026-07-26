@@ -9,7 +9,7 @@ const NAV = [
   { href: '/coaching', label: 'Coaching Academy' },
   { href: '/admissions', label: 'Admissions' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/blog', label: 'Journal' },
+  { href: '/blog', label: 'Blogs' },
   { href: '/careers', label: 'Careers' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },

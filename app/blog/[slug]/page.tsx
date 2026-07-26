@@ -80,7 +80,7 @@ export default async function BlogArticlePage({ params }: Props) {
           <nav className="flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] font-semibold text-ink-faint" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-ink transition-colors">Home</Link>
             <span aria-hidden>·</span>
-            <Link href="/blog" className="hover:text-ink transition-colors">Journal</Link>
+            <Link href="/blog" className="hover:text-ink transition-colors">Blogs</Link>
             <span aria-hidden>·</span>
             <span className="text-accent">{article.category}</span>
           </nav>

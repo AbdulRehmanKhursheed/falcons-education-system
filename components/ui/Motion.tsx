@@ -33,7 +33,9 @@ export function FadeIn({ children, delay = 0, className, once = true }: FadeInPr
       variants={riseVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.2 }}
+      /* amount: 'some' — a fraction would never be met by very tall
+         containers (e.g. the blog list), leaving them stuck at opacity 0 */
+      viewport={{ once, amount: 'some', margin: '0px 0px -80px 0px' }}
       transition={{ delay, duration: 0.5, ease: RISE_EASE }}
     >
       {children}
@@ -54,7 +56,7 @@ export function Stagger({ children, className, gap = 0.06, once = true }: Stagge
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.15 }}
+      viewport={{ once, amount: 'some', margin: '0px 0px -80px 0px' }}
       variants={{
         hidden: {},
         visible: { transition: { staggerChildren: gap } },

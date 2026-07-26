@@ -73,8 +73,8 @@ export function AdmissionsStrip() {
               Seats for 2026 are <span className="text-sun">filling up</span>
             </h3>
             <p className="relative mx-auto mt-4 max-w-xl text-white/65">
-              One message is all it takes. Ask anything — fees, timings, syllabus — and book a
-              visit when you&apos;re ready.
+              Just send one message. Ask us anything — fees, timings, subjects — and visit
+              whenever it suits you.
             </p>
             <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3.5">
               <a

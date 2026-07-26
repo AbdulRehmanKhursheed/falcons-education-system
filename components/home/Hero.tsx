@@ -74,8 +74,8 @@ export function Hero() {
           {...rise(0.2)}
           className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl"
         >
-          A school in Rawalpindi for Play Group to Class 6 — with Montessori early years and an
-          evening coaching academy up to Matric.
+          A school in Rawalpindi for Play Group to Class 6, with Montessori early years and an
+          evening coaching academy for students up to Matric.
         </motion.p>
 
         <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap items-center justify-center gap-3.5">

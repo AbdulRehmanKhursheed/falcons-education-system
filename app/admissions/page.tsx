@@ -24,45 +24,45 @@ const VISIT_DAY = [
   {
     marker: 'Step one',
     title: 'You send one message',
-    body: 'WhatsApp us your child’s name and class. We reply the same day and tell you exactly what to bring — no guesswork, no extra trips.',
+    body: 'Send us your child’s name and class on WhatsApp. We reply the same day and tell you exactly what to bring.',
   },
   {
     marker: 'Visit day',
     title: 'You walk in, we walk you through',
-    body: 'Any working morning. See the classrooms with your own eyes, meet the teachers your child will spend the day with, and ask the questions you really want to ask.',
+    body: 'Come any working morning. See the classrooms, meet the teachers, and ask us anything you want.',
   },
   {
     marker: 'The test',
     title: 'A short entry test — placement, not pressure',
-    body: 'Age-appropriate and brief, in a calm room. It doesn’t decide if your child is “good enough” — it tells us which class they’ll shine in and where they need our help.',
+    body: 'A short, easy test for your child’s age, in a quiet room. It is not to pass or fail anyone — it helps us pick the right class and see where your child needs help.',
   },
   {
     marker: 'The interview',
     title: 'We meet your child, properly',
-    body: 'A teacher sits with your child, one-on-one. Confidence, curiosity, temperament — the things a test can’t measure but a good teacher can see in ten minutes.',
+    body: 'A teacher sits with your child alone for a few minutes — to see how confident they are, what they enjoy, and how they settle in.',
   },
   {
     marker: 'Same day',
     title: 'Seat confirmed — and a little welcome',
-    body: 'Test cleared? A short form, your documents, and it’s done. And because first days should feel special, every new Falcon goes home with a small welcome gift — candies and a few surprises from us.',
+    body: 'After the test, you fill a short form and hand in the documents — and the seat is confirmed. Every new student also gets a small welcome gift with candies from us.',
   },
 ];
 
 const DOCUMENTS = [
   'Child’s B-Form (birth registration)',
   'Parent/guardian CNIC copy',
-  '2 passport-size photographs',
+  '4 passport-size photographs',
   'Previous school report card (Class 1 onwards)',
 ];
 
 const PROGRAM_LIST = [
   { name: 'Play Group · Nursery · KG', age: '3 – 6 yrs' },
-  { name: 'Class 1 & 2', age: '5 – 7 yrs' },
+  { name: 'Class 1 & 2', age: '6 – 7 yrs' },
   { name: 'Class 3 & 4', age: '7 – 9 yrs' },
   { name: 'Class 5 & 6', age: '9 – 12 yrs' },
   { name: 'Evening Coaching Academy', age: 'Play Group – Matric' },
-  { name: 'Spoken English', age: 'School-going' },
-  { name: 'Computer Courses', age: 'Young students' },
+  { name: 'Spoken English', age: 'Anyone' },
+  { name: 'Computer Courses', age: 'Anyone' },
 ];
 
 export default function AdmissionsPage() {
@@ -87,8 +87,8 @@ export default function AdmissionsPage() {
             </FadeIn>
             <FadeIn delay={0.16}>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted md:text-xl">
-                The classes your child will love are the ones that fill first. One WhatsApp
-                message today, one visit this week — and the seat is theirs.
+                Classes fill up quickly. Send us one WhatsApp message today, visit us this
+                week, and your child&apos;s seat is booked.
               </p>
             </FadeIn>
             <FadeIn delay={0.24}>
@@ -128,7 +128,7 @@ export default function AdmissionsPage() {
                 <div className="flex items-baseline gap-2">
                   <dt className="shrink-0 font-bold text-ink-muted">Student:</dt>
                   <dd className="flex-1 border-b border-dotted border-ink-faint/60 font-display text-brand-dark">
-                    &nbsp;your champ&apos;s name here
+                    &nbsp;your child&apos;s name
                   </dd>
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -211,10 +211,10 @@ export default function AdmissionsPage() {
               A sweet start to <span className="text-brand">day one</span> 🎁
             </h2>
             <p className="mt-4 max-w-md leading-relaxed text-ink-muted">
-              The moment admission is complete, every new Falcon receives a small welcome
-              gift — candies and a few little surprises — and a photo moment with our New
-              Admission frame. A small gesture, but it turns a child&apos;s first day into a
-              memory, and a first friendship with the school.
+              As soon as admission is complete, every new student gets a small welcome gift
+              with candies, and a photo with our New Admission frame. It is a small thing,
+              but it makes the first day happy — and that is how a child starts to love
+              school.
             </p>
           </FadeIn>
         </div>
@@ -228,8 +228,8 @@ export default function AdmissionsPage() {
               Send the first message <span className="text-brand">today</span>
             </h2>
             <p className="mt-3 max-w-md text-ink-muted">
-              Fill this in and it opens WhatsApp with your details ready to send — nothing is
-              stored on the website.
+              Fill this in and WhatsApp will open with your details ready to send. Nothing is
+              saved on the website.
             </p>
             <div className="mt-8">
               <InquiryForm />
@@ -253,7 +253,7 @@ export default function AdmissionsPage() {
                 </ul>
                 <p className="mt-5 text-sm text-ink-faint">
                   The complete fee structure is shared in writing — on WhatsApp or at the
-                  school, before admission. No surprises in August.
+                  school, before admission.
                 </p>
               </div>
             </FadeIn>
@@ -288,11 +288,11 @@ export default function AdmissionsPage() {
           <FadeIn>
             <div className="rounded-3xl bg-navy px-7 py-12 text-center md:px-16 md:py-14">
               <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                Ten years from now, this was <span className="text-sun">the week it started</span>
+                Still have <span className="text-sun">questions?</span>
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-white/65">
-                Call {SITE_CONFIG.phone} or {SITE_CONFIG.phonePTCL} — or just walk in any working
-                morning. The tea is on us.
+                Call {SITE_CONFIG.phone} or {SITE_CONFIG.phonePTCL}, or simply walk in any working
+                morning. We are happy to show you around.
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5">
                 <a

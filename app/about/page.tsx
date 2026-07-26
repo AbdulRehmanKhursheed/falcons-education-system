@@ -32,12 +32,12 @@ const VALUES = [
   {
     icon: Sprout,
     title: "Child-centered learning",
-    text: "Every child learns at their own pace through hands-on exploration, not one-speed lectures.",
+    text: "Every child learns at their own speed, by doing things with their hands — not by sitting through one-speed lectures.",
   },
   {
     icon: Heart,
     title: "Love & respect",
-    text: "Warmth, patience and genuine care — children learn best where they feel safe being themselves.",
+    text: "Children learn best when they feel safe. Our teachers are warm, patient and genuinely caring.",
   },
   {
     icon: Users,
@@ -152,20 +152,20 @@ export default function AboutPage() {
               <div className="mt-6 space-y-4 leading-relaxed text-ink-soft">
                 <p>Dear parents,</p>
                 <p>
-                  Every morning I stand at the gate and watch the children walk in — some
-                  running, some still rubbing their eyes. My promise to their parents is
-                  simple: by the time your child leaves this gate in the afternoon, someone
-                  here will have noticed them. What they did well today. What they found
-                  hard. Who they laughed with.
+                  Every morning I stand at the gate and watch the children come in — some
+                  running, some still sleepy. My promise to every parent is simple: before
+                  your child goes home in the afternoon, a teacher here will have really
+                  noticed them — what they did well, what they found hard, and who they
+                  played with.
                 </p>
                 <p>
-                  We are not the biggest school in Rawalpindi, and we don&apos;t want to be.
-                  We want to be the school where the teacher calls you before you have to
-                  call her.
+                  We are not the biggest school in Rawalpindi, and we do not want to be. We
+                  want to be the school where the teacher calls you first, before you have
+                  to call her.
                 </p>
                 <p>
-                  Come visit us. See the classrooms while they&apos;re working, not after
-                  they&apos;ve been arranged for guests. Then decide.
+                  Please come and visit. See our classrooms during a normal working day, not
+                  after they have been tidied up for guests. Then decide.
                 </p>
               </div>
               <p className="mt-8 font-display text-xl font-bold text-ink">

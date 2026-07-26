@@ -51,8 +51,8 @@ export default function CoachingPage() {
           </FadeIn>
           <FadeIn delay={0.16}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              Evening coaching for children from <strong>any school</strong> — Play Group to
-              Matric. Timings, courses, admissions and every update, all on this one page.
+              Evening coaching for students of <strong>any school</strong>, from Play Group to
+              Matric. Timings, courses, admissions and all our updates are on this one page.
             </p>
           </FadeIn>
         </div>
@@ -256,8 +256,8 @@ export default function CoachingPage() {
                   Ask about your child&apos;s class
                 </h2>
                 <p className="mt-2 max-w-md text-white/65">
-                  Tell us the class and school — we&apos;ll suggest the right group and share the
-                  fee the same day.
+                  Tell us your child&apos;s class and school. We will suggest the right group and
+                  share the fee the same day.
                 </p>
               </div>
               <a

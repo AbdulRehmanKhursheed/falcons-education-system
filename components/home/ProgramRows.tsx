@@ -21,7 +21,7 @@ const PROGRAMS: ProgramRow[] = [
     kicker: "Ages 3 - 6",
     kickerColor: "text-brand",
     title: "Montessori early years",
-    body: "Children learn by doing — practical life, sensorial materials, and language in a calm, prepared environment that lets each child move at their own pace.",
+    body: "Children learn by doing. Real Montessori materials, a calm classroom, and time for each child to move at their own speed.",
     src: "/images/montessori.jpg",
     imageAlt:
       "Child working with Montessori golden bead materials while a teacher guides her hands",
@@ -43,7 +43,7 @@ const PROGRAMS: ProgramRow[] = [
     kicker: "Evening · Mon – Sat · Play Group to Matric",
     kickerColor: "text-brand-dark",
     title: "Coaching, computer & spoken English classes",
-    body: "After-school help with homework and exams, plus computer and spoken English classes — so kids from any school can catch up and get ahead. All updates on the Coaching Academy page.",
+    body: "Help with homework and exams after school, plus computer and spoken English classes. Open to students of any school. All updates are on our Coaching page.",
     src: "/images/coaching.jpg",
     imageAlt:
       "Evening coaching session — a tutor helping three children with homework under warm lamp light",

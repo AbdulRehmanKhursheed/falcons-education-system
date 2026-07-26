@@ -3,15 +3,15 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import { blogArticles } from '@/lib/blog-data';
-import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { FadeIn } from '@/components/ui/Motion';
 
 export const metadata: Metadata = {
-  title: 'Journal — Parenting Tips, Montessori Education & School News',
+  title: 'Blogs — Parenting Tips, Montessori Education & School News',
   description:
-    'Read articles on Montessori education, parenting tips, preschool activities, and school updates from Falcons Education System Rawalpindi.',
+    'Read articles on Montessori education, parenting tips, child health, study habits and choosing a school in Rawalpindi — from Falcons Education System.',
   alternates: { canonical: `${SITE_CONFIG.url}/blog` },
   openGraph: {
-    title: 'Journal — Falcons Education System Rawalpindi',
+    title: 'Blogs — Falcons Education System Rawalpindi',
     description: 'Parenting tips, Montessori insights, and school news for Rawalpindi parents.',
     url: `${SITE_CONFIG.url}/blog`,
   },
@@ -34,13 +34,13 @@ export default function BlogPage() {
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              The <span className="text-brand">Journal</span>
+              Our <span className="text-brand">blogs</span>
             </h1>
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              Honest writing for Rawalpindi parents — choosing schools, Montessori at home,
-              health, and how children actually learn.
+              Simple, useful writing for parents in Rawalpindi — how children learn, how to help
+              at home, health and food, and how to pick the right school.
             </p>
           </FadeIn>
         </div>
@@ -73,9 +73,11 @@ export default function BlogPage() {
 
       <section className="bg-paper pb-20 md:pb-28" aria-label="All articles">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" gap={0.04}>
+          {/* Each card reveals on its own — a single wrapper animation would
+              delay the last of 60+ cards by several seconds. */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {rest.map((article) => (
-              <StaggerItem key={article.slug}>
+              <FadeIn key={article.slug} className="h-full">
                 <Link
                   href={`/blog/${article.slug}`}
                   className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 shadow-paper transition-all hover:-translate-y-1 hover:shadow-card"
@@ -96,9 +98,9 @@ export default function BlogPage() {
                     {formatDate(article.publishedDate)}
                   </time>
                 </Link>
-              </StaggerItem>
+              </FadeIn>
             ))}
-          </Stagger>
+          </div>
         </div>
       </section>
     </>

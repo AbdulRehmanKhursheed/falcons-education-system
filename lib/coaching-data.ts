@@ -38,21 +38,21 @@ export const COACHING = {
       status: 'open' as const,
       timing: 'Mon – Sat · 3:30 – 7:00 PM',
       description:
-        'Homework help, subject coaching and exam preparation for children from any school — small groups, arranged by level.',
+        'Help with homework, subject coaching and exam preparation for students of any school. Small groups, arranged by class level.',
     },
   ],
 
   // SHORT COURSES — separate from the academy: apni alag admission,
   // apna alag plan aur fee. Batch timings yahan update karo.
   shortCoursesNote:
-    'These are separate courses with their own admission and fee — not part of the Evening Coaching plan. A child can join a course, the academy, or both.',
+    'These courses are separate from the Evening Coaching plan. Each one has its own admission and fee. A student can join a course, the academy, or both.',
   shortCourses: [
     {
       name: 'Spoken English',
       status: 'open' as const,
       timing: 'Separate batches — current timings on WhatsApp',
       description:
-        'Complete English confidence for school-age children — daily conversation practice with the teacher and classmates, so speaking English becomes normal, not scary.',
+        'Everything a child needs to speak English with confidence. They practise talking with the teacher and classmates every day, so English feels normal instead of scary.',
       highlights: [
         'Daily conversation practice',
         'Listening & comprehension',
@@ -66,7 +66,7 @@ export const COACHING = {
       status: 'open' as const,
       timing: 'Separate batches — current timings on WhatsApp',
       description:
-        'From first click to first program — hands-on computer skills for young students, taught on real machines.',
+        'From the first click to the first small program. Students learn on real computers, step by step.',
       highlights: [
         'Basic computer knowledge & typing',
         'MS Word',
@@ -97,6 +97,6 @@ export const COACHING = {
       'Enrol the same day',
     ],
     feeNote:
-      'Fees differ by class level and are shared on WhatsApp or at the academy — written, complete, before you enrol.',
+      'Fees depend on the class level. We share the full fee in writing on WhatsApp or at the academy, before you enrol.',
   },
 };

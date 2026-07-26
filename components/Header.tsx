@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { href: '/coaching', label: 'Coaching' },
   { href: '/admissions', label: 'Admissions' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/blog', label: 'Journal' },
+  { href: '/blog', label: 'Blogs' },
   { href: '/contact', label: 'Contact' },
 ];
 
