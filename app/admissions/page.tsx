@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { MessageCircle, CalendarCheck, PenLine, FileText, ArrowRight } from 'lucide-react';
+import { MessageCircle, ArrowRight, Paperclip } from 'lucide-react';
+import Image from 'next/image';
 import { SITE_CONFIG } from '@/lib/constants';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { Photo } from '@/components/ui/Photo';
 import { InquiryForm } from '@/components/admissions/InquiryForm';
 
 export const metadata: Metadata = {
@@ -18,21 +20,31 @@ export const metadata: Metadata = {
   },
 };
 
-const STEPS = [
+const VISIT_DAY = [
   {
-    icon: MessageCircle,
-    title: 'Say salaam',
-    body: 'Send the inquiry form below, or message us directly on WhatsApp. We reply the same day.',
+    marker: 'Step one',
+    title: 'You send one message',
+    body: 'WhatsApp us your child’s name and class. We reply the same day and tell you exactly what to bring — no guesswork, no extra trips.',
   },
   {
-    icon: CalendarCheck,
-    title: 'Visit the school',
-    body: 'Walk in any working morning — see the classrooms, meet the teachers, ask everything.',
+    marker: 'Visit day',
+    title: 'You walk in, we walk you through',
+    body: 'Any working morning. See the classrooms with your own eyes, meet the teachers your child will spend the day with, and ask the questions you really want to ask.',
   },
   {
-    icon: PenLine,
-    title: 'Enrol your child',
-    body: 'A short admission form and your child’s documents — usually done in one visit.',
+    marker: 'The test',
+    title: 'A short entry test — placement, not pressure',
+    body: 'Age-appropriate and brief, in a calm room. It doesn’t decide if your child is “good enough” — it tells us which class they’ll shine in and where they need our help.',
+  },
+  {
+    marker: 'The interview',
+    title: 'We meet your child, properly',
+    body: 'A teacher sits with your child, one-on-one. Confidence, curiosity, temperament — the things a test can’t measure but a good teacher can see in ten minutes.',
+  },
+  {
+    marker: 'Same day',
+    title: 'Seat confirmed — and a little welcome',
+    body: 'Test cleared? A short form, your documents, and it’s done. And because first days should feel special, every new Falcon goes home with a small welcome gift — candies and a few surprises from us.',
   },
 ];
 
@@ -58,49 +70,163 @@ export default function AdmissionsPage() {
 
   return (
     <>
-      <section className="bg-paper pb-6 pt-14 md:pt-24">
+      {/* Hero: copy left, admission-slip card right */}
+      <section className="overflow-hidden bg-paper pb-16 pt-14 md:pt-24">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-5 md:gap-8 md:px-8">
+          <div className="md:col-span-3">
+            <FadeIn>
+              <p className="inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink">
+                <span className="inline-block h-2 w-2 rounded-full bg-flame" />
+                Session 2026 · seats filling by class
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.08}>
+              <h1 className="mt-5 text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+                Your child&apos;s seat <span className="text-brand">is waiting</span>
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.16}>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted md:text-xl">
+                The classes your child will love are the ones that fill first. One WhatsApp
+                message today, one visit this week — and the seat is theirs.
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.24}>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-base font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:brightness-105 hover:shadow-float"
+                >
+                  <MessageCircle size={18} />
+                  Message us on WhatsApp — it takes 30 seconds
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+                </a>
+                <p className="text-sm font-semibold text-ink-faint">
+                  0311-9911288 · reply the same day
+                </p>
+              </div>
+            </FadeIn>
+          </div>
+
+          {/* Signature: the admission slip */}
+          <FadeIn delay={0.2} className="md:col-span-2">
+            <div className="relative mx-auto max-w-sm rotate-[-1.5deg] rounded-lg border-2 border-dashed border-ink-faint/40 bg-white p-6 shadow-float transition-transform duration-300 hover:rotate-0">
+              <div className="flex items-center gap-3 border-b border-line pb-4">
+                <Image src="/logo.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+                <div>
+                  <p className="font-display text-sm font-extrabold leading-tight text-ink">
+                    Falcons Education System
+                  </p>
+                  <p className="text-[0.6875rem] font-bold uppercase tracking-widest text-ink-faint">
+                    Admission Slip · Session 2026
+                  </p>
+                </div>
+              </div>
+              <dl className="mt-4 space-y-3.5 text-sm">
+                <div className="flex items-baseline gap-2">
+                  <dt className="shrink-0 font-bold text-ink-muted">Student:</dt>
+                  <dd className="flex-1 border-b border-dotted border-ink-faint/60 font-display text-brand-dark">
+                    &nbsp;your champ&apos;s name here
+                  </dd>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <dt className="shrink-0 font-bold text-ink-muted">Class:</dt>
+                  <dd className="flex-1 border-b border-dotted border-ink-faint/60">
+                    &nbsp;Play Group … Class 6
+                  </dd>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <dt className="shrink-0 font-bold text-ink-muted">Entry test:</dt>
+                  <dd className="flex-1 border-b border-dotted border-ink-faint/60">
+                    &nbsp;on your visit · short &amp; friendly
+                  </dd>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <dt className="shrink-0 font-bold text-ink-muted">Contact:</dt>
+                  <dd className="flex-1 border-b border-dotted border-ink-faint/60 font-semibold">
+                    &nbsp;{SITE_CONFIG.phone}
+                  </dd>
+                </div>
+              </dl>
+              <span className="absolute -right-3 top-16 rotate-12 rounded border-2 border-flame px-2.5 py-1 text-[0.6875rem] font-extrabold uppercase tracking-widest text-flame">
+                Seats filling
+              </span>
+              <p className="mt-5 text-center text-[0.6875rem] font-semibold text-ink-faint">
+                Street 14, Sonari Bank, Kamalabad Road, Rawalpindi
+              </p>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* The day, told as a story */}
+      <section className="bg-paper-warm py-16 md:py-24" aria-labelledby="visit-day-heading">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
-            <p className="inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink">
-              <span className="inline-block h-2 w-2 rounded-full bg-flame" />
-              Session 2026 · Limited seats
+            <h2 id="visit-day-heading" className="max-w-2xl text-3xl font-extrabold text-ink md:text-4xl">
+              What actually happens — <span className="text-brand">start to seat</span>
+            </h2>
+          </FadeIn>
+          <div className="mt-12 max-w-3xl">
+            <Stagger className="flex flex-col">
+              {VISIT_DAY.map((step, i) => (
+                <StaggerItem key={step.title} className="relative flex gap-6 pb-10 last:pb-0">
+                  {i < VISIT_DAY.length - 1 && (
+                    <span className="absolute bottom-0 left-[4.4rem] top-8 w-px bg-brand-tint" aria-hidden="true" />
+                  )}
+                  <span className="w-[8.8rem] shrink-0 pt-0.5 text-right text-sm font-extrabold uppercase tracking-wide text-brand">
+                    {step.marker}
+                  </span>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-ink">{step.title}</h3>
+                    <p className="mt-2 leading-relaxed text-ink-muted">{step.body}</p>
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
+        </div>
+      </section>
+
+      {/* The welcome gift — small, real, ours */}
+      <section className="bg-paper py-14 md:py-20" aria-labelledby="gift-heading">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-2 md:gap-14 md:px-8">
+          <FadeIn>
+            {/* Real photo of the gift pack goes here — add src="/images/welcome-gift.jpg" once photographed */}
+            <Photo
+              alt="Welcome gift pack for newly admitted students — candies and small surprises"
+              label="Gift pack photo — coming soon"
+              tone="sun"
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="aspect-[4/3] w-full rounded-3xl shadow-card"
+            />
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <p className="text-sm font-extrabold uppercase tracking-wide text-flame">
+              A Falcons tradition
             </p>
-          </FadeIn>
-          <FadeIn delay={0.08}>
-            <h1 className="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              Admission, <span className="text-brand">without the hassle</span>
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.16}>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              No test anxiety, no long queues. One message starts it; one visit usually finishes
-              it.
+            <h2 id="gift-heading" className="mt-2 text-3xl font-extrabold text-ink md:text-4xl">
+              A sweet start to <span className="text-brand">day one</span> 🎁
+            </h2>
+            <p className="mt-4 max-w-md leading-relaxed text-ink-muted">
+              The moment admission is complete, every new Falcon receives a small welcome
+              gift — candies and a few little surprises — and a photo moment with our New
+              Admission frame. A small gesture, but it turns a child&apos;s first day into a
+              memory, and a first friendship with the school.
             </p>
           </FadeIn>
         </div>
       </section>
 
-      <section className="bg-paper py-14 md:py-20" aria-label="How admission works">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <Stagger className="relative grid gap-10 md:grid-cols-3 md:gap-8">
-            <div className="absolute left-6 top-6 hidden h-0.5 w-[calc(100%-3rem)] bg-line md:block" aria-hidden="true" />
-            {STEPS.map((s) => (
-              <StaggerItem key={s.title} className="relative">
-                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-paper">
-                  <s.icon size={22} />
-                </div>
-                <h2 className="mt-5 text-xl font-extrabold text-ink">{s.title}</h2>
-                <p className="mt-2 max-w-xs text-[0.9375rem] leading-relaxed text-ink-muted">{s.body}</p>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
-      <section className="bg-paper-warm py-16 md:py-24" aria-label="Inquiry form">
+      {/* Form + sidebar */}
+      <section className="bg-paper py-16 md:py-24" aria-label="Inquiry form">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-5 md:gap-16 md:px-8">
           <FadeIn className="md:col-span-3">
-            <h2 className="text-3xl font-extrabold text-ink md:text-4xl">Start with one message</h2>
+            <h2 className="text-3xl font-extrabold text-ink md:text-4xl">
+              Send the first message <span className="text-brand">today</span>
+            </h2>
             <p className="mt-3 max-w-md text-ink-muted">
               Fill this in and it opens WhatsApp with your details ready to send — nothing is
               stored on the website.
@@ -112,27 +238,28 @@ export default function AdmissionsPage() {
 
           <div className="md:col-span-2">
             <FadeIn>
-              <div className="rounded-3xl border border-line bg-white p-7 shadow-paper">
+              <div className="rounded-lg border-2 border-dashed border-ink-faint/40 bg-white p-7">
                 <h3 className="flex items-center gap-2 text-lg font-extrabold text-ink">
-                  <FileText size={19} className="text-brand" />
-                  Documents to bring
+                  <Paperclip size={19} className="text-brand" />
+                  Bring these with you
                 </h3>
                 <ul className="mt-4 flex flex-col gap-2.5">
                   {DOCUMENTS.map((d) => (
                     <li key={d} className="flex items-start gap-2.5 text-[0.9375rem] text-ink-soft">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                      <span className="mt-1 font-display text-brand">☐</span>
                       {d}
                     </li>
                   ))}
                 </ul>
                 <p className="mt-5 text-sm text-ink-faint">
-                  Fee details are shared at the school or on WhatsApp — they differ by program.
+                  The complete fee structure is shared in writing — on WhatsApp or at the
+                  school, before admission. No surprises in August.
                 </p>
               </div>
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <div className="mt-6 rounded-3xl border border-line bg-white p-7 shadow-paper">
+              <div className="mt-6 rounded-lg border border-line bg-white p-7 shadow-paper">
                 <h3 className="text-lg font-extrabold text-ink">Open for admission</h3>
                 <ul className="mt-4 grid grid-cols-1 gap-2">
                   {PROGRAM_LIST.map((p) => (
@@ -155,16 +282,17 @@ export default function AdmissionsPage() {
         </div>
       </section>
 
-      <section className="bg-paper py-16 md:py-24">
+      {/* Closing CTA */}
+      <section className="bg-paper pb-20 md:pb-28">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
             <div className="rounded-3xl bg-navy px-7 py-12 text-center md:px-16 md:py-14">
               <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                Prefer to just talk?
+                Ten years from now, this was <span className="text-sun">the week it started</span>
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-white/65">
-                Call {SITE_CONFIG.phone} or {SITE_CONFIG.phonePTCL} — or walk in any school-day
-                morning.
+                Call {SITE_CONFIG.phone} or {SITE_CONFIG.phonePTCL} — or just walk in any working
+                morning. The tea is on us.
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5">
                 <a

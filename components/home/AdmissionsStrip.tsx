@@ -8,7 +8,7 @@ import { trackLead } from '@/components/MetaPixel';
 const STEPS = [
   {
     icon: MessageCircle,
-    title: 'Say salaam',
+    title: 'Reach out',
     body: 'Message us on WhatsApp or call — we reply the same day.',
   },
   {

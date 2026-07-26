@@ -8,20 +8,20 @@ import { FadeIn } from '@/components/ui/Motion';
 const QUOTES = [
   {
     name: 'Uzma S.',
-    role: 'Montessori student ki walida',
+    role: 'Mother of a Montessori student',
     quote:
-      'MashaAllah teachers bohat mehnat karti hain. Bachi ab ghar aa kar khud parhne baithti hai.',
+      'The teachers genuinely work hard. My daughter now sits down to study on her own at home.',
   },
   {
     name: 'Kashif M.',
-    role: 'Class 1 ke student ke walid',
+    role: 'Father of a Class 1 student',
     quote:
-      'Pehle school ke naam se rota tha, ab subah khud uniform pehen ke tayyar hota hai.',
+      'He used to cry at the mention of school. Now he puts on his uniform himself every morning.',
   },
   {
     name: 'Ahmad R.',
     role: 'Father of a KG student',
-    quote: 'Staff cooperative hai, safai achi hai, aur fees bhi reasonable. Recommended.',
+    quote: 'Cooperative staff, clean classrooms, and reasonable fees. Recommended.',
   },
 ];
 

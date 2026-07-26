@@ -138,6 +138,47 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* A letter from the principal — real person, real words */}
+      <section className="bg-paper py-10 md:py-16" aria-labelledby="letter-heading">
+        <div className="mx-auto max-w-3xl px-5 md:px-8">
+          <FadeIn>
+            <div className="relative rotate-[0.5deg] rounded-lg border border-line bg-white p-8 shadow-card md:p-12">
+              <p
+                id="letter-heading"
+                className="text-sm font-extrabold uppercase tracking-widest text-brand"
+              >
+                A note from the Principal
+              </p>
+              <div className="mt-6 space-y-4 leading-relaxed text-ink-soft">
+                <p>Dear parents,</p>
+                <p>
+                  Every morning I stand at the gate and watch the children walk in — some
+                  running, some still rubbing their eyes. My promise to their parents is
+                  simple: by the time your child leaves this gate in the afternoon, someone
+                  here will have noticed them. What they did well today. What they found
+                  hard. Who they laughed with.
+                </p>
+                <p>
+                  We are not the biggest school in Rawalpindi, and we don&apos;t want to be.
+                  We want to be the school where the teacher calls you before you have to
+                  call her.
+                </p>
+                <p>
+                  Come visit us. See the classrooms while they&apos;re working, not after
+                  they&apos;ve been arranged for guests. Then decide.
+                </p>
+              </div>
+              <p className="mt-8 font-display text-xl font-bold text-ink">
+                — Aroosa
+                <span className="mt-0.5 block text-sm font-semibold text-ink-faint">
+                  Principal, Falcons Education System
+                </span>
+              </p>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
       <section
         className="bg-paper-warm py-16 md:py-24"
         aria-labelledby="values-heading"

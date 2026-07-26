@@ -53,6 +53,11 @@ const FAQS = [
       'Around 3 years. Our Play Group welcomes children from age 3 — a sensitive period for language, order, and sensorial exploration.',
   },
   {
+    question: 'Is there an entry test for admission?',
+    answer:
+      'Yes — a short, age-appropriate entry test and a friendly interview with the child. Its purpose is placement, not rejection: it tells us the right class and where your child needs support. No heavy preparation needed; it happens during your visit.',
+  },
+  {
     question: 'How do fees work?',
     answer:
       'Fee structures differ by program, so we share the complete written breakdown — admission fee, monthly tuition, and annual charges — at the school or on WhatsApp before admission. No surprises later.',

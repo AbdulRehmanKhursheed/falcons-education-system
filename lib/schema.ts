@@ -96,9 +96,8 @@ export const organizationSchema = {
     {
       "@type": "Review",
       author: { "@type": "Person", name: "Uzma S." },
-      inLanguage: "ur",
       reviewBody:
-        "MashaAllah teachers bohat mehnat karti hain. Bachi ab ghar aa kar khud parhne baithti hai.",
+        "The teachers genuinely work hard. My daughter now sits down to study on her own at home.",
       itemReviewed: {
         "@id": "https://falconseducationsystem.com/#organization",
       },
@@ -106,9 +105,8 @@ export const organizationSchema = {
     {
       "@type": "Review",
       author: { "@type": "Person", name: "Kashif M." },
-      inLanguage: "ur",
       reviewBody:
-        "Pehle school ke naam se rota tha, ab subah khud uniform pehen ke tayyar hota hai.",
+        "He used to cry at the mention of school. Now he puts on his uniform himself every morning.",
       itemReviewed: {
         "@id": "https://falconseducationsystem.com/#organization",
       },
@@ -116,9 +114,8 @@ export const organizationSchema = {
     {
       "@type": "Review",
       author: { "@type": "Person", name: "Ahmad R." },
-      inLanguage: "ur",
       reviewBody:
-        "Staff cooperative hai, safai achi hai, aur fees bhi reasonable. Recommended.",
+        "Cooperative staff, clean classrooms, and reasonable fees. Recommended.",
       itemReviewed: {
         "@id": "https://falconseducationsystem.com/#organization",
       },
@@ -309,6 +306,14 @@ export const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text: "Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 46000.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there an entry test for admission at Falcons Education System?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes — a short, age-appropriate entry test and a friendly interview with the child, held during your visit. Its purpose is placement, not rejection: it helps place the child in the class where they will do best.",
       },
     },
     {

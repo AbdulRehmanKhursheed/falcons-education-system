@@ -85,8 +85,8 @@ export const COACHING = {
     name: 'Session 2026',
     status: 'Enrolment open — seats filling by level',
     enrolWhen: 'Any evening during academy hours, Monday to Saturday',
-    whoCanJoin: 'Children from Play Group up to Matric — from any school',
-    documents: 'B-Form copy and one passport-size photo',
+    whoCanJoin: 'Children from Play Group up to Matric — from anywhere',
+    documents: 'No documentation required.',
   },
 
   // How to get admission — the steps parents ask about on the phone
@@ -94,7 +94,7 @@ export const COACHING = {
     steps: [
       'Message us on WhatsApp or call 0311-9911288 — tell us the child’s class and school',
       'Bring the child any evening for a short level check — free, no test pressure',
-      'Enrol the same day — B-Form copy and one photo is all we need',
+      'Enrol the same day',
     ],
     feeNote:
       'Fees differ by class level and are shared on WhatsApp or at the academy — written, complete, before you enrol.',

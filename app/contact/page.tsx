@@ -25,7 +25,7 @@ export default function ContactPage() {
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              Come say <span className="text-brand">salaam</span>
+              We&apos;d love to <span className="text-brand">meet you</span>
             </h1>
           </FadeIn>
           <FadeIn delay={0.1}>
