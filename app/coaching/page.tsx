@@ -140,7 +140,17 @@ export default function CoachingPage() {
                       <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-muted">
                         {c.description}
                       </p>
-                      <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-ink-soft">
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {c.highlights.map((h) => (
+                          <li
+                            key={h}
+                            className="rounded-full bg-brand-soft px-3 py-1.5 text-[0.8125rem] font-bold text-brand-dark"
+                          >
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-ink-soft">
                         <Clock size={15} className="text-brand" />
                         {c.timing}
                       </p>

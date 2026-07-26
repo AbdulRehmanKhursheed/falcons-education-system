@@ -27,7 +27,7 @@ export const COACHING = {
     {
       date: '2026-07-26',
       title: 'Admissions open for the Evening Coaching Academy',
-      text: 'Seats for the new session are open for children from Play Group up to Matriculation — from any school. Message us on WhatsApp or visit any evening between 3:30 and 7:00 PM to enrol.',
+      text: 'Seats for the new session are open for children from Play Group up to Matriculation — from any school. Message us on WhatsApp or visit any evening to enrol.',
     },
   ],
 
@@ -52,14 +52,30 @@ export const COACHING = {
       status: 'open' as const,
       timing: 'Separate batches — current timings on WhatsApp',
       description:
-        'Speaking practice and confidence-building for school-age children — conversation first, grammar through use.',
+        'Complete English confidence for school-age children — daily conversation practice with the teacher and classmates, so speaking English becomes normal, not scary.',
+      highlights: [
+        'Daily conversation practice',
+        'Listening & comprehension',
+        'Writing practice',
+        'Spelling & vocabulary memorization',
+        'Speaking opportunities — presentations & role-play',
+      ],
     },
     {
       name: 'Computer Course for Kids',
       status: 'open' as const,
       timing: 'Separate batches — current timings on WhatsApp',
       description:
-        'Basic computer knowledge, typing, MS Word and internet fundamentals for young students.',
+        'From first click to first program — hands-on computer skills for young students, taught on real machines.',
+      highlights: [
+        'Basic computer knowledge & typing',
+        'MS Word',
+        'MS PowerPoint',
+        'MS Excel',
+        'Graphic designing',
+        'Introduction to programming',
+        'Internet fundamentals',
+      ],
     },
   ],
 

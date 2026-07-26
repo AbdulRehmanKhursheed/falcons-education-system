@@ -169,9 +169,9 @@ const CHAPTERS: Chapter[] = [
     overview:
       'Two standalone short courses, separate from the Evening Coaching Academy — a child can join a course, the academy, or both. Speaking practice that starts with conversation, and computer classes that start with real hands-on use.',
     details: [
-      'Spoken English: conversation and confidence',
-      'Basic computer knowledge and typing',
-      'MS Word and internet fundamentals',
+      'Spoken English: conversation, listening, writing, spellings',
+      'Computer: Word, PowerPoint, Excel, graphic designing',
+      'Introduction to programming',
       'Own batches — separate from academy coaching',
     ],
     schedule: 'Separate batches · timings on the Coaching page',
