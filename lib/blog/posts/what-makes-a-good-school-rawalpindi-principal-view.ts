@@ -49,9 +49,9 @@ A teacher crouching to a child's eye level. Water breaks nobody has to ask permi
 
 ## So — should you choose us?
 
-Maybe. If you want Nursery to Class 6, small classes, and a school where you can walk in and watch a lesson happening, [come and see us](/contact) — mornings, any working day.
+Maybe. If you want Play Group to Class 6, small classes, and a school where you can walk in and watch a lesson happening, [come and see us](/contact) — mornings, any working day.
 
-If you need Class 8 sciences or a campus with a swimming pool, we're genuinely not your school, and we'll tell you which direction to look.
+If you need a day school for Class 8 and above, or a campus with a swimming pool, we're genuinely not your school — though our Evening Coaching Academy does support students up to Matric, and we'll happily tell you which direction to look for the rest.
 
 A good school knows what it is. That might be the most honest answer to the question.
   `,

@@ -14,7 +14,7 @@ const STEPS = [
   {
     icon: CalendarCheck,
     title: 'Visit the school',
-    body: 'Walk through the classrooms and meet the teachers, by appointment.',
+    body: 'Walk in any working morning — see the classrooms and meet the teachers.',
   },
   {
     icon: PenLine,

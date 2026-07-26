@@ -18,7 +18,7 @@ export const COACHING = {
   // Daily timings — shown in the "Timings" card
   timings: [
     { label: 'Evening Coaching (Play Group – Matric)', value: 'Mon – Sat · 3:30 – 7:00 PM' },
-    { label: 'Closing time', value: '7:00 PM sharp — pickup by 7:15 PM' },
+    { label: 'Closing time', value: '7:00 PM' },
     { label: 'Sunday', value: 'Closed' },
   ],
 
@@ -62,6 +62,16 @@ export const COACHING = {
         'Basic computer knowledge, typing, MS Word and internet fundamentals for young students.',
     },
   ],
+
+  // SESSION & ADMISSION DETAILS — the block parents check before coming.
+  // Update dates/lines here whenever a new session or batch is announced.
+  session: {
+    name: 'Session 2026',
+    status: 'Enrolment open — seats filling by level',
+    enrolWhen: 'Any evening during academy hours · Mon – Sat, 3:30 – 7:00 PM',
+    whoCanJoin: 'Children from Play Group up to Matric — from any school',
+    documents: 'B-Form copy and one passport-size photo',
+  },
 
   // How to get admission — the steps parents ask about on the phone
   admission: {

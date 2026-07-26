@@ -32,7 +32,7 @@ const PROGRAMS: ProgramRow[] = [
     kicker: "Class 1 – 6",
     kickerColor: "text-flame",
     title: "Primary school",
-    body: "English, Urdu, Mathematics, Science and more — small classes, national syllabus, and teachers who know every child by name.",
+    body: "English, Urdu, Mathematics, Science and more — small classes, a modern curriculum, and teachers who know every child by name.",
     src: "/images/primary.jpg",
     imageAlt:
       "Primary school students raising their hands eagerly in a bright classroom",

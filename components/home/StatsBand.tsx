@@ -2,7 +2,7 @@ import { CountUp, FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
 
 const STATS = [
   { value: 2024, label: 'Founded', plain: true },
-  { value: 8, label: 'Levels — Nursery to Class 6' },
+  { value: 9, label: 'Levels — Play Group to Class 6' },
   { value: 6, label: 'Coaching days a week' },
   { value: 3, label: 'Programs under one roof' },
 ];

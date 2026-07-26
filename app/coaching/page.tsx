@@ -180,13 +180,42 @@ export default function CoachingPage() {
         </div>
       </section>
 
-      {/* Admission */}
+      {/* Admission & session details */}
       <section className="bg-paper-warm py-14 md:py-20" aria-labelledby="admission-heading">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
             <h2 id="admission-heading" className="text-2xl font-extrabold text-ink md:text-3xl">
-              Admission is <span className="text-brand">one evening&apos;s work</span>
+              Admission &amp; <span className="text-brand">session details</span>
             </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.08}>
+            <dl className="mt-8 grid gap-x-10 gap-y-5 rounded-2xl border border-line bg-white p-7 shadow-paper sm:grid-cols-2">
+              <div>
+                <dt className="text-sm font-bold text-ink-faint">Session</dt>
+                <dd className="mt-0.5 font-extrabold text-ink">{COACHING.session.name}</dd>
+              </div>
+              <div>
+                <dt className="text-sm font-bold text-ink-faint">Status</dt>
+                <dd className="mt-0.5 font-extrabold text-brand-dark">{COACHING.session.status}</dd>
+              </div>
+              <div>
+                <dt className="text-sm font-bold text-ink-faint">Enrolment time</dt>
+                <dd className="mt-0.5 font-semibold text-ink-soft">{COACHING.session.enrolWhen}</dd>
+              </div>
+              <div>
+                <dt className="text-sm font-bold text-ink-faint">Who can join</dt>
+                <dd className="mt-0.5 font-semibold text-ink-soft">{COACHING.session.whoCanJoin}</dd>
+              </div>
+              <div className="sm:col-span-2">
+                <dt className="text-sm font-bold text-ink-faint">Documents needed</dt>
+                <dd className="mt-0.5 font-semibold text-ink-soft">{COACHING.session.documents}</dd>
+              </div>
+            </dl>
+          </FadeIn>
+
+          <FadeIn delay={0.12}>
+            <h3 className="mt-12 text-xl font-extrabold text-ink">How it works — three steps</h3>
           </FadeIn>
           <Stagger className="mt-8 grid gap-6 md:grid-cols-3">
             {COACHING.admission.steps.map((step, i) => (

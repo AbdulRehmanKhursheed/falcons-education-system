@@ -161,7 +161,7 @@ export const organizationSchema = {
           "@type": "Course",
           name: "Primary School Class 1 & 2",
           description:
-            "Primary school for children aged 5 to 7 years following the national curriculum",
+            "Primary school for children aged 5 to 7 years following a modern curriculum",
         },
       },
       {

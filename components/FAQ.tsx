@@ -25,7 +25,7 @@ const FAQS = [
   {
     question: 'Are admissions currently open?',
     answer:
-      'Yes — admissions are open for Session 2026, for all classes from Nursery to Class 6 plus coaching and computer courses. Seats are limited. Call or WhatsApp 0311-9911288, or visit the campus for a tour.',
+      'Yes — admissions are open for Session 2026, for all classes from Play Group to Class 6, the Evening Coaching Academy (up to Matric), and the Spoken English and Computer short courses. Seats are limited. Call or WhatsApp 0311-9911288, or visit the campus for a tour.',
   },
   {
     question: 'What are the school and coaching timings?',

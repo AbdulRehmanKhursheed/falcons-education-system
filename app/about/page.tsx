@@ -72,7 +72,7 @@ const WHY_CHOOSE = [
   },
   {
     title: "Support after the bell",
-    text: "Evening Coaching classes Play Group to Matriculation (3:30–7:00 PM, Mon–Sat), spoken English and computer courses — under the same roof.",
+    text: "Evening Coaching Academy for Play Group to Matric (3:30–7:00 PM, Mon–Sat), plus separate spoken English and computer courses — under the same roof.",
   },
   {
     title: "Parents always welcome",
