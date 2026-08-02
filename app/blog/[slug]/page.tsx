@@ -53,6 +53,7 @@ export default async function BlogArticlePage({ params }: Props) {
     '@type': 'BlogPosting',
     headline: article.title,
     description: article.excerpt,
+    image: `${SITE_CONFIG.url}/opengraph-image`,
     datePublished: article.publishedDate,
     author: {
       '@type': 'Organization',
@@ -249,7 +250,7 @@ export default async function BlogArticlePage({ params }: Props) {
               className="inline-flex items-center gap-2 text-[14px] font-semibold text-ink underline decoration-line decoration-1 underline-offset-[6px] hover:text-brand hover:decoration-brand transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} />
-              All journal entries
+              All blog posts
             </Link>
           </div>
         </div>

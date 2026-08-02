@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Bricolage_Grotesque, Manrope } from 'next/font/google';
 import './globals.css';
-import { organizationSchema, websiteSchema, breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { organizationSchema, websiteSchema, breadcrumbSchema } from '@/lib/schema';
 import { SITE_CONFIG, SEO_KEYWORDS } from '@/lib/constants';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -93,7 +93,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = [organizationSchema, websiteSchema, breadcrumbSchema, faqSchema];
+  // FAQPage schema lives on /faq only — Google requires FAQ markup to sit on
+  // the page where the questions are visible, not sitewide.
+  const jsonLd = [organizationSchema, websiteSchema, breadcrumbSchema];
 
   return (
     <html lang="en-PK" className={`${bricolage.variable} ${manrope.variable}`}>

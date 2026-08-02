@@ -2,6 +2,8 @@
  * JSON-LD Structured Data — Falcons Education System
  */
 
+import { FAQ_ITEMS } from "./faq-data";
+
 const BASE_URL = "https://falconseducationsystem.com";
 
 export const organizationSchema = {
@@ -73,14 +75,20 @@ export const organizationSchema = {
       description: "Evening Coaching Academy — Play Group to Matric",
     },
   ],
-  areaServed: {
-    "@type": "City",
-    name: "Rawalpindi",
-    containedInPlace: {
-      "@type": "AdministrativeArea",
-      name: "Punjab, Pakistan",
+  areaServed: [
+    {
+      "@type": "City",
+      name: "Rawalpindi",
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: "Punjab, Pakistan",
+      },
     },
-  },
+    { "@type": "Place", name: "Kamalabad Road, Rawalpindi" },
+    { "@type": "Place", name: "Bakra Mandi, Rawalpindi" },
+    { "@type": "Place", name: "Dhoke Kashmirian, Rawalpindi" },
+    { "@type": "Place", name: "Sadiqabad, Rawalpindi" },
+  ],
   slogan: "Where curious minds take flight",
   knowsAbout: [
     "Montessori education",
@@ -226,125 +234,26 @@ export const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "About Us",
-      item: `${BASE_URL}/about`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Programs",
-      item: `${BASE_URL}/programs`,
-    },
-    {
-      "@type": "ListItem",
-      position: 8,
-      name: "Coaching Academy",
-      item: `${BASE_URL}/coaching`,
-    },
-    {
-      "@type": "ListItem",
-      position: 9,
-      name: "Syllabus & Date Sheets",
-      item: `${BASE_URL}/syllabus`,
-    },
-    {
-      "@type": "ListItem",
-      position: 4,
-      name: "Admissions",
-      item: `${BASE_URL}/admissions`,
-    },
-    {
-      "@type": "ListItem",
-      position: 5,
-      name: "Contact",
-      item: `${BASE_URL}/contact`,
-    },
-    {
-      "@type": "ListItem",
-      position: 6,
-      name: "Blog",
-      item: `${BASE_URL}/blog`,
-    },
-    {
-      "@type": "ListItem",
-      position: 7,
-      name: "Careers",
-      item: `${BASE_URL}/careers`,
-    },
-  ],
+    { name: "Home", item: BASE_URL },
+    { name: "About Us", item: `${BASE_URL}/about` },
+    { name: "Programs", item: `${BASE_URL}/programs` },
+    { name: "Coaching Academy", item: `${BASE_URL}/coaching` },
+    { name: "Syllabus & Date Sheets", item: `${BASE_URL}/syllabus` },
+    { name: "Admissions", item: `${BASE_URL}/admissions` },
+    { name: "Contact", item: `${BASE_URL}/contact` },
+    { name: "Blog", item: `${BASE_URL}/blog` },
+    { name: "Careers", item: `${BASE_URL}/careers` },
+  ].map((entry, i) => ({ "@type": "ListItem", position: i + 1, ...entry })),
 };
 
+// Built from the same list the visible FAQ section renders, so the markup
+// always matches on-page content (a Google requirement for FAQ markup).
 export const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Which is a good school in Rawalpindi for young children?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "For families near Kamalabad Road, Bakra Mandi, Dhoke Kashmirian and Sadiqabad in Rawalpindi, Falcons Education System is a strong option for children aged 3 to 12: Montessori early years (Play Group, Nursery, KG), primary school up to Class 6, small class sizes with individual attention, and an Evening Coaching Academy (Mon–Sat 3:30–7:00 PM) for Play Group to Matric, open to children from any school. Parents are welcome to visit the campus on any working morning before deciding.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What programs does Falcons Education System offer?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We offer Montessori early years — Play Group, Nursery and KG (ages 3–6) — Primary School Class 1 through Class 6, an Evening Coaching Academy (Mon–Sat, 3:30–7:00 PM) for Play Group to Matric, Spoken English, and Computer Courses for kids.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Up to which class does Falcons Education System teach?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Falcons Education System provides school education from Play Group all the way up to Class 6. The Evening Coaching Academy additionally supports students from Play Group up to Matric, from any school.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Where is Falcons Education System located?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Street No 14, Sonari Bank, Kamalabad Road, Near Bakra Mandi, Rawalpindi, Punjab, Pakistan 46000.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is there an entry test for admission at Falcons Education System?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes — a short, age-appropriate entry test and a friendly interview with the child, held during your visit. Its purpose is placement, not rejection: it helps place the child in the class where they will do best.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are admissions open at Falcons Education System?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes! Admissions are open for 2026. Call or WhatsApp 0311-9911288 or PTCL 051-6129955.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What are the evening coaching class timings?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Evening Coaching Academy: Monday to Saturday, 3:30 PM to 7:00 PM — for children from Play Group up to Matric, from any school. Sunday closed.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What computer courses are available for kids?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Basic Computer Knowledge, Typing Skills, Microsoft Word Basics, and Internet Basics. Call 0311-9911288 for timing details.",
-      },
-    },
-  ],
+  mainEntity: FAQ_ITEMS.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
 };

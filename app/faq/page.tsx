@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_CONFIG } from '@/lib/constants';
+import { faqSchema } from '@/lib/schema';
 import { FAQ } from '@/components/FAQ';
 import { FadeIn } from '@/components/ui/Motion';
 
@@ -19,6 +20,10 @@ export const metadata: Metadata = {
 export default function FAQPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <section className="bg-paper pb-2 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <FadeIn>
