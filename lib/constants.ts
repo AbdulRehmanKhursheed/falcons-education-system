@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "Falcons Education System",
   tagline: "Quality Education from Play Group to Class 6 in Rawalpindi",
   description:
-    "Falcons Education System — among the best schools in Rawalpindi for children aged 3–12: Montessori early years, Play Group to Class 6, Evening Coaching Academy up to Matric, Spoken English and Computer Courses. Small classes, individual attention. Admissions open 2026, Kamalabad Road.",
+    "Falcons Education System — school in Rawalpindi for ages 3–12: Play Group to Class 6, Montessori early years, evening coaching up to Matric. Admissions open.",
   url: "https://falconseducationsystem.com",
   address: {
     street: "Street No 14, Sonari Bank, Kamalabad Road",
