@@ -3,13 +3,35 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowUpRight, ArrowLeft, GraduationCap, Phone } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, GraduationCap, Phone } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
 import { blogArticles } from '@/lib/blog-data';
+import { getRelatedPosts } from '@/lib/blog/related';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
+import { RelatedPosts } from '@/components/blog/RelatedPosts';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
+
+type NextStep = { href: string; label: string };
+
+// The page a reader of each category should see next. Sends blog visitors
+// (and internal link weight) to the pages that lead to admissions.
+const NEXT_STEP_BY_CATEGORY: Record<string, NextStep> = {
+  Montessori: { href: '/programs', label: 'See our Montessori early years: Play Group, Nursery and KG' },
+  'Early Years': { href: '/programs', label: 'See our Montessori early years: Play Group, Nursery and KG' },
+  'Primary School': { href: '/programs#class-1-2', label: 'See our primary classes, Class 1 to 6' },
+  'Studies & Reading': { href: '/coaching', label: 'See Evening Coaching Academy timings and courses' },
+  Coaching: { href: '/coaching', label: 'See Evening Coaching Academy timings and courses' },
+  'Choosing a School': { href: '/admissions', label: 'See how admission works, step by step' },
+  'From the School': { href: '/about', label: 'Read more about our school' },
+};
+const DEFAULT_NEXT_STEP: NextStep = { href: '/programs', label: 'See our programs, Play Group to Class 6' };
+
+/** Longest post title that still fits in Google results with the brand suffix. */
+const MAX_TITLE_WITH_SUFFIX = 38;
 
 export async function generateStaticParams() {
   return blogArticles.map((article) => ({ slug: article.slug }));
@@ -21,7 +43,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return {};
 
   return {
-    title: article.title,
+    // Google cuts titles at ~65 chars; drop the " | Falcons Education System"
+    // suffix when it would push the post's own title past that.
+    title: article.title.length > MAX_TITLE_WITH_SUFFIX ? { absolute: article.title } : article.title,
     description: article.excerpt,
     keywords: article.keywords,
     alternates: { canonical: `${SITE_CONFIG.url}/blog/${article.slug}` },
@@ -55,6 +79,8 @@ export default async function BlogArticlePage({ params }: Props) {
     description: article.excerpt,
     image: `${SITE_CONFIG.url}/opengraph-image`,
     datePublished: article.publishedDate,
+    dateModified: article.publishedDate,
+    inLanguage: 'en-PK',
     author: {
       '@type': 'Organization',
       name: 'Falcons Education System',
@@ -67,13 +93,17 @@ export default async function BlogArticlePage({ params }: Props) {
     },
     mainEntityOfPage: `${SITE_CONFIG.url}/blog/${article.slug}`,
   };
+  const breadcrumbs = breadcrumbSchema([
+    { name: 'Blogs', path: '/blog' },
+    { name: article.title, path: `/blog/${article.slug}` },
+  ]);
+  const nextStep = NEXT_STEP_BY_CATEGORY[article.category] ?? DEFAULT_NEXT_STEP;
+  const relatedPosts = getRelatedPosts(article, blogArticles);
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
+      <JsonLd data={articleSchema} />
+      <JsonLd data={breadcrumbs} />
 
       {/* Breadcrumb */}
       <div className="bg-paper border-b border-line">
@@ -240,8 +270,17 @@ export default async function BlogArticlePage({ params }: Props) {
                   <span className="font-mono tracking-tight">{SITE_CONFIG.phone}</span>
                 </a>
               </div>
+              <Link
+                href={nextStep.href}
+                className="group mt-6 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand-dark underline decoration-line decoration-1 underline-offset-[5px] hover:decoration-brand-dark"
+              >
+                {nextStep.label}
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={2.25} />
+              </Link>
             </div>
           </aside>
+
+          <RelatedPosts posts={relatedPosts} />
 
           {/* Back link */}
           <div className="mt-12">

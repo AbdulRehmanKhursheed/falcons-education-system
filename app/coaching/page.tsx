@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
 import { ArrowRight, Bell, Clock, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { COACHING } from '@/lib/coaching-data';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
-  title: 'Coaching Academy — Evening Coaching, Play Group to Matric | Rawalpindi',
+  title: 'Evening Coaching Academy in Rawalpindi',
   description:
-    'Falcons Evening Coaching Academy, Kamalabad Road Rawalpindi: coaching for Play Group to Matric from any school, Mon–Sat 3:30–7:00 PM. Spoken English and computer courses. Admissions, timings and updates — all here.',
+    'Evening coaching for Play Group to Matric, students of any school. Mon–Sat, 3:30–7:00 PM, Kamalabad Road, Rawalpindi. Spoken English & computer courses.',
   alternates: { canonical: `${SITE_CONFIG.url}/coaching` },
   openGraph: {
     title: 'Coaching Academy — Falcons Education System Rawalpindi',
@@ -33,28 +36,29 @@ export default function CoachingPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Coaching Academy', path: '/coaching' }])} />
       {/* Hero */}
       <section className="bg-paper pb-6 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           {COACHING.admissionsOpen && (
-            <FadeIn>
+            <HeroReveal>
               <p className="inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink">
                 <span className="inline-block h-2 w-2 rounded-full bg-flame" />
                 {COACHING.admissionBadge}
               </p>
-            </FadeIn>
+            </HeroReveal>
           )}
-          <FadeIn delay={0.08}>
+          <HeroReveal delay={0.08}>
             <h1 className="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               The <span className="text-brand">Coaching Academy</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.16}>
+          </HeroReveal>
+          <HeroReveal delay={0.16}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               Evening coaching for students of <strong>any school</strong>, from Play Group to
               Matric. Timings, courses, admissions and all our updates are on this one page.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

@@ -5,18 +5,20 @@ import { blogArticles } from '@/lib/blog-data';
 const BASE = SITE_CONFIG.url;
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // No lastModified on static pages: stamping them with the build time on every
+  // deploy makes Google distrust (and ignore) lastmod for the whole sitemap.
   const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE}/programs`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${BASE}/coaching`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE}/syllabus`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${BASE}/admissions`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${BASE}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE}/gallery`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE}/faq`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
-    { url: `${BASE}/careers`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: BASE, changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${BASE}/about`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/programs`, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE}/coaching`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE}/syllabus`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE}/admissions`, changeFrequency: 'weekly', priority: 0.95 },
+    { url: `${BASE}/contact`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/gallery`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE}/faq`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/blog`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${BASE}/careers`, changeFrequency: 'monthly', priority: 0.5 },
   ];
 
   const blogPages: MetadataRoute.Sitemap = blogArticles.map((article) => ({

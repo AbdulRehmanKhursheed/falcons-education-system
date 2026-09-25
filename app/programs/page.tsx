@@ -1,13 +1,16 @@
 import type { Metadata } from 'next';
 import { ArrowRight, Clock } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
-  title: 'Programs & Courses — School Play Group to Class 6, Coaching up to Matric',
+  title: 'Programs – Play Group to Class 6',
   description:
-    'Explore all programs at Falcons Education System Rawalpindi: school from Play Group to Class 6, Evening Coaching Academy (Play Group to Matric), Spoken English, and Computer Courses. Admissions open 2026.',
+    'Montessori Play Group, Nursery and KG, primary Class 1 to 6, and evening coaching up to Matric. See every program at Falcons Education System, Rawalpindi.',
   alternates: { canonical: `${SITE_CONFIG.url}/programs` },
   openGraph: {
     title: 'Programs & Courses — Falcons Education System Rawalpindi',
@@ -185,19 +188,20 @@ export default function ProgramsPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Programs', path: '/programs' }])} />
       <section className="bg-paper pb-6 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               Every age. <span className="text-brand">Every pace.</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               From a three-year-old&apos;s first morning to a matric student&apos;s board exams
               — school and coaching under one roof on Kamalabad Road.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

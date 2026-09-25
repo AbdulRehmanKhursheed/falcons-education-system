@@ -3,14 +3,17 @@ import Link from 'next/link';
 import { MessageCircle, ArrowRight, Paperclip, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 import { Photo } from '@/components/ui/Photo';
 import { InquiryForm } from '@/components/admissions/InquiryForm';
 
 export const metadata: Metadata = {
-  title: 'Admissions Open 2026 — School Play Group to Class 6 | Falcons Education System Rawalpindi',
+  title: 'Admissions Open 2026, Rawalpindi',
   description:
-    'Apply for admission at Falcons Education System Rawalpindi. School from Play Group to Class 6, plus Evening Coaching Academy up to Matric. Limited seats for 2026. Apply today!',
+    'Admissions are open for Session 2026 at Falcons Education System, Rawalpindi. See the simple steps, the documents to bring and the entry test. WhatsApp us.',
   alternates: { canonical: `${SITE_CONFIG.url}/admissions` },
   openGraph: {
     title: 'Admissions Open 2026 — Falcons Education System Rawalpindi',
@@ -71,28 +74,29 @@ export default function AdmissionsPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Admissions', path: '/admissions' }])} />
       {/* Hero: copy left, admission-slip card right */}
       <section className="overflow-hidden bg-paper pb-16 pt-14 md:pt-24">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-5 md:gap-8 md:px-8">
           <div className="md:col-span-3">
-            <FadeIn>
+            <HeroReveal>
               <p className="inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink">
                 <span className="inline-block h-2 w-2 rounded-full bg-flame" />
                 Session 2026 · seats filling by class
               </p>
-            </FadeIn>
-            <FadeIn delay={0.08}>
+            </HeroReveal>
+            <HeroReveal delay={0.08}>
               <h1 className="mt-5 text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
                 Your child&apos;s seat <span className="text-brand">is waiting</span>
               </h1>
-            </FadeIn>
-            <FadeIn delay={0.16}>
+            </HeroReveal>
+            <HeroReveal delay={0.16}>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted md:text-xl">
                 Classes fill up quickly. Send us one WhatsApp message today, visit us this
                 week, and your child&apos;s seat is booked.
               </p>
-            </FadeIn>
-            <FadeIn delay={0.24}>
+            </HeroReveal>
+            <HeroReveal delay={0.24}>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
                   href={waHref}
@@ -108,11 +112,11 @@ export default function AdmissionsPage() {
                   0311-9911288 · reply the same day
                 </p>
               </div>
-            </FadeIn>
+            </HeroReveal>
           </div>
 
           {/* Signature: the admission slip */}
-          <FadeIn delay={0.2} className="md:col-span-2">
+          <HeroReveal delay={0.2} className="md:col-span-2">
             <div className="relative mx-auto max-w-sm rotate-[-1.5deg] rounded-lg border-2 border-dashed border-ink-faint/40 bg-white p-6 shadow-float transition-transform duration-300 hover:rotate-0">
               <div className="flex items-center gap-3 border-b border-line pb-4">
                 <Image src="/logo.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
@@ -158,7 +162,7 @@ export default function AdmissionsPage() {
                 Street 14, Sonari Bank, Kamalabad Road, Rawalpindi
               </p>
             </div>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

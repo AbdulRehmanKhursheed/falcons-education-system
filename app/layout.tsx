@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Bricolage_Grotesque, Manrope } from 'next/font/google';
 import './globals.css';
-import { organizationSchema, websiteSchema, breadcrumbSchema } from '@/lib/schema';
+import { organizationSchema, websiteSchema } from '@/lib/schema';
 import { SITE_CONFIG, SEO_KEYWORDS } from '@/lib/constants';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -94,8 +94,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   // FAQPage schema lives on /faq only — Google requires FAQ markup to sit on
-  // the page where the questions are visible, not sitewide.
-  const jsonLd = [organizationSchema, websiteSchema, breadcrumbSchema];
+  // the page where the questions are visible, not sitewide. Breadcrumbs are
+  // per page too (each page renders its own trail).
+  const jsonLd = [organizationSchema, websiteSchema];
 
   return (
     <html lang="en-PK" className={`${bricolage.variable} ${manrope.variable}`}>

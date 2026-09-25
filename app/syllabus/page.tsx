@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import { BookOpen, CalendarDays, Download, FileText, MessageCircle } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { RESOURCES, type ResourceYear } from '@/lib/resources-data';
 import { FadeIn } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 
 export const metadata: Metadata = {
-  title: 'Syllabus & Date Sheets — Every Class, Every Year',
+  title: 'Syllabus & Date Sheets – Every Class',
   description:
     'Download the syllabus and exam date sheets for every class at Falcons Education System, Rawalpindi. Current session plus previous years, all in one place.',
   alternates: { canonical: `${SITE_CONFIG.url}/syllabus` },
@@ -144,19 +147,20 @@ export default function SyllabusPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Syllabus & Date Sheets', path: '/syllabus' }])} />
       <section className="bg-paper pb-4 pt-14 md:pt-24">
         <div className="mx-auto max-w-4xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               Syllabus &amp; <span className="text-brand">date sheets</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               {RESOURCES.intro}
             </p>
-          </FadeIn>
-          <FadeIn delay={0.18}>
+          </HeroReveal>
+          <HeroReveal delay={0.18}>
             <div className="mt-7 flex flex-wrap gap-3">
               <a
                 href="#syllabus"
@@ -173,7 +177,7 @@ export default function SyllabusPage() {
                 Date sheets
               </a>
             </div>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

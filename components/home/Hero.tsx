@@ -10,11 +10,9 @@ import { Photo } from '@/components/ui/Photo';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const rise = (delay: number) => ({
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: EASE, delay },
-});
+// Text and photo entrances use the CSS `hero-rise` utility, not framer-motion:
+// JS-driven reveals kept this copy invisible until hydration, delaying LCP.
+const riseDelay = (seconds: number) => ({ animationDelay: `${seconds}s` });
 
 export function Hero() {
   const waHref = `${SITE_CONFIG.whatsapp}?text=Hi%2C+I%27d+like+to+enquire+about+admissions+at+Falcons+Education+System.`;
@@ -43,18 +41,15 @@ export function Hero() {
       </svg>
 
       <div className="mx-auto max-w-6xl px-5 pb-14 pt-14 text-center md:px-8 md:pb-20 md:pt-24">
-        <motion.p
-          {...rise(0)}
-          className="mx-auto inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink"
-        >
+        <p className="hero-rise mx-auto inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 text-sm font-extrabold text-ink">
           <span className="inline-block h-2 w-2 rounded-full bg-flame" />
           Admissions open · Session 2026
-        </motion.p>
+        </p>
 
-        <motion.h1
-          {...rise(0.1)}
+        <h1
           id="hero-heading"
-          className="mx-auto mt-6 max-w-4xl text-5xl font-extrabold leading-[1.02] text-ink sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+          style={riseDelay(0.1)}
+          className="hero-rise mx-auto mt-6 max-w-4xl text-5xl font-extrabold leading-[1.02] text-ink sm:text-6xl md:text-7xl lg:text-[5.5rem]"
         >
           Where curious minds{' '}
           <span className="relative inline-block text-brand">
@@ -68,17 +63,17 @@ export function Hero() {
             />
           </span>
           .
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          {...rise(0.2)}
-          className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl"
+        <p
+          style={riseDelay(0.2)}
+          className="hero-rise mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl"
         >
           A school in Rawalpindi for Play Group to Class 6, with Montessori early years and an
           evening coaching academy for students up to Matric.
-        </motion.p>
+        </p>
 
-        <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap items-center justify-center gap-3.5">
+        <div style={riseDelay(0.3)} className="hero-rise mt-9 flex flex-wrap items-center justify-center gap-3.5">
           <a
             href={waHref}
             target="_blank"
@@ -95,21 +90,16 @@ export function Hero() {
           >
             Explore programs
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.p {...rise(0.38)} className="mt-6 flex items-center justify-center gap-1.5 text-sm font-semibold text-ink-faint">
+        <p style={riseDelay(0.38)} className="hero-rise mt-6 flex items-center justify-center gap-1.5 text-sm font-semibold text-ink-muted">
           <MapPin size={15} className="text-brand" />
           Kamalabad Road, Rawalpindi · {SITE_CONFIG.phone}
-        </motion.p>
+        </p>
       </div>
 
       {/* Cinematic hero image */}
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
-        className="mx-auto max-w-7xl px-5 pb-16 md:px-8 md:pb-24"
-      >
+      <div style={riseDelay(0.4)} className="hero-rise mx-auto max-w-7xl px-5 pb-16 md:px-8 md:pb-24">
         <Parallax distance={26} className="overflow-hidden rounded-3xl shadow-rise">
           <Photo
             src="/images/hero.jpg"
@@ -119,7 +109,7 @@ export function Hero() {
             className="aspect-[16/10] w-full sm:aspect-[21/10]"
           />
         </Parallax>
-      </motion.div>
+      </div>
     </section>
   );
 }

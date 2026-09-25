@@ -11,13 +11,16 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants";
+import { breadcrumbSchema } from "@/lib/schema";
+import { JsonLd } from "@/components/JsonLd";
 import { FadeIn, Stagger, StaggerItem } from "@/components/ui/Motion";
+import { HeroReveal } from "@/components/ui/HeroReveal";
 import { Photo } from "@/components/ui/Photo";
 
 export const metadata: Metadata = {
-  title: "About Us — School Play Group to Class 6 in Rawalpindi",
+  title: "About Our School in Rawalpindi",
   description:
-    "Learn about Falcons Education System — a school on Kamalabad Road, Rawalpindi offering classes from Play Group to Class 6, plus an Evening Coaching Academy up to Matric, Spoken English and Computer Courses.",
+    "Falcons Education System is a school on Kamalabad Road, Rawalpindi: Play Group to Class 6, plus an Evening Coaching Academy up to Matric. Meet our school.",
   alternates: { canonical: `${SITE_CONFIG.url}/about` },
   openGraph: {
     title:
@@ -83,20 +86,21 @@ const WHY_CHOOSE = [
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "About Us", path: "/about" }])} />
       <section className="bg-paper pb-6 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               A small school with a{" "}
               <span className="text-brand">big promise</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               Falcons Education System opened with one belief: every child
               deserves a joyful start — and a teacher who actually knows them.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

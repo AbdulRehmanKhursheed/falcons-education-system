@@ -1,13 +1,16 @@
 import type { Metadata } from 'next';
 import { Heart, TrendingUp, Home, HandHeart, ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import careersData from '@/lib/careers-data.json';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 
 export const metadata: Metadata = {
-  title: 'Careers — Join Our Teaching Team',
+  title: 'Teaching Jobs in Rawalpindi – Careers',
   description:
-    'Careers at Falcons Education System Rawalpindi. We are hiring passionate Montessori teachers, coaching tutors, and support staff. Apply today.',
+    'Teaching jobs at Falcons Education System, Rawalpindi. We hire Montessori teachers, coaching tutors and support staff. Send your CV on WhatsApp.',
   alternates: { canonical: `${SITE_CONFIG.url}/careers` },
   openGraph: {
     title: 'Careers at Falcons Education System — Teaching Jobs Rawalpindi',
@@ -54,19 +57,20 @@ export default function CareersPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Careers', path: '/careers' }])} />
       <section className="bg-paper pb-6 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               Teach where you&apos;re <span className="text-brand">known by name</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               We&apos;re a young school in Rawalpindi building something worth belonging to. If
               children and learning are your thing, we&apos;d like to meet you.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

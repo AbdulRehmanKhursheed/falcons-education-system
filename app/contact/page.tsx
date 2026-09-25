@@ -2,11 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { Contact } from '@/components/Contact';
 import { FadeIn } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 
 export const metadata: Metadata = {
-  title: 'Contact Us — Visit Falcons Education System Rawalpindi',
+  title: 'Contact Us & Directions, Rawalpindi',
   description:
     'Contact Falcons Education System on Kamalabad Road, Rawalpindi. Get directions, call us, WhatsApp, or visit for a free campus tour. Admissions open 2026.',
   alternates: { canonical: `${SITE_CONFIG.url}/contact` },
@@ -21,19 +24,20 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Contact', path: '/contact' }])} />
       <section className="bg-paper pb-2 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               We&apos;d love to <span className="text-brand">meet you</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               Message, call, or just walk in during school hours — no appointment needed for a
               campus tour.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

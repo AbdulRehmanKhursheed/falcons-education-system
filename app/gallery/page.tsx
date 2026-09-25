@@ -1,13 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
-  title: 'Gallery — Classroom Photos & Activities',
+  title: 'Gallery – School Photos & Activities',
   description:
-    'See inside Falcons Education System Rawalpindi — classroom photos, Montessori activities, and school events. A glimpse into how your child will learn and grow.',
+    'See inside Falcons Education System, Rawalpindi — classrooms, Montessori activities and school events. A look at how your child will learn and grow.',
   alternates: { canonical: `${SITE_CONFIG.url}/gallery` },
   openGraph: {
     title: 'Gallery — Falcons Education System Rawalpindi',
@@ -58,19 +61,20 @@ const SECTIONS: Array<{
 export default function GalleryPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Gallery', path: '/gallery' }])} />
       <section className="bg-paper pb-6 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               Life at <span className="text-brand">Falcons Education System</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               Classrooms, courtyard, small hands at work — a walk through the school in
               pictures.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 

@@ -14,7 +14,7 @@
   /* — Semantic palette — */
   --color-ink:          #0A1F44;   /* headlines, primary text */
   --color-ink-soft:     #36476A;   /* body */
-  --color-ink-muted:    #66748F;   /* secondary */
+  --color-ink-muted:    #617089;   /* secondary — passes 4.5:1 on every paper tint */
   --color-ink-faint:    #9AA6BC;   /* tertiary, meta */
   --color-line:         #E7EBF2;   /* cool hairline border */
   --color-line-soft:    #F1F4F9;   /* very subtle border */
@@ -209,6 +209,20 @@ select {
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
+}
+
+/* Hero entrance — pure CSS so it plays from first paint (JS-driven reveals
+   hid above-the-fold text until hydration). Slide only, no opacity fade:
+   Chrome didn't count faded-in text for LCP until ~1.6s later (measured). */
+@utility hero-rise {
+  animation: hero-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+@keyframes hero-rise {
+  from { transform: translateY(14px); }
+  to   { transform: none; }
 }
 
 /* ── Scrollbar (desktop only) ──────────────────────────────────────────── */

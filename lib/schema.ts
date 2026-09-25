@@ -98,37 +98,9 @@ export const organizationSchema = {
     "Spoken English for children",
     "Computer courses for children",
   ],
-  // Parent testimonials displayed on the site (see homepage "From parents" section).
-  // Note: keep these in sync with components/home/Quote.tsx.
-  review: [
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Uzma S." },
-      reviewBody:
-        "The teachers genuinely work hard. My daughter now sits down to study on her own at home.",
-      itemReviewed: {
-        "@id": "https://falconseducationsystem.com/#organization",
-      },
-    },
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Kashif M." },
-      reviewBody:
-        "He used to cry at the mention of school. Now he puts on his uniform himself every morning.",
-      itemReviewed: {
-        "@id": "https://falconseducationsystem.com/#organization",
-      },
-    },
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Ahmad R." },
-      reviewBody:
-        "Cooperative staff, clean classrooms, and reasonable fees. Recommended.",
-      itemReviewed: {
-        "@id": "https://falconseducationsystem.com/#organization",
-      },
-    },
-  ],
+  // No `review` markup on purpose: Google treats testimonials a business
+  // publishes about itself as self-serving and never shows stars for them.
+  // Real star ratings come from Google Business Profile reviews.
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Programs & Courses",
@@ -224,27 +196,33 @@ export const websiteSchema = {
   "@id": `${BASE_URL}/#website`,
   url: BASE_URL,
   name: "Falcons Education System",
+  // Helps Google pick the site name shown above results (instead of the bare domain).
+  alternateName: ["Falcons Education System Rawalpindi", "Falcons School Rawalpindi"],
   description:
     "Official website of Falcons Education System — school education from Play Group to Class 6 and evening coaching up to Matric in Rawalpindi. Admissions open for 2026.",
   publisher: { "@id": `${BASE_URL}/#organization` },
   inLanguage: "en-PK",
 };
 
-export const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { name: "Home", item: BASE_URL },
-    { name: "About Us", item: `${BASE_URL}/about` },
-    { name: "Programs", item: `${BASE_URL}/programs` },
-    { name: "Coaching Academy", item: `${BASE_URL}/coaching` },
-    { name: "Syllabus & Date Sheets", item: `${BASE_URL}/syllabus` },
-    { name: "Admissions", item: `${BASE_URL}/admissions` },
-    { name: "Contact", item: `${BASE_URL}/contact` },
-    { name: "Blog", item: `${BASE_URL}/blog` },
-    { name: "Careers", item: `${BASE_URL}/careers` },
-  ].map((entry, i) => ({ "@type": "ListItem", position: i + 1, ...entry })),
-};
+type Crumb = { name: string; path: string };
+
+/**
+ * BreadcrumbList for one page: Home, then each crumb in order (paths like
+ * "/blog"). A trail describes where the page sits — never the whole nav.
+ */
+export function breadcrumbSchema(trail: Crumb[]) {
+  const crumbs = [{ name: "Home", path: "" }, ...trail];
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.name,
+      item: `${BASE_URL}${crumb.path}`,
+    })),
+  };
+}
 
 // Built from the same list the visible FAQ section renders, so the markup
 // always matches on-page content (a Google requirement for FAQ markup).

@@ -2,11 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { breadcrumbSchema } from '@/lib/schema';
+import { JsonLd } from '@/components/JsonLd';
 import { blogArticles } from '@/lib/blog-data';
 import { FadeIn } from '@/components/ui/Motion';
+import { HeroReveal } from '@/components/ui/HeroReveal';
 
 export const metadata: Metadata = {
-  title: 'Blogs — Parenting Tips, Montessori Education & School News',
+  title: 'Blogs – Parenting & Montessori Tips',
   description:
     'Read articles on Montessori education, parenting tips, child health, study habits and choosing a school in Rawalpindi — from Falcons Education System.',
   alternates: { canonical: `${SITE_CONFIG.url}/blog` },
@@ -30,19 +33,20 @@ export default function BlogPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: 'Blogs', path: '/blog' }])} />
       <section className="bg-paper pb-6 pt-14 md:pt-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <FadeIn>
+          <HeroReveal>
             <h1 className="max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               Our <span className="text-brand">blogs</span>
             </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
+          </HeroReveal>
+          <HeroReveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               Simple, useful writing for parents in Rawalpindi — how children learn, how to help
               at home, health and food, and how to pick the right school.
             </p>
-          </FadeIn>
+          </HeroReveal>
         </div>
       </section>
 
