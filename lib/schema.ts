@@ -94,7 +94,7 @@ export const organizationSchema = {
     "Montessori education",
     "Early childhood education",
     "Primary school education (Class 1–6)",
-    "Evening coaching (Play Group to Matric)",
+    "Evening tuition and coaching (Play Group to Matric)",
     "Spoken English for children",
     "Computer courses for children",
   ],
@@ -165,7 +165,7 @@ export const organizationSchema = {
           "@type": "Course",
           name: "Evening Coaching Academy",
           description:
-            "Evening coaching Monday–Saturday, 3:30 to 7:00 PM, for children from Play Group up to Matric — open to students of any school",
+            "Evening tuition and coaching Monday–Saturday, 3:30 to 7:00 PM, for children from Play Group up to Matric — open to students of any school",
         },
       },
       {

@@ -38,7 +38,7 @@ export const COACHING = {
       status: 'open' as const,
       timing: 'Mon – Sat · 3:30 – 7:00 PM',
       description:
-        'Help with homework, subject coaching and exam preparation for students of any school. Small groups, arranged by class level.',
+        'Tuition for every class: Play Group, Nursery, KG, Class 1 to 8, and Class 9 & 10 (Matric). Help with homework, subject coaching and exam preparation for students of any school. Small groups, arranged by class level.',
     },
   ],
 

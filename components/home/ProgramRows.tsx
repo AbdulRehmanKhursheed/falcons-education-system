@@ -42,8 +42,8 @@ const PROGRAMS: ProgramRow[] = [
     href: "/coaching",
     kicker: "Evening · Mon – Sat · Play Group to Matric",
     kickerColor: "text-brand-dark",
-    title: "Coaching, computer & spoken English classes",
-    body: "Help with homework and exams after school, plus computer and spoken English classes. Open to students of any school. All updates are on our Coaching page.",
+    title: "Tuition, computer & spoken English classes",
+    body: "Evening tuition for homework and exams, plus computer and spoken English classes. Open to students of any school. All updates are on our Coaching page.",
     src: "/images/coaching.jpg",
     imageAlt:
       "Evening coaching session — a tutor helping three children with homework under warm lamp light",

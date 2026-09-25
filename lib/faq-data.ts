@@ -43,7 +43,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: 'What is the Evening Coaching Academy?',
     answer:
-      'After-school coaching for children attending any school, from Play Group up to Matric — subject understanding, exam preparation, and supervised homework completion. Monday to Saturday, 3:30–7:00 PM. All updates are posted on our Coaching Academy page.',
+      'After-school tuition and coaching for children attending any school, from Play Group up to Matric (Class 9 & 10) — subject understanding, exam preparation, and supervised homework completion. Monday to Saturday, 3:30–7:00 PM. All updates are posted on our Coaching Academy page.',
   },
   {
     question: 'What computer courses do you offer for kids?',

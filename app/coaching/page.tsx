@@ -9,9 +9,9 @@ import { HeroReveal } from '@/components/ui/HeroReveal';
 import { Photo } from '@/components/ui/Photo';
 
 export const metadata: Metadata = {
-  title: 'Evening Coaching Academy in Rawalpindi',
+  title: 'Tuition & Coaching Academy in Rawalpindi',
   description:
-    'Evening coaching for Play Group to Matric, students of any school. Mon–Sat, 3:30–7:00 PM, Kamalabad Road, Rawalpindi. Spoken English & computer courses.',
+    'Evening tuition and coaching, Play Group to Matric (Class 9 & 10), for students of any school. Mon–Sat, 3:30–7:00 PM on Kamalabad Road, Rawalpindi.',
   alternates: { canonical: `${SITE_CONFIG.url}/coaching` },
   openGraph: {
     title: 'Coaching Academy — Falcons Education System Rawalpindi',
@@ -50,13 +50,13 @@ export default function CoachingPage() {
           )}
           <HeroReveal delay={0.08}>
             <h1 className="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              The <span className="text-brand">Coaching Academy</span>
+              Tuition &amp; <span className="text-brand">Coaching Academy</span>
             </h1>
           </HeroReveal>
           <HeroReveal delay={0.16}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              Evening coaching for students of <strong>any school</strong>, from Play Group to
-              Matric. Timings, courses, admissions and all our updates are on this one page.
+              Evening tuition and coaching for students of <strong>any school</strong>, from Play
+              Group to Matric. Timings, courses, admissions and all our updates are on this one page.
             </p>
           </HeroReveal>
         </div>
